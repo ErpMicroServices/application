@@ -1,0 +1,66 @@
+[submodule "accounting_and_budgeting-database"]
+	path = accounting_and_budgeting-database
+	url = git@github.com:ErpMicroServices/accounting_and_budgeting-database.git
+[submodule "accounting_and_budgeting-features"]
+	path = accounting_and_budgeting-features
+	url = git@github.com:ErpMicroServices/accounting_and_budgeting-features.git
+[submodule "authorization_server-db"]
+	path = authorization_server-db
+	url = git@github.com:ErpMicroServices/authorization_server-db.git
+[submodule "authorization_server"]
+	path = authorization_server
+	url = git@github.com:ErpMicroServices/authorization_server.git
+[submodule "common"]
+	path = common
+	url = git@github.com:ErpMicroServices/common.git
+[submodule "config_server"]
+	path = config_server
+	url = git@github.com:ErpMicroServices/config_server.git
+[submodule "e_commerce-database"]
+	path = e_commerce-database
+	url = git@github.com:ErpMicroServices/e_commerce-database.git
+[submodule "e_commerce-endpoint-graphql"]
+	path = e_commerce-endpoint-graphql
+	url = git@github.com:ErpMicroServices/e_commerce-endpoint-graphql.git
+[submodule "e_commerce-features"]
+	path = e_commerce-features
+	url = git@github.com:ErpMicroServices/e_commerce-features.git
+[submodule "human_resources-database"]
+	path = human_resources-database
+	url = git@github.com:ErpMicroServices/human_resources-database.git
+[submodule "invoice-database"]
+	path = invoice-database
+	url = git@github.com:ErpMicroServices/invoice-database.git
+[submodule "order-database"]
+	path = order-database
+	url = git@github.com:ErpMicroServices/order-database.git
+[submodule "people_and_organizations-database"]
+	path = people_and_organizations-database
+	url = git@github.com:ErpMicroServices/people_and_organizations-database.git
+[submodule "people_and_organizations-endpoint-graphql"]
+	path = people_and_organizations-endpoint-graphql
+	url = git@github.com:ErpMicroServices/people_and_organizations-endpoint-graphql.git
+[submodule "people_and_organizations-features"]
+	path = people_and_organizations-features
+	url = git@github.com:ErpMicroServices/people_and_organizations-features.git
+[submodule "people_and_organizations-test-common"]
+	path = people_and_organizations-test-common
+	url = git@github.com:ErpMicroServices/people_and_organizations-test-common.git
+[submodule "people_and_organizations-ui-web"]
+	path = people_and_organizations-ui-web
+	url = git@github.com:ErpMicroServices/people_and_organizations-ui-web.git
+[submodule "products-database"]
+	path = products-database
+	url = git@github.com:ErpMicroServices/products-database.git
+[submodule "products-features"]
+	path = products-features
+	url = git@github.com:ErpMicroServices/products-features.git
+[submodule "shipments-database"]
+	path = shipments-database
+	url = git@github.com:ErpMicroServices/shipments-database.git
+[submodule "test_utils"]
+	path = test_utils
+	url = git@github.com:ErpMicroServices/test_utils.git
+[submodule "work_effort-database"]
+	path = work_effort-database
+	url = git@github.com:ErpMicroServices/work_effort-database.git
