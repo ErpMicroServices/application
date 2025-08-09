@@ -28,7 +28,7 @@
               "1.1"
             ],
             "details": "Install Istio control plane with istioctl. Configure ingress and egress gateways. Setup traffic routing policies and load balancing. Implement mutual TLS for service-to-service communication. Configure circuit breakers and retry policies.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -121,7 +121,7 @@
             "description": "Implement mutual TLS certificate management using cert-manager and Let's Encrypt for secure service-to-service communication",
             "dependencies": [],
             "details": "Install and configure cert-manager in Kubernetes cluster. Setup Let's Encrypt ClusterIssuer for automatic certificate provisioning. Configure mTLS between services with automatic certificate rotation. Implement certificate validation and revocation mechanisms. Setup monitoring for certificate expiration and renewal failures.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -652,7 +652,7 @@
     ],
     "metadata": {
       "created": "2025-08-09T14:21:49.973Z",
-      "updated": "2025-08-09T14:43:21.390Z",
+      "updated": "2025-08-09T15:22:32.014Z",
       "description": "Tasks for master context"
     }
   }
