@@ -1,0 +1,11 @@
+# Task ID: 13
+# Title: Implement Real-Time Tracking System
+# Status: pending
+# Dependencies: 12
+# Priority: medium
+# Description: Create comprehensive tracking system with GPS coordinates, status updates, and customer notifications
+# Details:
+Create tracking service with webhook endpoints for carrier updates. Implement tracking_events table for storing location and status data. Use WebSocket connections via gorilla/websocket v1.5.1+ for real-time updates to clients. Create tracking aggregation service to normalize data from different carriers. Add geofencing capabilities for delivery notifications. Implement tracking_subscriptions for customer notification preferences.
+
+# Test Strategy:
+Test webhook processing from carriers, verify real-time WebSocket updates, test geofencing accuracy, validate notification delivery, test tracking data aggregation and normalization

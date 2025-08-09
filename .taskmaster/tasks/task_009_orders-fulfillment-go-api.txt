@@ -1,0 +1,43 @@
+# Task ID: 9
+# Title: Create Message Queue System for Event-Driven Architecture
+# Status: pending
+# Dependencies: 8
+# Priority: medium
+# Description: Implement message queue system for asynchronous order processing and event publishing
+# Details:
+Use NATS.io v1.31.0+ for message queuing. Create event types: OrderCreated, OrderStatusChanged, PaymentProcessed, InventoryAllocated. Implement publisher service for event emission and subscriber services for event handling. Use NATS JetStream for message persistence and replay capability. Add dead letter queue for failed message processing. Implement circuit breaker pattern using sony/gobreaker v0.5.0+.
+
+# Test Strategy:
+Test message publishing and consumption, verify message persistence, test dead letter queue functionality, validate circuit breaker behavior, test message ordering and deduplication
+
+# Subtasks:
+## 1. Set up NATS.io infrastructure and connection management [pending]
+### Dependencies: None
+### Description: Install NATS.io v1.31.0+ dependency, configure connection settings, and implement connection pool with reconnection logic
+### Details:
+Add nats-io/nats.go v1.31.0+ to go.mod. Create NATS configuration struct with server URLs, credentials, and connection options. Implement connection manager with automatic reconnection, connection pooling, and graceful shutdown. Add environment variables for NATS configuration (NATS_URL, NATS_USER, NATS_PASSWORD). Create health check endpoint for NATS connectivity status.
+
+## 2. Define event types and message schemas [pending]
+### Dependencies: 9.1
+### Description: Create structured event types for OrderCreated, OrderStatusChanged, PaymentProcessed, and InventoryAllocated with JSON serialization
+### Details:
+Define event structs in internal/events/ package: OrderCreatedEvent, OrderStatusChangedEvent, PaymentProcessedEvent, InventoryAllocatedEvent. Include common fields: EventID, Timestamp, Version, CorrelationID. Add JSON tags for serialization. Create event envelope wrapper with metadata. Implement event validation and schema versioning support.
+
+## 3. Implement JetStream publisher service with circuit breaker [pending]
+### Dependencies: 9.1, 9.2
+### Description: Create publisher service using NATS JetStream for persistent message publishing with circuit breaker pattern using sony/gobreaker
+### Details:
+Install sony/gobreaker v0.5.0+ dependency. Create Publisher interface and JetStream implementation in internal/messaging/. Configure JetStream streams for each event type with retention policies. Implement circuit breaker wrapper around publish operations. Add message deduplication using message ID. Include publish confirmation and error handling with retry logic.
+
+## 4. Implement JetStream subscriber services with dead letter queue [pending]
+### Dependencies: 9.1, 9.2
+### Description: Create subscriber services for consuming events from JetStream with automatic acknowledgment and dead letter queue for failed messages
+### Details:
+Create Subscriber interface and JetStream implementation. Implement consumer groups for each event type with durable subscriptions. Add automatic message acknowledgment with configurable retry attempts. Create dead letter queue stream for failed messages after max retries. Implement graceful shutdown with message processing completion. Add consumer health monitoring.
+
+## 5. Create event handlers and integrate with order processing workflow [pending]
+### Dependencies: 9.3, 9.4
+### Description: Implement specific event handlers for each event type and integrate with existing order processing services
+### Details:
+Create event handler interfaces and implementations in internal/handlers/. Implement OrderCreatedHandler, OrderStatusChangedHandler, PaymentProcessedHandler, InventoryAllocatedHandler. Integrate handlers with existing order service and repository layers. Add event sourcing capabilities for order state reconstruction. Implement idempotent event processing with event deduplication tracking.
+

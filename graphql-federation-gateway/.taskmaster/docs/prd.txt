@@ -1,0 +1,233 @@
+# GraphQL Federation Gateway (Go) - Product Requirements Document
+
+## Project Overview
+
+Build an Apollo Federation v2 Gateway in Go to replace the existing TypeScript implementation. The gateway will serve as the central API orchestration layer for the ERP microservices system, following strict BDD/TDD methodology with comprehensive test coverage and quality gates.
+
+## Critical Requirements
+
+### Language & Architecture
+- **Language**: Go (NOT Java - no JPA entities)
+- **Federation**: Apollo Federation v2 specification
+- **Code Generation**: Use gqlgen for GraphQL schema generation
+- **Patterns**: Follow established Go patterns from existing modules
+
+### Testing Methodology
+- **BDD First**: Write Cucumber/Gherkin scenarios before implementation
+- **TDD Approach**: Write failing unit tests first, then implement
+- **Coverage**: 85%+ test coverage with quality gates
+- **Integration**: Comprehensive GraphQL integration tests
+
+### Quality Gates
+- 85%+ test coverage requirement
+- Pre-commit hooks for test validation
+- Automated quality checks in CI/CD
+- All tests must pass before merge
+
+## Technical Specifications
+
+### Core Features
+1. **Schema Composition**: Federate multiple GraphQL schemas into unified API
+2. **Query Planning**: Intelligent query execution across services
+3. **Real-time Subscriptions**: WebSocket support for live data
+4. **Authentication**: Integration with auth-go module
+5. **Authorization**: Business-context permission system
+6. **Monitoring**: Comprehensive observability and metrics
+7. **Performance**: Query complexity analysis and rate limiting
+
+### Federation Requirements
+- Support Apollo Federation v2 directives (@key, @requires, @provides)
+- Entity resolution across services
+- Subscription federation and multiplexing
+- Schema composition validation
+- Query planning optimization
+
+### Integration Points
+- **common-go**: Shared utilities, logging, errors
+- **auth-go**: Authentication and authorization
+- **database-go**: Database connection pooling (if needed)
+- **graphql-foundation**: Base GraphQL utilities and middleware
+
+### Performance Requirements
+- Response time: < 100ms for simple queries
+- Throughput: Handle 1000+ concurrent requests
+- Memory efficiency: < 512MB base memory usage
+- Query complexity: Configurable limits and analysis
+
+## Architecture Design
+
+### Directory Structure
+```
+graphql-federation-gateway/
+├── cmd/gateway/
+│   └── main.go                 # Application entry point
+├── internal/
+│   ├── config/                 # Configuration management
+│   ├── federation/             # Federation logic
+│   ├── resolvers/              # GraphQL resolvers
+│   ├── middleware/             # HTTP/GraphQL middleware
+│   └── subscriptions/          # WebSocket subscription handling
+├── pkg/
+│   ├── gateway/                # Public gateway interface
+│   └── client/                 # Client utilities
+├── api/
+│   └── schema.graphql          # Federated schema definition
+├── test/
+│   ├── integration/            # Integration test suite
+│   └── fixtures/              # Test data and mocks
+└── deployments/
+    ├── Dockerfile
+    ├── docker-compose.yml
+    └── kubernetes/             # K8s manifests
+```
+
+### Data Flow
+1. Client sends GraphQL query to gateway
+2. Gateway parses and validates query
+3. Query planner creates execution plan across services
+4. Execute sub-queries against federated services
+5. Compose results and return unified response
+
+## BDD Scenarios
+
+### High-Level Features
+1. **Schema Federation**: Compose schemas from multiple services
+2. **Query Routing**: Route queries to appropriate services
+3. **Entity Resolution**: Resolve federated entities across services
+4. **Authentication**: Validate user tokens and permissions
+5. **Real-time Subscriptions**: Handle WebSocket connections
+6. **Error Handling**: Graceful error propagation
+7. **Performance Monitoring**: Track query performance and metrics
+
+### Example Scenarios
+```gherkin
+Feature: Schema Federation
+  As a client application
+  I want to query unified data across services
+  So that I can build comprehensive user experiences
+
+Scenario: Query federated entities
+  Given the gateway has composed schemas from "people" and "orders" services
+  When I query for a person with their orders
+  Then I should receive unified data from both services
+
+Feature: Authentication
+  As a secure system
+  I want to validate all requests
+  So that only authorized users can access data
+
+Scenario: Valid JWT token
+  Given a valid JWT token is provided
+  When I make a GraphQL query
+  Then the query should be processed successfully
+```
+
+## Development Process
+
+### Phase 1: BDD Feature Definition
+- Write comprehensive .feature files for all scenarios
+- Define step definitions and test data
+- Create mock services for testing
+- Establish testing infrastructure
+
+### Phase 2: TDD Unit Implementation
+- Write failing unit tests for each Go package
+- Implement minimal code to pass tests
+- Refactor and improve code quality
+- Maintain 85%+ test coverage
+
+### Phase 3: Integration Testing
+- Write integration tests for GraphQL operations
+- Test federation across real services
+- Performance and load testing
+- Security and authorization testing
+
+### Phase 4: Deployment & Monitoring
+- Docker containerization
+- Kubernetes deployment
+- Observability setup
+- Performance monitoring
+
+## Service Integration
+
+### Target Services to Federate
+- people_and_organizations-endpoint-graphql
+- e_commerce-endpoint-graphql  
+- products-endpoint-graphql
+- accounting-and-budgeting-endpoint-graphql
+- order-fulfillment-endpoint-graphql
+- human_resources-endpoint-graphql
+- work_effort-endpoint-graphql
+
+### Federation Schema Composition
+Each service exposes:
+- Entity types with @key directive
+- Query/Mutation resolvers
+- Subscription resolvers (where applicable)
+- Authorization directives
+
+## Quality Requirements
+
+### Testing Standards
+- Unit tests: 85%+ coverage
+- Integration tests: All GraphQL operations
+- BDD tests: All business scenarios
+- Performance tests: Load and stress testing
+- Security tests: Authorization and input validation
+
+### Code Quality
+- Go fmt/vet compliance
+- Golangci-lint with strict rules
+- Dependency vulnerability scanning
+- Code review requirements
+- Documentation coverage
+
+### Deployment Standards
+- Docker multi-stage builds
+- Kubernetes health checks
+- Resource limits and requests
+- Service mesh integration (Istio)
+- Certificate management integration
+
+## Success Criteria
+
+### Functional
+- All BDD scenarios pass
+- All unit and integration tests pass
+- Successful federation of target services
+- Real-time subscriptions working
+- Authentication and authorization working
+
+### Non-Functional
+- 85%+ test coverage achieved
+- Response time < 100ms for simple queries
+- Handle 1000+ concurrent connections
+- Memory usage < 512MB baseline
+- Zero security vulnerabilities
+
+### Operational
+- Successful deployment to Kubernetes
+- Monitoring and alerting configured
+- CI/CD pipeline operational
+- Documentation complete and current
+
+## Technical Constraints
+
+- Go version 1.21+
+- Compatible with existing common-go utilities
+- Must integrate with auth-go authentication
+- Follow existing project patterns and conventions
+- Replace existing TypeScript implementation
+- Maintain API compatibility during transition
+
+## Risks & Mitigations
+
+### Technical Risks
+- Federation complexity: Start with simple schema composition
+- Performance bottlenecks: Implement query analysis early
+- Service reliability: Implement circuit breaker patterns
+
+### Process Risks
+- Test coverage gaps: Automated coverage reporting
+- Quality gate bypass: Strict CI/CD enforcement
+- Documentation lag: Documentation-first approach

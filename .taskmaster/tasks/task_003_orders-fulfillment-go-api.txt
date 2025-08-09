@@ -1,0 +1,11 @@
+# Task ID: 3
+# Title: Design and Implement Core Domain Models
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Create Go structs for all order domain entities with proper validation, JSON tags, and database mapping
+# Details:
+Define structs: Order (ID, CustomerID, Status, CreatedAt, UpdatedAt, TotalAmount), OrderItem (ID, OrderID, ProductID, Quantity, UnitPrice), OrderAdjustment (ID, OrderID, Type, Amount, Description), OrderRole (ID, OrderID, PartyID, RoleType), OrderStatusHistory (ID, OrderID, Status, Timestamp, Notes). Use go-playground/validator v10.15.5+ for validation tags. Implement custom JSON marshaling for money fields using shopspring/decimal v1.3.1+.
+
+# Test Strategy:
+Unit tests for struct validation, JSON marshaling/unmarshaling, test edge cases for decimal precision, validate database tag mappings

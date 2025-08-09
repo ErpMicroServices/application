@@ -1,0 +1,43 @@
+# Task ID: 2
+# Title: Configure Database Connection and Migration System
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Establish PostgreSQL connection with connection pooling and implement database migration system for schema management
+# Details:
+Use golang-migrate/migrate v4.16.2+ for migrations. Configure connection pool with pgxpool v5.0.4+ (max 25 connections, idle timeout 5min). Create migration files for order tables: orders, order_items, order_adjustments, order_roles, order_status_history. Implement database config struct with environment variable support. Add health check for database connectivity.
+
+# Test Strategy:
+Test database connection establishment, verify migration up/down operations, validate connection pool behavior under load, test connection recovery after database restart
+
+# Subtasks:
+## 1. Create Database Configuration Structure [pending]
+### Dependencies: None
+### Description: Implement database configuration struct with environment variable support for PostgreSQL connection parameters
+### Details:
+Create config/database.go with DatabaseConfig struct containing fields for host, port, database name, username, password, SSL mode, and connection pool settings. Use viper or similar library for environment variable binding. Include validation for required fields and default values for optional parameters.
+
+## 2. Implement PostgreSQL Connection Pool with pgxpool [pending]
+### Dependencies: 2.1
+### Description: Set up PostgreSQL connection using pgxpool v5.0.4+ with configured connection pooling parameters
+### Details:
+Create database/connection.go implementing connection pool with pgxpool. Configure max connections to 25, idle timeout to 5 minutes, and other pool settings. Implement connection initialization function that uses the database config struct. Add connection retry logic with exponential backoff.
+
+## 3. Set up Migration System with golang-migrate [pending]
+### Dependencies: 2.2
+### Description: Implement database migration system using golang-migrate/migrate v4.16.2+ for schema management
+### Details:
+Create migrations/ directory structure. Implement migration runner in database/migrate.go using golang-migrate library. Add CLI commands for migration up/down operations. Create migration helper functions for programmatic migration execution during application startup.
+
+## 4. Create Order-Related Database Migration Files [pending]
+### Dependencies: 2.3
+### Description: Create migration files for order tables: orders, order_items, order_adjustments, order_roles, order_status_history
+### Details:
+Create SQL migration files in migrations/ directory for each table with proper indexes, foreign key constraints, and data types. Include up and down migrations for each table. Add appropriate indexes for performance optimization and ensure referential integrity between related tables.
+
+## 5. Implement Database Health Check System [pending]
+### Dependencies: 2.2
+### Description: Add comprehensive health check functionality for database connectivity monitoring
+### Details:
+Create health/database.go implementing health check endpoints that verify database connectivity, connection pool status, and basic query execution. Include metrics for connection pool utilization and response times. Integrate with application health check system for monitoring and alerting.
+

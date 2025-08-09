@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  shipments-api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8080
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=shipments_db
+      - DATABASE_USER=shipments_user
+      - DATABASE_PASSWORD=shipments_password
+      - DATABASE_SSL_MODE=disable
+      - GRAPHQL_PLAYGROUND=true
+      - GRAPHQL_INTROSPECTION=true
+      - LOGGING_LEVEL=info
+      - LOGGING_FORMAT=console
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - hr-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=shipments_db
+      - POSTGRES_USER=shipments_user
+      - POSTGRES_PASSWORD=shipments_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - hr-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - hr-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  hr-network:
+    driver: bridge

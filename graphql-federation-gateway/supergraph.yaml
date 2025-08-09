@@ -1,0 +1,64 @@
+# Apollo Federation v2 Supergraph Configuration
+# Revolutionary ERP Microservices Federation
+federation_version: =2.8
+
+subgraphs:
+  # Core People & Organizations Domain
+  people-and-organizations:
+    routing_url: ${PEOPLE_ORGS_SERVICE_URL:-http://localhost:8081/graphql}
+    schema:
+      file: ./schemas/people-and-organizations.graphql
+    
+  # E-commerce Domain
+  e-commerce:
+    routing_url: ${ECOMMERCE_SERVICE_URL:-http://localhost:8082/graphql}
+    schema:
+      file: ./schemas/e-commerce.graphql
+
+  # Accounting & Budgeting Domain
+  accounting-and-budgeting:
+    routing_url: ${ACCOUNTING_SERVICE_URL:-http://localhost:8083/graphql}
+    schema:
+      file: ./schemas/accounting-and-budgeting.graphql
+
+  # Products Domain
+  products:
+    routing_url: ${PRODUCTS_SERVICE_URL:-http://localhost:8084/graphql}
+    schema:
+      file: ./schemas/products.graphql
+
+  # Orders Domain
+  orders:
+    routing_url: ${ORDERS_SERVICE_URL:-http://localhost:8085/graphql}
+    schema:
+      file: ./schemas/orders.graphql
+
+  # Invoices Domain
+  invoices:
+    routing_url: ${INVOICES_SERVICE_URL:-http://localhost:8086/graphql}
+    schema:
+      file: ./schemas/invoices.graphql
+
+  # Shipments Domain
+  shipments:
+    routing_url: ${SHIPMENTS_SERVICE_URL:-http://localhost:8087/graphql}
+    schema:
+      file: ./schemas/shipments.graphql
+
+  # Human Resources Domain
+  human-resources:
+    routing_url: ${HR_SERVICE_URL:-http://localhost:8088/graphql}
+    schema:
+      file: ./schemas/human-resources.graphql
+
+  # Work Effort Domain
+  work-effort:
+    routing_url: ${WORK_EFFORT_SERVICE_URL:-http://localhost:8089/graphql}
+    schema:
+      file: ./schemas/work-effort.graphql
+
+  # Real-time Events and Analytics
+  analytics:
+    routing_url: ${ANALYTICS_SERVICE_URL:-http://localhost:8090/graphql}
+    schema:
+      file: ./schemas/analytics.graphql

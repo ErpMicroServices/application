@@ -208,15 +208,153 @@
         "id": 4,
         "title": "Build GraphQL Federation Gateway",
         "description": "Create unified GraphQL API with federation, real-time subscriptions, and automatic schema stitching",
-        "details": "Implement Apollo Federation 2.0 with Apollo Gateway. Setup GraphQL subscriptions using WebSockets and Server-Sent Events. Use DataLoader for N+1 query optimization. Implement schema registry with Apollo Studio. Add query complexity analysis and depth limiting. Setup GraphQL Playground for development. Use graphql-codegen for type generation.",
+        "details": "Implement Apollo Federation 2.0 with Apollo Gateway. Setup GraphQL subscriptions using WebSockets and Server-Sent Events. Use DataLoader for N+1 query optimization. Implement schema registry with Apollo Studio. Add query complexity analysis and depth limiting. Setup GraphQL Playground for development. Use graphql-codegen for type generation.\n<info added on 2025-08-09T16:24:46.958Z>\nBased on the research findings, implement enterprise-grade Apollo Federation v2 architecture with advanced supergraph composition patterns. Enhance entity resolution with @interfaceObject and @composeDirective for complex ERP hierarchical data structures. Integrate real-time subscriptions with Kafka event streams from Task 5 event sourcing, implementing subscription filtering and batching at gateway level. Add comprehensive security integration with Task 2 zero-trust architecture using mTLS between subgraphs, SPIFFE workload identity verification, and field-level authorization with granular permissions. Implement multi-level caching strategy with Redis cluster integration, intelligent cache invalidation based on domain events, and L1/L2 cache hierarchy. Add sophisticated query complexity analysis with GPU resource allocation integration for computationally intensive queries. Create domain-driven subgraph architecture mapping each ERP business domain (inventory, accounting, HR, procurement) to separate subgraphs with clear ownership boundaries. Implement polyglot persistence integration allowing each subgraph to use optimal database technology while maintaining unified GraphQL interface. Add comprehensive monitoring with Prometheus metrics for federation-specific operations, distributed tracing spans, and GraphQL operation analytics. Setup automated schema validation and deployment pipeline integration with GitOps workflow from Task 25. Implement subscription scalability with connection pooling, subscription deduplication, and resource management for enterprise-scale real-time operations.\n</info added on 2025-08-09T16:24:46.958Z>",
         "testStrategy": "Schema validation tests, subscription performance tests, query complexity tests, federation gateway load tests, real-time data consistency tests",
         "priority": "high",
         "dependencies": [
           1,
           3
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Setup Apollo Federation v2 Core Architecture",
+            "description": "Implement enterprise-grade Apollo Federation v2 with supergraph composition patterns and advanced federation directives",
+            "dependencies": [],
+            "details": "Setup Apollo Gateway with Federation v2, implement @interfaceObject and @composeDirective for ERP hierarchical data structures, configure supergraph composition with domain-driven subgraph architecture mapping each ERP business domain (inventory, accounting, HR, procurement) to separate subgraphs\n<info added on 2025-08-09T16:42:49.043Z>\nCreated Apollo Federation v2 Gateway project structure with:\n- package.json with all enterprise dependencies (Apollo Federation v2, monitoring, security)\n- TypeScript configuration for enterprise-grade development\n- Supergraph configuration defining all ERP domain subgraphs\n- Comprehensive configuration management system with environment-specific settings\n- Zero-trust security integration points (mTLS, SPIFFE, JWT)\n- Multi-level caching configuration (Redis + L1 cache)\n- Real-time subscription configuration (Kafka + Redis + WebSocket)\n- Monitoring and observability configuration (Prometheus + Jaeger)\n- Query optimization configuration with GPU integration capability\n\nNext: Implementing core gateway with Apollo Federation v2 and custom datasources\n</info added on 2025-08-09T16:42:49.043Z>",
+            "status": "in-progress",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Schema Registry and Management",
+            "description": "Setup Apollo Studio schema registry with automated validation and deployment pipeline integration",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Configure Apollo Studio schema registry, implement automated schema validation with GitOps workflow integration, setup schema versioning and migration strategies, create schema composition validation for subgraph changes",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Real-time Subscriptions with Event Integration",
+            "description": "Implement GraphQL subscriptions with WebSockets, Server-Sent Events, and Kafka event stream integration",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Setup GraphQL subscriptions using WebSockets and SSE, integrate with Kafka event streams from Task 5 event sourcing, implement subscription filtering and batching at gateway level, add subscription deduplication and connection pooling for enterprise scalability",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement DataLoader and Query Optimization",
+            "description": "Setup DataLoader for N+1 query optimization and implement advanced query performance strategies",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Implement DataLoader patterns for batch loading, setup query complexity analysis with depth limiting, integrate GPU resource allocation for computationally intensive queries, implement query caching and optimization strategies",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Setup Multi-level Caching Strategy",
+            "description": "Implement comprehensive caching with Redis cluster integration and intelligent cache invalidation",
+            "dependencies": [
+              "4.1",
+              "4.4"
+            ],
+            "details": "Setup Redis cluster integration for distributed caching, implement L1/L2 cache hierarchy, create intelligent cache invalidation based on domain events, implement cache warming strategies and cache analytics",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Integrate Zero-Trust Security Architecture",
+            "description": "Implement comprehensive security integration with mTLS, SPIFFE identity verification, and field-level authorization",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Setup mTLS between subgraphs, implement SPIFFE workload identity verification, create field-level authorization with granular permissions, integrate with Task 2 zero-trust architecture for comprehensive security",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Build Polyglot Persistence Integration",
+            "description": "Enable each subgraph to use optimal database technology while maintaining unified GraphQL interface",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Design database abstraction layer for subgraphs, implement database-specific optimizations for each domain, create unified data access patterns, setup cross-database transaction coordination where needed",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Setup Comprehensive Monitoring and Analytics",
+            "description": "Implement Prometheus metrics, distributed tracing, and GraphQL operation analytics",
+            "dependencies": [
+              "4.1",
+              "4.3"
+            ],
+            "details": "Setup Prometheus metrics for federation-specific operations, implement distributed tracing spans across subgraphs, create GraphQL operation analytics dashboard, setup alerting for performance and error thresholds",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "Implement Entity Resolution and Federation Patterns",
+            "description": "Setup advanced entity resolution with complex ERP data structures and federation best practices",
+            "dependencies": [
+              "4.1",
+              "4.7"
+            ],
+            "details": "Implement entity resolution patterns for complex ERP hierarchies, setup reference resolvers for cross-subgraph entities, create entity caching strategies, implement entity relationship mapping across domains",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 10,
+            "title": "Setup Development Tools and Code Generation",
+            "description": "Configure GraphQL Playground, implement graphql-codegen, and setup development workflow tools",
+            "dependencies": [
+              "4.2"
+            ],
+            "details": "Setup GraphQL Playground for development and testing, implement graphql-codegen for type generation across all subgraphs, create development workflow tools, setup schema introspection and documentation generation",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 11,
+            "title": "Implement Subscription Scalability and Resource Management",
+            "description": "Build enterprise-scale subscription handling with resource management and performance optimization",
+            "dependencies": [
+              "4.3",
+              "4.5"
+            ],
+            "details": "Implement subscription connection pooling and resource management, setup subscription performance monitoring, create subscription load balancing strategies, implement subscription cleanup and memory management",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 12,
+            "title": "Setup Automated Testing and Quality Assurance",
+            "description": "Implement comprehensive testing suite for federation gateway including schema validation, performance, and integration tests",
+            "dependencies": [
+              "4.2",
+              "4.4",
+              "4.8"
+            ],
+            "details": "Create schema validation test suite, implement subscription performance tests, setup query complexity and load testing, create federation gateway integration tests, implement real-time data consistency testing across subgraphs",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 5,
@@ -368,8 +506,65 @@
           3,
           6
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design MongoDB Product Catalog Schema and GraphQL API",
+            "description": "Create comprehensive product catalog schema in MongoDB with GraphQL subgraph implementation for product management operations",
+            "dependencies": [],
+            "details": "Design MongoDB collections for products, categories, variants, and attributes. Implement GraphQL schema with queries and mutations for product CRUD operations. Create product aggregation pipelines for complex queries. Setup MongoDB indexes for performance optimization. Implement product versioning and audit trails. Create data validation schemas with Mongoose. Setup GraphQL federation for products subgraph in products-endpoint-graphql/ directory.",
+            "status": "in-progress",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement AI-Powered Product Categorization and Image Recognition",
+            "description": "Build computer vision system using TensorFlow/PyTorch for automatic product categorization and image analysis",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Implement pre-trained CNN models (ResNet, EfficientNet) for product image classification. Create custom training pipeline for product-specific categories. Build image preprocessing and augmentation pipeline. Implement feature extraction for visual similarity matching. Create AI categorization service with confidence scoring. Setup model versioning and A/B testing for different models. Integrate with GraphQL mutations for automatic categorization.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Recommendation Engine with Collaborative and Content-Based Filtering",
+            "description": "Create intelligent recommendation system using multiple filtering techniques and machine learning algorithms",
+            "dependencies": [
+              "10.1",
+              "10.2"
+            ],
+            "details": "Implement collaborative filtering using matrix factorization (SVD, NMF). Build content-based filtering using product features and embeddings. Create hybrid recommendation system combining multiple approaches. Implement real-time recommendation updates using Apache Kafka streams. Build recommendation explanation system for transparency. Setup A/B testing framework for recommendation algorithms. Create GraphQL resolvers for personalized product recommendations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Elasticsearch Product Search and Dynamic Pricing",
+            "description": "Build advanced product search capabilities with Elasticsearch and implement dynamic pricing optimization algorithms",
+            "dependencies": [
+              "10.1",
+              "10.2"
+            ],
+            "details": "Setup Elasticsearch cluster with product indexing pipeline. Implement full-text search with autocomplete and faceted search. Create search analytics and query optimization. Build dynamic pricing engine using competitor analysis and demand forecasting. Implement price optimization algorithms (reinforcement learning, genetic algorithms). Setup real-time price updates via Kafka events. Create GraphQL resolvers for search and pricing queries.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Setup IoT Inventory Tracking and Product Lifecycle Management",
+            "description": "Implement real-time inventory tracking using IoT sensors with MQTT and comprehensive product lifecycle management",
+            "dependencies": [
+              "10.1",
+              "10.3"
+            ],
+            "details": "Setup MQTT broker for IoT sensor communication. Implement inventory tracking with RFID/barcode scanners and weight sensors. Create Apache Kafka streams for inventory events processing. Build product lifecycle management with status transitions (development, active, discontinued). Implement automated reorder points and stock alerts. Create inventory analytics dashboard integration. Setup GraphQL subscriptions for real-time inventory updates.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 11,
@@ -652,8 +847,1221 @@
     ],
     "metadata": {
       "created": "2025-08-09T14:21:49.973Z",
-      "updated": "2025-08-09T15:22:32.014Z",
+      "updated": "2025-08-09T16:48:14.194Z",
       "description": "Tasks for master context"
+    }
+  },
+  "orders-fulfillment-go-api": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Initialize Go Project Structure and Dependencies",
+        "description": "Set up the Go microservice project with proper directory structure, module initialization, and core dependencies for GraphQL federation",
+        "details": "Create Go module with `go mod init orders-fulfillment-api`. Set up clean architecture directories: cmd/, internal/{domain,repository,service,handler,config}/, pkg/. Install core dependencies: gqlgen v0.17.40+, gorilla/mux v1.8.0+, lib/pq v1.10.9+ for PostgreSQL, go-redis/redis/v9 v9.3.0+, testify v1.8.4+ for testing. Initialize main.go with basic HTTP server setup and health check endpoint.",
+        "testStrategy": "Verify project builds successfully with `go build`, test module resolution, validate directory structure follows Go conventions, ensure all dependencies resolve correctly",
+        "priority": "high",
+        "dependencies": [],
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize Go Module and Basic Project Structure",
+            "description": "Create the Go module and establish the basic directory structure for the orders-fulfillment-api microservice",
+            "dependencies": [],
+            "details": "Run `go mod init orders-fulfillment-api` to initialize the Go module. Create the clean architecture directory structure: cmd/orders-fulfillment-api/, internal/domain/, internal/repository/, internal/service/, internal/handler/, internal/config/, pkg/. Create placeholder .gitkeep files in empty directories to ensure they are tracked by version control.",
+            "status": "done",
+            "testStrategy": "Verify go.mod file is created correctly, validate directory structure exists as specified, ensure `go mod tidy` runs without errors"
+          },
+          {
+            "id": 2,
+            "title": "Install Core Dependencies and Configure go.mod",
+            "description": "Add all required dependencies to the project with specific version constraints",
+            "dependencies": [],
+            "details": "Install core dependencies using go get: gqlgen v0.17.40+, gorilla/mux v1.8.0+, lib/pq v1.10.9+, go-redis/redis/v9 v9.3.0+, testify v1.8.4+, golang-migrate/migrate v4.16.2+, pgxpool v5.0.4+. Run `go mod tidy` to clean up dependencies and ensure all versions are properly resolved.",
+            "status": "done",
+            "testStrategy": "Verify all dependencies are added to go.mod with correct versions, test `go mod download` completes successfully, validate no dependency conflicts exist"
+          },
+          {
+            "id": 3,
+            "title": "Create Basic Configuration Structure",
+            "description": "Implement configuration management with environment variable support",
+            "dependencies": [],
+            "details": "Create internal/config/config.go with structs for database, Redis, server, and application configuration. Implement environment variable loading using os.Getenv with sensible defaults. Include configuration for database connection pool settings, Redis connection parameters, server port, and GraphQL endpoint paths.",
+            "status": "done",
+            "testStrategy": "Test configuration loading with various environment variables, verify default values are applied correctly, validate configuration validation logic"
+          },
+          {
+            "id": 4,
+            "title": "Implement Basic HTTP Server with Health Check",
+            "description": "Create the main application entry point with HTTP server and health check endpoint",
+            "dependencies": [],
+            "details": "Create cmd/orders-fulfillment-api/main.go with basic HTTP server setup using gorilla/mux. Implement /health endpoint that returns JSON status. Add graceful shutdown handling with context cancellation. Create internal/handler/health.go for health check logic that will later include database and Redis connectivity checks.",
+            "status": "in-progress",
+            "testStrategy": "Test HTTP server starts successfully, verify health endpoint returns 200 status, test graceful shutdown functionality, validate server responds to requests"
+          },
+          {
+            "id": 5,
+            "title": "Validate Project Build and Integration",
+            "description": "Ensure the complete project structure builds successfully and all components integrate properly",
+            "dependencies": [],
+            "details": "Run `go build ./cmd/orders-fulfillment-api` to verify successful compilation. Test that the application starts and serves the health endpoint. Create basic integration test to verify server startup and health check response. Add Makefile with common commands: build, test, run, clean.",
+            "status": "pending",
+            "testStrategy": "Verify `go build` completes without errors, test application startup and shutdown, validate health endpoint accessibility, ensure all Go files follow proper package structure"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Configure Database Connection and Migration System",
+        "description": "Establish PostgreSQL connection with connection pooling and implement database migration system for schema management",
+        "details": "Use golang-migrate/migrate v4.16.2+ for migrations. Configure connection pool with pgxpool v5.0.4+ (max 25 connections, idle timeout 5min). Create migration files for order tables: orders, order_items, order_adjustments, order_roles, order_status_history. Implement database config struct with environment variable support. Add health check for database connectivity.",
+        "testStrategy": "Test database connection establishment, verify migration up/down operations, validate connection pool behavior under load, test connection recovery after database restart",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Database Configuration Structure",
+            "description": "Implement database configuration struct with environment variable support for PostgreSQL connection parameters",
+            "dependencies": [],
+            "details": "Create config/database.go with DatabaseConfig struct containing fields for host, port, database name, username, password, SSL mode, and connection pool settings. Use viper or similar library for environment variable binding. Include validation for required fields and default values for optional parameters.",
+            "status": "pending",
+            "testStrategy": "Test configuration loading from environment variables, validate default values, test configuration validation with missing required fields"
+          },
+          {
+            "id": 2,
+            "title": "Implement PostgreSQL Connection Pool with pgxpool",
+            "description": "Set up PostgreSQL connection using pgxpool v5.0.4+ with configured connection pooling parameters",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create database/connection.go implementing connection pool with pgxpool. Configure max connections to 25, idle timeout to 5 minutes, and other pool settings. Implement connection initialization function that uses the database config struct. Add connection retry logic with exponential backoff.",
+            "status": "pending",
+            "testStrategy": "Test connection establishment, verify pool configuration settings, test connection recovery after database restart, validate connection limits under load"
+          },
+          {
+            "id": 3,
+            "title": "Set up Migration System with golang-migrate",
+            "description": "Implement database migration system using golang-migrate/migrate v4.16.2+ for schema management",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Create migrations/ directory structure. Implement migration runner in database/migrate.go using golang-migrate library. Add CLI commands for migration up/down operations. Create migration helper functions for programmatic migration execution during application startup.",
+            "status": "pending",
+            "testStrategy": "Test migration up/down operations, verify migration state tracking, test migration rollback functionality, validate migration execution order"
+          },
+          {
+            "id": 4,
+            "title": "Create Order-Related Database Migration Files",
+            "description": "Create migration files for order tables: orders, order_items, order_adjustments, order_roles, order_status_history",
+            "dependencies": [
+              "2.3"
+            ],
+            "details": "Create SQL migration files in migrations/ directory for each table with proper indexes, foreign key constraints, and data types. Include up and down migrations for each table. Add appropriate indexes for performance optimization and ensure referential integrity between related tables.",
+            "status": "pending",
+            "testStrategy": "Test each migration file individually, verify table creation and constraints, test migration rollback for each table, validate data integrity constraints"
+          },
+          {
+            "id": 5,
+            "title": "Implement Database Health Check System",
+            "description": "Add comprehensive health check functionality for database connectivity monitoring",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Create health/database.go implementing health check endpoints that verify database connectivity, connection pool status, and basic query execution. Include metrics for connection pool utilization and response times. Integrate with application health check system for monitoring and alerting.",
+            "status": "pending",
+            "testStrategy": "Test health check endpoint responses, verify health check behavior during database outages, test connection pool metrics accuracy, validate health check integration with monitoring systems"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Design and Implement Core Domain Models",
+        "description": "Create Go structs for all order domain entities with proper validation, JSON tags, and database mapping",
+        "details": "Define structs: Order (ID, CustomerID, Status, CreatedAt, UpdatedAt, TotalAmount), OrderItem (ID, OrderID, ProductID, Quantity, UnitPrice), OrderAdjustment (ID, OrderID, Type, Amount, Description), OrderRole (ID, OrderID, PartyID, RoleType), OrderStatusHistory (ID, OrderID, Status, Timestamp, Notes). Use go-playground/validator v10.15.5+ for validation tags. Implement custom JSON marshaling for money fields using shopspring/decimal v1.3.1+.",
+        "testStrategy": "Unit tests for struct validation, JSON marshaling/unmarshaling, test edge cases for decimal precision, validate database tag mappings",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Implement Repository Pattern for Data Access",
+        "description": "Create repository interfaces and PostgreSQL implementations for all domain entities with optimized queries",
+        "details": "Create interfaces: OrderRepository, OrderItemRepository, OrderAdjustmentRepository. Implement PostgreSQL versions using squirrel v1.5.4+ for query building. Include methods: Create, GetByID, GetByCustomerID, Update, Delete, List with pagination. Implement bulk operations for order items. Use prepared statements for performance. Add soft delete support with deleted_at column.",
+        "testStrategy": "Integration tests with test database, verify CRUD operations, test pagination and filtering, validate transaction handling, test concurrent access scenarios",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Repository Interfaces",
+            "description": "Define repository interfaces for OrderRepository, OrderItemRepository, and OrderAdjustmentRepository with all required methods",
+            "dependencies": [],
+            "details": "Create interfaces in internal/repository/ with methods: Create, GetByID, GetByCustomerID, Update, Delete, List with pagination parameters. Include bulk operations interface for order items. Add soft delete support methods. Define common repository patterns and error types.",
+            "status": "pending",
+            "testStrategy": "Unit tests for interface contracts, mock implementations for testing dependent services"
+          },
+          {
+            "id": 2,
+            "title": "Implement PostgreSQL Order Repository",
+            "description": "Create PostgreSQL implementation of OrderRepository using squirrel query builder",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Implement OrderRepository in internal/repository/postgres/ using squirrel v1.5.4+ for query building. Include prepared statements for performance optimization. Implement soft delete with deleted_at column. Add transaction support and proper error handling with context cancellation.",
+            "status": "pending",
+            "testStrategy": "Integration tests with test database, verify CRUD operations, test soft delete functionality, validate transaction rollback scenarios"
+          },
+          {
+            "id": 3,
+            "title": "Implement PostgreSQL OrderItem Repository with Bulk Operations",
+            "description": "Create PostgreSQL implementation of OrderItemRepository with optimized bulk operations",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Implement OrderItemRepository with bulk insert, update, and delete operations using batch queries. Optimize for handling large order item collections. Include methods for retrieving items by order ID with proper indexing. Implement soft delete support.",
+            "status": "pending",
+            "testStrategy": "Test bulk operations performance, verify batch insert/update accuracy, test concurrent access to order items, validate foreign key constraints"
+          },
+          {
+            "id": 4,
+            "title": "Implement PostgreSQL OrderAdjustment Repository",
+            "description": "Create PostgreSQL implementation of OrderAdjustmentRepository for handling order modifications",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Implement OrderAdjustmentRepository for tracking order changes, discounts, and modifications. Include audit trail functionality and proper versioning. Implement queries for adjustment history and rollback capabilities. Add soft delete support.",
+            "status": "pending",
+            "testStrategy": "Test adjustment tracking accuracy, verify audit trail completeness, test rollback functionality, validate adjustment calculations"
+          },
+          {
+            "id": 5,
+            "title": "Add Pagination, Filtering, and Performance Optimization",
+            "description": "Implement advanced querying features including pagination, filtering, and query optimization across all repositories",
+            "dependencies": [
+              "4.2",
+              "4.3",
+              "4.4"
+            ],
+            "details": "Add pagination support with cursor-based and offset-based options. Implement filtering by multiple criteria (date ranges, status, customer). Add query optimization with proper indexing strategies. Implement connection pooling and query performance monitoring. Add database health checks.",
+            "status": "pending",
+            "testStrategy": "Performance tests with large datasets, verify pagination accuracy, test filtering combinations, validate query execution plans, test connection pool behavior under load"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Create State Machine for Order Lifecycle Management",
+        "description": "Implement finite state machine for order status transitions with validation and audit logging",
+        "details": "Use looplab/fsm v1.0.1+ for state machine implementation. Define states: Created, Validated, Approved, Processing, Fulfilled, Delivered, Closed, Cancelled. Implement transition rules and validation. Create OrderStateMachine struct with methods: CanTransition, Transition, GetCurrentState. Log all state changes to order_status_history table. Add rollback capability for failed transitions.",
+        "testStrategy": "Unit tests for all valid transitions, test invalid transition rejection, verify audit trail creation, test concurrent state changes, validate rollback functionality",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install and Configure looplab/fsm Dependency",
+            "description": "Add looplab/fsm v1.0.1+ to project dependencies and create basic configuration",
+            "dependencies": [],
+            "details": "Run 'go get github.com/looplab/fsm@v1.0.1' to add the finite state machine library. Create internal/fsm package directory structure. Set up basic FSM configuration constants and types. Verify the dependency integrates properly with existing project structure.",
+            "status": "pending",
+            "testStrategy": "Verify dependency installation with go mod tidy, test basic FSM instantiation, validate package imports resolve correctly"
+          },
+          {
+            "id": 2,
+            "title": "Define Order States and Transition Rules",
+            "description": "Create comprehensive state definitions and valid transition mappings for order lifecycle",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Define OrderState enum with states: Created, Validated, Approved, Processing, Fulfilled, Delivered, Closed, Cancelled. Create transition rules matrix defining valid state changes (e.g., Created->Validated, Validated->Approved, etc.). Implement business logic validation for each transition. Create constants file for state names and transition events.",
+            "status": "pending",
+            "testStrategy": "Unit tests for all valid transitions, test invalid transition rejection, verify state enum completeness, validate transition rule matrix accuracy"
+          },
+          {
+            "id": 3,
+            "title": "Implement OrderStateMachine Struct and Core Methods",
+            "description": "Create OrderStateMachine struct with CanTransition, Transition, and GetCurrentState methods",
+            "dependencies": [
+              "5.2"
+            ],
+            "details": "Create OrderStateMachine struct wrapping looplab/fsm.FSM with order context. Implement CanTransition method to validate if transition is allowed. Implement Transition method with validation and error handling. Implement GetCurrentState method returning current order state. Add constructor NewOrderStateMachine with initial state setup.",
+            "status": "pending",
+            "testStrategy": "Unit tests for each method, test state machine initialization, verify method return values, test error handling for invalid operations"
+          },
+          {
+            "id": 4,
+            "title": "Create Order Status History Audit Logging",
+            "description": "Implement audit trail system to log all state changes to order_status_history table",
+            "dependencies": [
+              "5.3"
+            ],
+            "details": "Create order_status_history table schema with columns: id, order_id, from_state, to_state, transition_event, timestamp, user_id, notes. Implement OrderStatusHistory repository interface and PostgreSQL implementation. Add audit logging to OrderStateMachine.Transition method. Include transaction support for atomic state change and audit log creation.",
+            "status": "pending",
+            "testStrategy": "Integration tests with database, verify audit records creation, test transaction rollback scenarios, validate audit data accuracy and completeness"
+          },
+          {
+            "id": 5,
+            "title": "Add Rollback Capability for Failed Transitions",
+            "description": "Implement rollback mechanism to revert state changes when transitions fail",
+            "dependencies": [
+              "5.4"
+            ],
+            "details": "Add rollback functionality to OrderStateMachine for handling failed transitions. Implement transaction-based state changes with automatic rollback on failure. Create RollbackTransition method to manually revert state changes. Add compensation logic for complex state transitions. Include rollback audit logging in order_status_history table.",
+            "status": "pending",
+            "testStrategy": "Test rollback on transition failures, verify state consistency after rollback, test manual rollback functionality, validate rollback audit trail creation"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Design GraphQL Schema with Federation Support",
+        "description": "Create comprehensive GraphQL schema with proper federation directives for order and fulfillment operations",
+        "details": "Design schema.graphql with types: Order, OrderItem, OrderAdjustment, OrderStatus, FulfillmentInfo. Add federation directives: @key(fields: \"id\") for Order, @external for Product and Customer types. Include mutations: createOrder, updateOrderStatus, cancelOrder. Add subscriptions: orderStatusUpdated, fulfillmentProgress. Use gqlgen generate to create resolvers. Implement proper error handling with custom error types.",
+        "testStrategy": "Validate schema compilation, test federation directive resolution, verify query complexity limits, test subscription functionality, validate error response formats",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define Core GraphQL Types and Enums",
+            "description": "Create the foundational GraphQL schema types including Order, OrderItem, OrderAdjustment, OrderStatus, and FulfillmentInfo with proper field definitions and scalar types",
+            "dependencies": [],
+            "details": "Create schema.graphql file defining: Order type with fields (id, customerID, status, createdAt, updatedAt, totalAmount, items, adjustments), OrderItem type (id, orderID, productID, quantity, unitPrice, totalPrice), OrderAdjustment type (id, orderID, type, amount, description), OrderStatus enum (PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED), FulfillmentInfo type (id, orderID, trackingNumber, carrier, estimatedDelivery, actualDelivery). Use proper GraphQL scalar types including custom Decimal and DateTime scalars.",
+            "status": "pending",
+            "testStrategy": "Validate schema compilation with gqlgen, test type definitions against GraphQL specification, verify scalar type handling"
+          },
+          {
+            "id": 2,
+            "title": "Add Federation Directives and External Types",
+            "description": "Implement GraphQL Federation directives for service composition and define external entity references",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Add federation directives: @key(fields: \"id\") to Order type for entity resolution, @external directive for Product and Customer types that are owned by other services, @requires and @provides directives where needed for field dependencies. Define extend type Product @key(fields: \"id\") @external and extend type Customer @key(fields: \"id\") @external. Configure federation schema composition with proper entity resolution.",
+            "status": "pending",
+            "testStrategy": "Test federation schema composition, validate entity resolution across services, verify external type references work correctly"
+          },
+          {
+            "id": 3,
+            "title": "Define GraphQL Mutations",
+            "description": "Create comprehensive mutation definitions for order lifecycle management operations",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Define mutations in schema.graphql: createOrder(input: CreateOrderInput!): CreateOrderPayload, updateOrderStatus(id: ID!, status: OrderStatus!, notes: String): UpdateOrderStatusPayload, cancelOrder(id: ID!, reason: String): CancelOrderPayload. Create corresponding input types: CreateOrderInput (customerID, items, adjustments), CreateOrderItemInput (productID, quantity, unitPrice). Define payload types with proper error handling fields and success indicators.",
+            "status": "pending",
+            "testStrategy": "Validate mutation schema compilation, test input validation rules, verify payload type structure"
+          },
+          {
+            "id": 4,
+            "title": "Implement GraphQL Subscriptions",
+            "description": "Add real-time subscription support for order status updates and fulfillment progress tracking",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Define subscriptions: orderStatusUpdated(orderID: ID): OrderStatusUpdate, fulfillmentProgress(orderID: ID): FulfillmentUpdate. Create subscription payload types: OrderStatusUpdate (orderID, newStatus, previousStatus, timestamp, notes), FulfillmentUpdate (orderID, trackingNumber, location, estimatedDelivery, status). Configure subscription transport mechanism and connection management for real-time updates.",
+            "status": "pending",
+            "testStrategy": "Test subscription schema compilation, verify subscription payload types, test subscription connection lifecycle"
+          },
+          {
+            "id": 5,
+            "title": "Configure Error Handling and Schema Generation",
+            "description": "Implement custom error types, configure gqlgen generation, and set up proper error handling patterns",
+            "dependencies": [
+              "6.1",
+              "6.2",
+              "6.3",
+              "6.4"
+            ],
+            "details": "Define custom error types: OrderNotFoundError, InvalidOrderStatusError, InsufficientInventoryError with proper GraphQL error extensions. Configure gqlgen.yml with proper resolver generation settings, model mappings, and federation support. Add error handling directives and configure error formatting. Set up schema validation rules and query complexity limits. Generate initial resolver stubs using gqlgen generate command.",
+            "status": "pending",
+            "testStrategy": "Test custom error type serialization, validate gqlgen configuration and generation, verify error handling in schema, test query complexity limits"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement GraphQL Resolvers and Middleware",
+        "description": "Create GraphQL resolvers for all queries, mutations, and subscriptions with proper authentication and validation middleware",
+        "details": "Implement resolvers in internal/handler/graphql/. Use 99designs/gqlgen-contrib/gqlapollotracing for tracing. Add middleware: authentication (JWT validation), rate limiting (golang.org/x/time/rate), request logging, metrics collection. Implement dataloader pattern using graph-gophers/dataloader v7.0.0+ for N+1 query prevention. Add query complexity analysis to prevent expensive queries.",
+        "testStrategy": "Integration tests for all resolvers, test authentication middleware, validate rate limiting, test dataloader efficiency, verify query complexity limits work correctly",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up GraphQL server structure and basic resolvers",
+            "description": "Create the GraphQL server foundation with gqlgen, define schema files, and implement basic resolver structure in internal/handler/graphql/",
+            "dependencies": [],
+            "details": "Initialize gqlgen configuration, create schema.graphql with basic types for orders, customers, and products. Generate resolver stubs and implement basic query resolvers. Set up GraphQL playground for development. Configure server routing and basic error handling.",
+            "status": "pending",
+            "testStrategy": "Test GraphQL server startup, validate schema generation, test basic query execution, verify playground accessibility"
+          },
+          {
+            "id": 2,
+            "title": "Implement authentication and authorization middleware",
+            "description": "Create JWT validation middleware and role-based access control for GraphQL operations",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Implement JWT token validation middleware using standard Go JWT libraries. Create authorization layer that checks user roles and permissions for different GraphQL operations. Add context injection for authenticated user information. Handle authentication errors gracefully with proper GraphQL error responses.",
+            "status": "pending",
+            "testStrategy": "Test JWT token validation, verify role-based access control, test unauthorized access scenarios, validate error responses for authentication failures"
+          },
+          {
+            "id": 3,
+            "title": "Add rate limiting and request logging middleware",
+            "description": "Implement rate limiting using golang.org/x/time/rate and comprehensive request logging with metrics collection",
+            "dependencies": [
+              "7.2"
+            ],
+            "details": "Create rate limiting middleware with configurable limits per user/IP. Implement structured request logging capturing query complexity, execution time, and user context. Add metrics collection for request counts, response times, and error rates. Configure different rate limits for authenticated vs anonymous users.",
+            "status": "pending",
+            "testStrategy": "Test rate limiting enforcement, verify metrics collection accuracy, validate request logging format, test rate limit bypass for authenticated users"
+          },
+          {
+            "id": 4,
+            "title": "Implement dataloader pattern for N+1 query prevention",
+            "description": "Set up graph-gophers/dataloader v7.0.0+ to optimize database queries and prevent N+1 problems",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Create dataloader instances for common entities (customers, products, orders). Implement batch loading functions that efficiently fetch related data. Integrate dataloaders into resolver context and ensure proper request scoping. Add caching layer within dataloaders for request-level optimization.",
+            "status": "pending",
+            "testStrategy": "Test N+1 query prevention effectiveness, verify batch loading functionality, validate dataloader caching behavior, measure query performance improvements"
+          },
+          {
+            "id": 5,
+            "title": "Add query complexity analysis and Apollo tracing",
+            "description": "Implement query complexity limits and integrate 99designs/gqlgen-contrib/gqlapollotracing for performance monitoring",
+            "dependencies": [
+              "7.3"
+            ],
+            "details": "Configure query complexity analysis with field-level complexity scoring. Set maximum complexity limits to prevent expensive queries. Integrate Apollo tracing for detailed query performance metrics. Add complexity-based rate limiting and monitoring. Create admin endpoints for complexity configuration.",
+            "status": "pending",
+            "testStrategy": "Test query complexity calculation accuracy, verify complexity limits enforcement, validate Apollo tracing data collection, test performance impact of complexity analysis"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Implement Redis Caching Layer",
+        "description": "Set up Redis for caching frequently accessed data and real-time tracking information",
+        "details": "Configure Redis client with go-redis/redis/v9. Implement caching for: order details (TTL 15min), customer order history (TTL 1hour), product inventory (TTL 5min). Create cache service with methods: Get, Set, Delete, Invalidate. Use Redis Streams for real-time tracking updates. Implement cache-aside pattern with fallback to database. Add Redis health check.",
+        "testStrategy": "Test cache hit/miss scenarios, verify TTL expiration, test Redis failover behavior, validate cache invalidation strategies, performance test cache vs database response times",
+        "priority": "medium",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Redis client configuration and connection management",
+            "description": "Configure Redis client using go-redis/redis/v9 with connection pooling, timeout settings, and environment-based configuration",
+            "dependencies": [],
+            "details": "Create Redis configuration struct in internal/config/redis.go. Initialize Redis client with proper connection pool settings, read/write timeouts, and retry logic. Add environment variables for Redis host, port, password, and database selection. Implement graceful connection handling with context cancellation.",
+            "status": "pending",
+            "testStrategy": "Test Redis connection establishment, verify connection pool behavior under load, test connection recovery after Redis restart, validate configuration loading from environment variables"
+          },
+          {
+            "id": 2,
+            "title": "Implement core cache service with CRUD operations",
+            "description": "Create cache service interface and implementation with Get, Set, Delete, and Invalidate methods supporting different data types",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Create cache service interface in internal/service/cache.go with methods for basic operations. Implement JSON serialization/deserialization for complex objects. Add support for TTL configuration per cache key type. Implement batch operations for efficiency. Add error handling and logging for cache operations.",
+            "status": "pending",
+            "testStrategy": "Unit tests for all cache operations, test JSON serialization/deserialization, verify TTL behavior, test batch operations performance, validate error handling scenarios"
+          },
+          {
+            "id": 3,
+            "title": "Implement cache-aside pattern with database fallback",
+            "description": "Create cache-aside implementation for order details, customer order history, and product inventory with automatic database fallback",
+            "dependencies": [
+              "8.2"
+            ],
+            "details": "Implement cache-aside pattern in service layer methods. Add caching for order details (15min TTL), customer order history (1hour TTL), and product inventory (5min TTL). Create cache key generation strategies. Implement automatic cache warming and invalidation on data updates. Add metrics for cache hit/miss ratios.",
+            "status": "pending",
+            "testStrategy": "Test cache hit/miss scenarios, verify database fallback behavior, test cache invalidation on data updates, validate TTL expiration, measure performance improvements over database-only queries"
+          },
+          {
+            "id": 4,
+            "title": "Implement Redis Streams for real-time tracking updates",
+            "description": "Set up Redis Streams for publishing and consuming real-time tracking events and status updates",
+            "dependencies": [
+              "8.2"
+            ],
+            "details": "Create Redis Streams producer for tracking events in internal/service/tracking_stream.go. Implement consumer groups for processing tracking updates. Add stream message serialization with proper event schemas. Create stream cleanup policies for old messages. Implement error handling and retry logic for stream operations.",
+            "status": "pending",
+            "testStrategy": "Test stream message publishing and consumption, verify consumer group behavior, test message ordering and delivery guarantees, validate stream cleanup policies, test error recovery scenarios"
+          },
+          {
+            "id": 5,
+            "title": "Add Redis health check and monitoring",
+            "description": "Implement Redis health check endpoint and monitoring metrics for cache performance and availability",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Create Redis health check in internal/health/redis.go that tests connection and basic operations. Add Prometheus metrics for cache hit/miss ratios, operation latencies, and connection pool status. Implement Redis info command monitoring for memory usage and performance stats. Add alerting thresholds for cache performance degradation.",
+            "status": "pending",
+            "testStrategy": "Test health check endpoint responses, verify metrics collection accuracy, test health check behavior during Redis downtime, validate alerting thresholds, test monitoring dashboard integration"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Create Message Queue System for Event-Driven Architecture",
+        "description": "Implement message queue system for asynchronous order processing and event publishing",
+        "details": "Use NATS.io v1.31.0+ for message queuing. Create event types: OrderCreated, OrderStatusChanged, PaymentProcessed, InventoryAllocated. Implement publisher service for event emission and subscriber services for event handling. Use NATS JetStream for message persistence and replay capability. Add dead letter queue for failed message processing. Implement circuit breaker pattern using sony/gobreaker v0.5.0+.",
+        "testStrategy": "Test message publishing and consumption, verify message persistence, test dead letter queue functionality, validate circuit breaker behavior, test message ordering and deduplication",
+        "priority": "medium",
+        "dependencies": [
+          8
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up NATS.io infrastructure and connection management",
+            "description": "Install NATS.io v1.31.0+ dependency, configure connection settings, and implement connection pool with reconnection logic",
+            "dependencies": [],
+            "details": "Add nats-io/nats.go v1.31.0+ to go.mod. Create NATS configuration struct with server URLs, credentials, and connection options. Implement connection manager with automatic reconnection, connection pooling, and graceful shutdown. Add environment variables for NATS configuration (NATS_URL, NATS_USER, NATS_PASSWORD). Create health check endpoint for NATS connectivity status.",
+            "status": "pending",
+            "testStrategy": "Test NATS connection establishment, verify reconnection logic during server downtime, test connection pooling under load, validate configuration loading from environment variables"
+          },
+          {
+            "id": 2,
+            "title": "Define event types and message schemas",
+            "description": "Create structured event types for OrderCreated, OrderStatusChanged, PaymentProcessed, and InventoryAllocated with JSON serialization",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Define event structs in internal/events/ package: OrderCreatedEvent, OrderStatusChangedEvent, PaymentProcessedEvent, InventoryAllocatedEvent. Include common fields: EventID, Timestamp, Version, CorrelationID. Add JSON tags for serialization. Create event envelope wrapper with metadata. Implement event validation and schema versioning support.",
+            "status": "pending",
+            "testStrategy": "Test JSON serialization/deserialization of all event types, verify event validation rules, test schema versioning compatibility, validate required fields presence"
+          },
+          {
+            "id": 3,
+            "title": "Implement JetStream publisher service with circuit breaker",
+            "description": "Create publisher service using NATS JetStream for persistent message publishing with circuit breaker pattern using sony/gobreaker",
+            "dependencies": [
+              "9.1",
+              "9.2"
+            ],
+            "details": "Install sony/gobreaker v0.5.0+ dependency. Create Publisher interface and JetStream implementation in internal/messaging/. Configure JetStream streams for each event type with retention policies. Implement circuit breaker wrapper around publish operations. Add message deduplication using message ID. Include publish confirmation and error handling with retry logic.",
+            "status": "pending",
+            "testStrategy": "Test message publishing to JetStream streams, verify circuit breaker opens/closes correctly, test message deduplication, validate publish confirmations and retry behavior"
+          },
+          {
+            "id": 4,
+            "title": "Implement JetStream subscriber services with dead letter queue",
+            "description": "Create subscriber services for consuming events from JetStream with automatic acknowledgment and dead letter queue for failed messages",
+            "dependencies": [
+              "9.1",
+              "9.2"
+            ],
+            "details": "Create Subscriber interface and JetStream implementation. Implement consumer groups for each event type with durable subscriptions. Add automatic message acknowledgment with configurable retry attempts. Create dead letter queue stream for failed messages after max retries. Implement graceful shutdown with message processing completion. Add consumer health monitoring.",
+            "status": "pending",
+            "testStrategy": "Test message consumption and acknowledgment, verify dead letter queue functionality after max retries, test graceful shutdown behavior, validate consumer group load balancing"
+          },
+          {
+            "id": 5,
+            "title": "Create event handlers and integrate with order processing workflow",
+            "description": "Implement specific event handlers for each event type and integrate with existing order processing services",
+            "dependencies": [
+              "9.3",
+              "9.4"
+            ],
+            "details": "Create event handler interfaces and implementations in internal/handlers/. Implement OrderCreatedHandler, OrderStatusChangedHandler, PaymentProcessedHandler, InventoryAllocatedHandler. Integrate handlers with existing order service and repository layers. Add event sourcing capabilities for order state reconstruction. Implement idempotent event processing with event deduplication tracking.",
+            "status": "pending",
+            "testStrategy": "Test each event handler processes events correctly, verify integration with order services, test idempotent processing prevents duplicate handling, validate event sourcing reconstruction accuracy"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Implement Inventory Allocation and Reservation System",
+        "description": "Create intelligent inventory management with allocation algorithms and reservation capabilities",
+        "details": "Implement inventory service with methods: CheckAvailability, ReserveInventory, AllocateInventory, ReleaseReservation. Use optimistic locking with version fields to handle concurrent allocations. Implement FIFO allocation strategy with configurable reservation timeout (default 30min). Create inventory_reservations table for tracking. Add support for partial allocations and backorder handling.",
+        "testStrategy": "Test concurrent allocation scenarios, verify reservation timeout handling, test partial allocation logic, validate optimistic locking behavior, test backorder processing",
+        "priority": "high",
+        "dependencies": [
+          9
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create inventory_reservations table and database schema",
+            "description": "Design and implement the database schema for inventory reservations with proper indexing and constraints",
+            "dependencies": [],
+            "details": "Create inventory_reservations table with fields: id, inventory_item_id, order_id, quantity_reserved, reservation_expires_at, status, version, created_at, updated_at. Add foreign key constraints to inventory_items and orders tables. Create indexes on inventory_item_id, order_id, and reservation_expires_at for query performance. Implement database migration scripts.",
+            "status": "pending",
+            "testStrategy": "Test table creation, verify constraints work correctly, test index performance, validate migration rollback functionality"
+          },
+          {
+            "id": 2,
+            "title": "Implement core inventory service with availability checking",
+            "description": "Create the inventory service with CheckAvailability method and optimistic locking support",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Create InventoryService struct in internal/service/inventory.go with CheckAvailability method. Implement optimistic locking using version fields in inventory_items table. Add concurrent access handling with proper error responses for version conflicts. Include support for checking availability across multiple inventory locations.",
+            "status": "pending",
+            "testStrategy": "Test availability checking accuracy, verify optimistic locking prevents race conditions, test concurrent access scenarios, validate version conflict handling"
+          },
+          {
+            "id": 3,
+            "title": "Implement reservation system with FIFO allocation and timeout handling",
+            "description": "Build ReserveInventory and ReleaseReservation methods with configurable timeout and FIFO strategy",
+            "dependencies": [
+              "10.2"
+            ],
+            "details": "Implement ReserveInventory method with FIFO allocation strategy using created_at ordering. Add configurable reservation timeout (default 30 minutes) with automatic cleanup job. Create ReleaseReservation method for manual and automatic reservation cleanup. Implement reservation status tracking (active, expired, fulfilled, cancelled).",
+            "status": "pending",
+            "testStrategy": "Test FIFO allocation order, verify reservation timeout cleanup, test manual reservation release, validate reservation status transitions"
+          },
+          {
+            "id": 4,
+            "title": "Implement allocation system with partial allocation support",
+            "description": "Create AllocateInventory method supporting partial allocations and inventory commitment",
+            "dependencies": [
+              "10.3"
+            ],
+            "details": "Implement AllocateInventory method that converts reservations to committed allocations. Add support for partial allocations when full quantity unavailable. Update inventory_items quantities atomically during allocation. Create allocation history tracking for audit purposes. Implement allocation rollback for failed transactions.",
+            "status": "pending",
+            "testStrategy": "Test full and partial allocation scenarios, verify atomic quantity updates, test allocation rollback functionality, validate allocation history accuracy"
+          },
+          {
+            "id": 5,
+            "title": "Implement backorder handling and integration with order management",
+            "description": "Create backorder processing system and integrate inventory service with order management workflows",
+            "dependencies": [
+              "10.4"
+            ],
+            "details": "Implement backorder creation when inventory insufficient for full allocation. Create backorder_items table for tracking pending orders. Add automatic backorder fulfillment when inventory replenished. Integrate with order service for status updates and customer notifications. Implement backorder priority handling and allocation preferences.",
+            "status": "pending",
+            "testStrategy": "Test backorder creation for insufficient inventory, verify automatic fulfillment on restock, test integration with order status updates, validate backorder priority processing"
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Build Fulfillment Pipeline with Workflow Engine",
+        "description": "Create automated fulfillment workflow with picking, packing, and shipping stages",
+        "details": "Implement workflow engine using temporal.io/sdk-go v1.25.1+ for durable workflows. Create fulfillment activities: InventoryPicking, OrderPacking, ShippingLabelGeneration, CarrierDispatch. Define workflow: FulfillmentWorkflow with error handling and retry policies. Implement fulfillment_tasks table for tracking. Add support for batch processing and priority queues.",
+        "testStrategy": "Test complete fulfillment workflow execution, verify error handling and retries, test batch processing efficiency, validate priority queue ordering, test workflow recovery after failures",
+        "priority": "high",
+        "dependencies": [
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Temporal.io Workflow Engine Infrastructure",
+            "description": "Initialize Temporal.io SDK and configure workflow engine with connection settings, worker configuration, and basic workflow registration",
+            "dependencies": [],
+            "details": "Install temporal.io/sdk-go v1.25.1+, create temporal client configuration, set up worker with task queue configuration, implement basic workflow and activity registration, configure connection to Temporal server with retry policies and timeouts",
+            "status": "pending",
+            "testStrategy": "Test Temporal client connection, verify worker startup and task queue registration, test basic workflow execution and activity invocation"
+          },
+          {
+            "id": 2,
+            "title": "Implement Fulfillment Activities",
+            "description": "Create individual workflow activities for inventory picking, order packing, shipping label generation, and carrier dispatch",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "Implement InventoryPicking activity with inventory service integration, create OrderPacking activity with packaging logic, build ShippingLabelGeneration activity with carrier API integration, implement CarrierDispatch activity for shipment creation, add proper error handling and logging for each activity",
+            "status": "pending",
+            "testStrategy": "Unit test each activity independently, test activity error scenarios and retry behavior, verify integration with external services, test activity timeout handling"
+          },
+          {
+            "id": 3,
+            "title": "Create FulfillmentWorkflow with Error Handling",
+            "description": "Design and implement the main fulfillment workflow orchestrating all activities with comprehensive error handling and retry policies",
+            "dependencies": [
+              "11.2"
+            ],
+            "details": "Define FulfillmentWorkflow with sequential activity execution, implement retry policies for each activity type, add compensation logic for failed workflows, create workflow state management, implement timeout handling and workflow cancellation support",
+            "status": "pending",
+            "testStrategy": "Test complete workflow execution flow, verify error handling and retry mechanisms, test workflow compensation on failures, validate timeout and cancellation behavior"
+          },
+          {
+            "id": 4,
+            "title": "Implement Fulfillment Tasks Database Schema",
+            "description": "Create database schema and data access layer for tracking fulfillment workflow execution and task states",
+            "dependencies": [
+              "11.3"
+            ],
+            "details": "Design fulfillment_tasks table with fields for workflow_id, task_type, status, created_at, updated_at, metadata, create database migration scripts, implement GORM models and repository pattern, add indexes for performance optimization",
+            "status": "pending",
+            "testStrategy": "Test database schema creation and migration, verify CRUD operations on fulfillment tasks, test query performance with indexes, validate data consistency and constraints"
+          },
+          {
+            "id": 5,
+            "title": "Add Batch Processing and Priority Queue Support",
+            "description": "Implement batch processing capabilities and priority queue management for efficient fulfillment workflow execution",
+            "dependencies": [
+              "11.4"
+            ],
+            "details": "Create batch workflow for processing multiple orders simultaneously, implement priority queue using Temporal task queue priorities, add batch size configuration and processing limits, create priority-based workflow routing, implement metrics and monitoring for batch processing performance",
+            "status": "pending",
+            "testStrategy": "Test batch processing with various batch sizes, verify priority queue ordering and execution, test system performance under load, validate batch processing metrics and monitoring"
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Integrate Shipping Carrier APIs",
+        "description": "Implement multi-carrier shipping integration with rate shopping and label generation",
+        "details": "Create carrier interfaces for FedEx, UPS, USPS APIs. Implement rate shopping service to compare shipping costs and delivery times. Use carrier-specific SDKs or REST clients. Create shipping_labels table for label storage. Implement address validation using carrier APIs. Add support for international shipping with customs documentation. Create carrier_configs table for API credentials and settings.",
+        "testStrategy": "Test rate shopping across multiple carriers, verify label generation and printing, test address validation, validate international shipping documentation, test API error handling and fallbacks",
+        "priority": "medium",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Carrier Interface and Configuration System",
+            "description": "Design and implement the base carrier interface and configuration management system for multi-carrier integration",
+            "dependencies": [],
+            "details": "Create a generic carrier interface defining methods for rate calculation, label generation, and tracking. Implement carrier_configs table with fields for API credentials, endpoints, and carrier-specific settings. Create configuration service to manage API keys, test/production modes, and carrier preferences. Implement factory pattern for carrier instantiation based on configuration.",
+            "status": "pending",
+            "testStrategy": "Test configuration loading and validation, verify carrier factory instantiation, test API credential management and security, validate configuration updates and persistence"
+          },
+          {
+            "id": 2,
+            "title": "Implement FedEx API Integration",
+            "description": "Integrate FedEx shipping services including rate calculation, label generation, and address validation",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "Implement FedEx carrier service using FedEx REST APIs. Create methods for rate shopping, shipping label generation, and address validation. Handle FedEx-specific data formats and error responses. Implement authentication using OAuth 2.0 for FedEx API access. Add support for FedEx service types (Ground, Express, International) and packaging options.",
+            "status": "pending",
+            "testStrategy": "Test FedEx rate calculation accuracy, verify label generation and format, test address validation responses, validate authentication flow, test error handling for invalid requests"
+          },
+          {
+            "id": 3,
+            "title": "Implement UPS and USPS API Integration",
+            "description": "Integrate UPS and USPS shipping services with rate calculation and label generation capabilities",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "Implement UPS carrier service using UPS REST APIs with OAuth authentication. Implement USPS carrier service using USPS Web Tools API. Create unified response format for both carriers to match the carrier interface. Handle carrier-specific service types, packaging options, and delivery confirmation methods. Implement proper error handling and retry logic for API failures.",
+            "status": "pending",
+            "testStrategy": "Test UPS and USPS rate calculations, verify label generation for both carriers, test service type selection, validate authentication mechanisms, test API error handling and retry logic"
+          },
+          {
+            "id": 4,
+            "title": "Create Rate Shopping and Label Management Services",
+            "description": "Implement rate shopping service to compare carriers and create shipping label storage system",
+            "dependencies": [
+              "12.2",
+              "12.3"
+            ],
+            "details": "Create rate shopping service that queries multiple carriers simultaneously and returns sorted results by cost and delivery time. Implement shipping_labels table with fields for label data, tracking numbers, carrier info, and metadata. Create label generation service with support for different label formats (PDF, PNG, ZPL). Implement label retrieval and reprint functionality. Add rate caching to improve performance.",
+            "status": "pending",
+            "testStrategy": "Test rate comparison accuracy across carriers, verify label storage and retrieval, test label format generation, validate rate caching behavior, test concurrent rate requests"
+          },
+          {
+            "id": 5,
+            "title": "Implement Address Validation and International Shipping",
+            "description": "Add address validation capabilities and international shipping support with customs documentation",
+            "dependencies": [
+              "12.2",
+              "12.3"
+            ],
+            "details": "Implement address validation service using carrier APIs to verify and standardize addresses. Create customs documentation generation for international shipments including commercial invoices and customs forms. Add support for duty and tax calculations. Implement restricted/prohibited items checking for international destinations. Create address_validations table to cache validation results and improve performance.",
+            "status": "pending",
+            "testStrategy": "Test address validation accuracy and standardization, verify customs documentation generation, test international rate calculations including duties, validate restricted items checking, test address validation caching"
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Implement Real-Time Tracking System",
+        "description": "Create comprehensive tracking system with GPS coordinates, status updates, and customer notifications",
+        "details": "Create tracking service with webhook endpoints for carrier updates. Implement tracking_events table for storing location and status data. Use WebSocket connections via gorilla/websocket v1.5.1+ for real-time updates to clients. Create tracking aggregation service to normalize data from different carriers. Add geofencing capabilities for delivery notifications. Implement tracking_subscriptions for customer notification preferences.",
+        "testStrategy": "Test webhook processing from carriers, verify real-time WebSocket updates, test geofencing accuracy, validate notification delivery, test tracking data aggregation and normalization",
+        "priority": "medium",
+        "dependencies": [
+          12
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Build AI-Powered Route Optimization Engine",
+        "description": "Implement machine learning algorithms for delivery route optimization and time estimation",
+        "details": "Integrate with Google Maps API or similar for route calculation. Implement genetic algorithm for multi-stop route optimization using github.com/MaxHalford/eaopt v0.4.2+. Create route_optimizations table for storing calculated routes. Add factors: traffic patterns, delivery time windows, vehicle capacity, driver preferences. Implement caching for frequently used routes. Use historical delivery data for time estimation improvements.",
+        "testStrategy": "Test route optimization with various order combinations, verify time estimation accuracy, test performance with large order sets, validate constraint handling (time windows, capacity), test route caching effectiveness",
+        "priority": "medium",
+        "dependencies": [
+          13
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Create IoT Integration for Shipment Monitoring",
+        "description": "Implement IoT sensor integration for real-time shipment condition monitoring",
+        "details": "Create IoT data ingestion service using MQTT protocol with eclipse/paho.mqtt.golang v1.4.3+. Define sensor data types: GPS coordinates, temperature, humidity, shock/vibration. Implement iot_sensor_data table for time-series data. Create alert system for threshold violations. Add support for multiple IoT platforms (AWS IoT, Azure IoT). Implement data aggregation and analytics for shipment insights.",
+        "testStrategy": "Test MQTT message processing, verify sensor data ingestion and storage, test alert threshold triggers, validate data aggregation accuracy, test IoT platform integration",
+        "priority": "low",
+        "dependencies": [
+          14
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create IoT Data Models and Database Schema",
+            "description": "Define sensor data types and implement iot_sensor_data table for time-series data storage",
+            "dependencies": [],
+            "details": "Create Go structs for GPS coordinates, temperature, humidity, shock/vibration sensor data. Implement database migration for iot_sensor_data table with columns: id, shipment_id, sensor_type, data_payload (JSONB), timestamp, created_at. Add indexes for efficient time-series queries. Include sensor metadata table for device registration and configuration.",
+            "status": "pending",
+            "testStrategy": "Test database migration execution, verify table structure and indexes, test JSONB data insertion and querying, validate time-series query performance"
+          },
+          {
+            "id": 2,
+            "title": "Implement MQTT Client Service",
+            "description": "Create MQTT data ingestion service using eclipse/paho.mqtt.golang for real-time sensor data collection",
+            "dependencies": [
+              "15.1"
+            ],
+            "details": "Implement MQTT client using eclipse/paho.mqtt.golang v1.4.3+. Create connection manager with auto-reconnect, message handlers for different sensor types, and topic subscription management. Implement message parsing and validation for incoming sensor data. Add connection pooling and error handling for high-throughput scenarios.",
+            "status": "pending",
+            "testStrategy": "Test MQTT connection establishment and reconnection, verify message subscription and handling, test message parsing for all sensor types, validate error handling and recovery"
+          },
+          {
+            "id": 3,
+            "title": "Create IoT Platform Integration Layer",
+            "description": "Implement support for multiple IoT platforms including AWS IoT and Azure IoT Hub",
+            "dependencies": [
+              "15.2"
+            ],
+            "details": "Create abstraction layer for IoT platform integration with interfaces for AWS IoT Core and Azure IoT Hub. Implement platform-specific authentication (X.509 certificates, SAS tokens). Add device management capabilities including device registration, status monitoring, and configuration updates. Support platform-specific message formats and routing.",
+            "status": "pending",
+            "testStrategy": "Test authentication with both AWS IoT and Azure IoT, verify device registration and management, test message routing and format conversion, validate platform-specific error handling"
+          },
+          {
+            "id": 4,
+            "title": "Implement Alert System for Threshold Violations",
+            "description": "Create real-time alert system that monitors sensor data and triggers notifications when thresholds are exceeded",
+            "dependencies": [
+              "15.1",
+              "15.2"
+            ],
+            "details": "Implement threshold configuration system with customizable limits per sensor type and shipment. Create alert engine that processes incoming sensor data and evaluates against thresholds. Implement notification system supporting email, SMS, and webhook alerts. Add alert escalation and acknowledgment features. Store alert history for audit and analysis.",
+            "status": "pending",
+            "testStrategy": "Test threshold configuration and validation, verify alert triggering for various sensor conditions, test notification delivery mechanisms, validate alert escalation and acknowledgment workflows"
+          },
+          {
+            "id": 5,
+            "title": "Create Data Aggregation and Analytics Service",
+            "description": "Implement data aggregation and analytics capabilities for shipment insights and reporting",
+            "dependencies": [
+              "15.1",
+              "15.4"
+            ],
+            "details": "Create time-series data aggregation service with configurable intervals (hourly, daily, weekly). Implement analytics calculations for temperature ranges, humidity patterns, location tracking, and shock events. Add shipment condition scoring and risk assessment algorithms. Create reporting endpoints for shipment summaries, trend analysis, and performance metrics. Implement data retention policies for historical data management.",
+            "status": "pending",
+            "testStrategy": "Test data aggregation accuracy across different time intervals, verify analytics calculations and scoring algorithms, test reporting endpoint performance, validate data retention policy execution"
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "title": "Implement Smart Contract Integration",
+        "description": "Create blockchain integration for automated payment processing and contract execution",
+        "details": "Use ethereum/go-ethereum v1.13.5+ for blockchain interaction. Create smart contract service for payment automation. Implement contract templates for different order types. Create blockchain_transactions table for tracking. Add support for multiple blockchain networks (Ethereum, Polygon). Implement escrow functionality for secure payments. Add gas fee optimization strategies.",
+        "testStrategy": "Test smart contract deployment and execution, verify payment automation triggers, test multi-network support, validate escrow functionality, test gas fee optimization",
+        "priority": "low",
+        "dependencies": [
+          15
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Ethereum blockchain client and connection infrastructure",
+            "description": "Initialize ethereum/go-ethereum v1.13.5+ client with connection pooling and network configuration for Ethereum and Polygon networks",
+            "dependencies": [],
+            "details": "Create blockchain client service in internal/service/blockchain/. Configure ethclient with proper connection parameters, timeout settings, and retry logic. Implement network switching capability for Ethereum mainnet, testnet, and Polygon. Add connection health monitoring and automatic reconnection. Create blockchain configuration management for different network parameters.",
+            "status": "pending",
+            "testStrategy": "Test connection establishment to multiple networks, verify connection pooling behavior, test automatic reconnection on network failures, validate network switching functionality"
+          },
+          {
+            "id": 2,
+            "title": "Create blockchain_transactions database table and repository layer",
+            "description": "Design and implement database schema for tracking blockchain transactions with proper indexing and repository methods",
+            "dependencies": [],
+            "details": "Create migration for blockchain_transactions table with fields: id, transaction_hash, block_number, from_address, to_address, value, gas_used, gas_price, status, network, order_id, created_at, updated_at. Add indexes on transaction_hash, order_id, and status. Implement repository methods: Create, GetByHash, GetByOrderID, UpdateStatus, ListPending. Add transaction status enum: pending, confirmed, failed.",
+            "status": "pending",
+            "testStrategy": "Test database schema creation, verify repository CRUD operations, test query performance with indexes, validate transaction status updates, test concurrent access scenarios"
+          },
+          {
+            "id": 3,
+            "title": "Implement smart contract service with payment automation templates",
+            "description": "Create smart contract service with pre-defined contract templates for different order types and automated deployment capabilities",
+            "dependencies": [
+              "16.1",
+              "16.2"
+            ],
+            "details": "Create smart contract service in internal/service/contract/. Implement contract templates for: standard orders, subscription orders, bulk orders. Add contract deployment methods with proper gas estimation. Create payment automation triggers based on order status changes. Implement contract interaction methods: deploy, execute, query status. Add support for contract upgrades and versioning.",
+            "status": "pending",
+            "testStrategy": "Test contract deployment on testnets, verify payment automation triggers, test different contract templates, validate gas estimation accuracy, test contract interaction methods"
+          },
+          {
+            "id": 4,
+            "title": "Implement escrow functionality for secure payment processing",
+            "description": "Create escrow smart contracts and service layer for secure payment holding and release based on order fulfillment conditions",
+            "dependencies": [
+              "16.3"
+            ],
+            "details": "Implement escrow smart contract with multi-signature capability. Create escrow service methods: createEscrow, releasePayment, refundPayment, disputeResolution. Add escrow status tracking: created, funded, released, refunded, disputed. Implement automatic release conditions based on delivery confirmation. Add dispute resolution workflow with timeout mechanisms.",
+            "status": "pending",
+            "testStrategy": "Test escrow creation and funding, verify automatic release conditions, test refund scenarios, validate dispute resolution workflow, test multi-signature functionality"
+          },
+          {
+            "id": 5,
+            "title": "Implement gas fee optimization and multi-network support",
+            "description": "Create gas fee optimization strategies and comprehensive multi-network support with dynamic fee calculation and network selection",
+            "dependencies": [
+              "16.1",
+              "16.3"
+            ],
+            "details": "Implement gas fee optimization using EIP-1559 fee structure. Create dynamic gas price estimation based on network congestion. Add transaction batching for multiple operations. Implement network selection logic based on cost and speed requirements. Create fee monitoring and alerting for unusual gas prices. Add support for Layer 2 solutions (Polygon, Arbitrum) with bridge functionality.",
+            "status": "pending",
+            "testStrategy": "Test gas fee optimization under different network conditions, verify network selection logic, test transaction batching efficiency, validate Layer 2 bridge functionality, test fee monitoring and alerting"
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "title": "Build Comprehensive BDD Test Suite",
+        "description": "Implement Behavior-Driven Development tests using Cucumber for all fulfillment scenarios",
+        "details": "Use cucumber/godog v0.12.6+ for BDD testing. Create feature files for: order processing pipeline, route optimization, real-time tracking, inventory allocation, payment processing. Implement step definitions in Go. Set up test database with fixtures. Create test data factories for orders, customers, products. Add API testing with httptest package. Implement parallel test execution.",
+        "testStrategy": "Verify all BDD scenarios pass, test data isolation between scenarios, validate test execution performance, ensure test coverage of critical user journeys, test parallel execution stability",
+        "priority": "high",
+        "dependencies": [
+          16
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up BDD testing framework and project structure",
+            "description": "Initialize Cucumber/godog framework, create directory structure for feature files and step definitions, configure test runner with parallel execution support",
+            "dependencies": [],
+            "details": "Install cucumber/godog v0.12.6+, create features/ directory for .feature files, create steps/ directory for step definitions, set up godog test suite configuration with parallel execution options, create test configuration files for different environments",
+            "status": "pending",
+            "testStrategy": "Verify godog installation and basic test runner functionality, test parallel execution configuration, validate directory structure follows BDD best practices"
+          },
+          {
+            "id": 2,
+            "title": "Create comprehensive feature files for all fulfillment scenarios",
+            "description": "Write Gherkin feature files covering order processing pipeline, route optimization, real-time tracking, inventory allocation, and payment processing scenarios",
+            "dependencies": [
+              "17.1"
+            ],
+            "details": "Create order_processing.feature with scenarios for order creation, validation, and status updates. Create route_optimization.feature for delivery route planning scenarios. Create real_time_tracking.feature for shipment tracking scenarios. Create inventory_allocation.feature for stock management scenarios. Create payment_processing.feature for payment workflow scenarios. Include positive, negative, and edge case scenarios for each feature",
+            "status": "pending",
+            "testStrategy": "Review feature files for completeness and clarity, validate Gherkin syntax, ensure scenarios cover all critical user journeys and business rules"
+          },
+          {
+            "id": 3,
+            "title": "Implement step definitions in Go for all feature scenarios",
+            "description": "Create Go step definition files that implement the Given/When/Then steps defined in feature files, with proper error handling and test context management",
+            "dependencies": [
+              "17.2"
+            ],
+            "details": "Create step definition files for each feature area using godog framework. Implement context management for sharing data between steps. Add proper error handling and assertions. Create helper functions for common operations like database setup, API calls, and data validation. Implement step definitions for order processing, route optimization, tracking, inventory, and payment scenarios",
+            "status": "pending",
+            "testStrategy": "Test all step definitions individually, verify proper context sharing between steps, validate error handling and meaningful failure messages"
+          },
+          {
+            "id": 4,
+            "title": "Set up test database with fixtures and data factories",
+            "description": "Create isolated test database environment with seed data, implement data factories for generating test entities, and ensure proper test data cleanup",
+            "dependencies": [
+              "17.1"
+            ],
+            "details": "Set up separate test database configuration, create database migration scripts for test schema. Implement data factories for orders, customers, products, and related entities using builder pattern. Create fixture files with predefined test data sets. Implement database cleanup and reset functionality between test scenarios. Add support for test data isolation to prevent test interference",
+            "status": "pending",
+            "testStrategy": "Verify test database isolation, test data factory generation with various scenarios, validate cleanup procedures work correctly, ensure no data leakage between tests"
+          },
+          {
+            "id": 5,
+            "title": "Integrate API testing with httptest and implement test execution pipeline",
+            "description": "Add HTTP API testing capabilities using httptest package, create test execution pipeline with reporting, and optimize for parallel execution performance",
+            "dependencies": [
+              "17.3",
+              "17.4"
+            ],
+            "details": "Integrate httptest package for API endpoint testing within BDD scenarios. Create HTTP client helpers for making API requests in step definitions. Implement test execution pipeline with proper setup/teardown. Add test reporting and result aggregation. Configure parallel test execution with proper resource management. Create CI/CD integration scripts for automated test execution",
+            "status": "pending",
+            "testStrategy": "Test API endpoints through BDD scenarios, verify parallel execution stability and performance, validate test reporting accuracy, ensure CI/CD integration works correctly"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "title": "Implement Monitoring and Observability",
+        "description": "Set up comprehensive monitoring, metrics collection, and distributed tracing",
+        "details": "Use prometheus/client_golang v1.17.0+ for metrics. Implement custom metrics: order processing time, fulfillment success rate, API response times, error rates. Add distributed tracing with go.opentelemetry.io/otel v1.21.0+. Create health check endpoints for all dependencies. Implement structured logging with sirupsen/logrus v1.9.3+. Add performance profiling endpoints using net/http/pprof.",
+        "testStrategy": "Verify metrics collection accuracy, test tracing across service boundaries, validate health check responses, test log aggregation and searching, verify profiling data collection",
+        "priority": "medium",
+        "dependencies": [
+          17
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Prometheus metrics collection infrastructure",
+            "description": "Configure Prometheus client and implement basic metrics collection framework with custom metrics for order processing time, fulfillment success rate, API response times, and error rates",
+            "dependencies": [],
+            "details": "Install prometheus/client_golang v1.17.0+. Create metrics service in internal/monitoring/metrics.go. Implement histogram for order processing time, counter for fulfillment success/failure, histogram for API response times, and counter for error rates by type. Add metrics middleware for HTTP handlers. Create /metrics endpoint for Prometheus scraping.",
+            "status": "pending",
+            "testStrategy": "Unit tests for metrics registration and collection, integration tests for metrics middleware, verify metrics endpoint returns valid Prometheus format, test custom metrics accuracy with sample data"
+          },
+          {
+            "id": 2,
+            "title": "Implement distributed tracing with OpenTelemetry",
+            "description": "Set up OpenTelemetry tracing infrastructure to track requests across service boundaries and provide detailed performance insights",
+            "dependencies": [
+              "18.1"
+            ],
+            "details": "Install go.opentelemetry.io/otel v1.21.0+ and related packages. Create tracing service in internal/monitoring/tracing.go. Configure OTLP exporter for trace data. Add tracing middleware for HTTP and GraphQL handlers. Instrument database queries, Redis operations, and external API calls with spans. Create trace context propagation across service calls.",
+            "status": "pending",
+            "testStrategy": "Test trace creation and span propagation, verify trace context across service boundaries, validate trace export to collector, test sampling configuration, integration tests for instrumented operations"
+          },
+          {
+            "id": 3,
+            "title": "Create comprehensive health check endpoints",
+            "description": "Implement health check endpoints for all service dependencies including database, Redis, external APIs, and internal service components",
+            "dependencies": [],
+            "details": "Create health check service in internal/monitoring/health.go. Implement checks for PostgreSQL connection, Redis connectivity, external carrier APIs, payment gateway status. Create /health endpoint for basic liveness check and /health/ready for readiness check. Add dependency-specific health endpoints. Implement health check aggregation with timeout handling.",
+            "status": "pending",
+            "testStrategy": "Test individual dependency health checks, verify timeout handling for slow dependencies, test health endpoint responses under various failure scenarios, validate health check aggregation logic"
+          },
+          {
+            "id": 4,
+            "title": "Implement structured logging with Logrus",
+            "description": "Set up structured logging framework with proper log levels, formatting, and integration with monitoring systems",
+            "dependencies": [],
+            "details": "Install sirupsen/logrus v1.9.3+. Create logging service in internal/monitoring/logging.go. Configure structured JSON logging with consistent field names. Add request ID correlation, user context, and trace ID integration. Implement log level configuration via environment variables. Add logging middleware for HTTP requests and GraphQL operations. Create log aggregation-friendly format.",
+            "status": "pending",
+            "testStrategy": "Test log format consistency, verify log level filtering, test request correlation across operations, validate JSON structure for log aggregation, test logging middleware integration"
+          },
+          {
+            "id": 5,
+            "title": "Add performance profiling endpoints",
+            "description": "Implement performance profiling capabilities using net/http/pprof for runtime analysis and performance optimization",
+            "dependencies": [
+              "18.1",
+              "18.2",
+              "18.3",
+              "18.4"
+            ],
+            "details": "Import net/http/pprof package and configure profiling endpoints. Create profiling service in internal/monitoring/profiling.go. Add authentication middleware for profiling endpoints to restrict access. Implement custom profiling for specific operations like order processing and database queries. Add memory and CPU profiling collection. Create profiling data export capabilities.",
+            "status": "pending",
+            "testStrategy": "Test profiling endpoint accessibility and authentication, verify CPU and memory profile generation, test custom profiling data collection, validate profiling data export functionality, performance test profiling overhead"
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "title": "Configure Security and Authentication",
+        "description": "Implement comprehensive security measures including OAuth2, rate limiting, and data encryption",
+        "details": "Implement JWT authentication using golang-jwt/jwt/v5 v5.2.0+. Add OAuth2 integration with existing authorization server. Implement RBAC with role-based permissions. Add rate limiting using golang.org/x/time/rate. Implement input validation and sanitization. Add CORS support with rs/cors v1.10.1+. Encrypt sensitive data at rest using AES-256. Implement API key management for external integrations.",
+        "testStrategy": "Test JWT token validation, verify OAuth2 flow, test RBAC permissions, validate rate limiting effectiveness, test input sanitization, verify data encryption/decryption, test CORS policy enforcement",
+        "priority": "high",
+        "dependencies": [
+          18
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 20,
+        "title": "Create Docker Configuration and CI/CD Pipeline",
+        "description": "Set up containerization with Docker and implement automated CI/CD pipeline",
+        "details": "Create multi-stage Dockerfile with Alpine Linux base (golang:1.21-alpine). Implement docker-compose.yml for local development with PostgreSQL, Redis, NATS. Create GitHub Actions workflow for CI/CD with steps: test, build, security scan, deploy. Add Kubernetes manifests with health checks, resource limits, and rolling updates. Implement database migration job as init container.",
+        "testStrategy": "Test Docker build and container startup, verify docker-compose environment, test CI/CD pipeline execution, validate Kubernetes deployment, test rolling updates and rollbacks",
+        "priority": "medium",
+        "dependencies": [
+          19
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Multi-stage Dockerfile with Alpine Linux Base",
+            "description": "Create a multi-stage Dockerfile using golang:1.21-alpine as the base image for building and deploying the Go microservice",
+            "dependencies": [],
+            "details": "Create Dockerfile with build stage using golang:1.21-alpine, copy source code and build binary. Create runtime stage with alpine:latest, copy binary and set proper user permissions. Configure EXPOSE port, HEALTHCHECK endpoint, and proper entrypoint. Optimize for minimal image size and security best practices.",
+            "status": "pending",
+            "testStrategy": "Test Docker build process, verify image size optimization, test container startup and health check endpoint, validate binary execution in container environment"
+          },
+          {
+            "id": 2,
+            "title": "Implement docker-compose.yml for Local Development Environment",
+            "description": "Create docker-compose configuration with PostgreSQL, Redis, NATS, and the application service for local development",
+            "dependencies": [
+              "20.1"
+            ],
+            "details": "Define services for PostgreSQL 15+, Redis 7+, NATS 2.9+, and the orders-fulfillment-api. Configure environment variables, volumes for data persistence, and networking. Include initialization scripts for database setup. Add development-specific configurations like hot reload and debug ports.",
+            "status": "pending",
+            "testStrategy": "Test docker-compose up command, verify all services start correctly, test inter-service connectivity, validate database initialization and data persistence"
+          },
+          {
+            "id": 3,
+            "title": "Create GitHub Actions CI/CD Workflow",
+            "description": "Implement automated CI/CD pipeline with testing, building, security scanning, and deployment stages",
+            "dependencies": [
+              "20.1",
+              "20.2"
+            ],
+            "details": "Create .github/workflows/ci-cd.yml with jobs for: Go testing with coverage, Docker image building, security scanning with Trivy, and deployment triggers. Configure matrix builds for multiple Go versions. Add caching for Go modules and Docker layers. Include artifact publishing to container registry.",
+            "status": "pending",
+            "testStrategy": "Test workflow execution on pull requests and main branch pushes, verify test coverage reporting, validate security scan results, test deployment trigger conditions"
+          },
+          {
+            "id": 4,
+            "title": "Add Kubernetes Manifests with Health Checks and Resource Management",
+            "description": "Create Kubernetes deployment, service, and configuration manifests with proper health checks, resource limits, and rolling update strategy",
+            "dependencies": [
+              "20.1"
+            ],
+            "details": "Create k8s/ directory with deployment.yaml, service.yaml, configmap.yaml, and secret.yaml. Configure liveness and readiness probes, resource requests/limits, rolling update strategy with maxSurge and maxUnavailable. Add horizontal pod autoscaler and network policies for security.",
+            "status": "pending",
+            "testStrategy": "Test Kubernetes deployment on local cluster, verify health check endpoints respond correctly, test rolling updates and rollback scenarios, validate resource limit enforcement"
+          },
+          {
+            "id": 5,
+            "title": "Implement Database Migration Job as Init Container",
+            "description": "Create Kubernetes init container configuration for running database migrations before application startup",
+            "dependencies": [
+              "20.4"
+            ],
+            "details": "Create migration init container using the same application image with migration command. Configure proper database connection and migration execution. Add migration job manifest for standalone migration runs. Ensure idempotent migration execution and proper error handling with rollback capabilities.",
+            "status": "pending",
+            "testStrategy": "Test init container execution before main application starts, verify migration success and failure scenarios, test rollback procedures, validate database schema consistency across deployments"
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "title": "Implement Performance Optimization and Load Testing",
+        "description": "Optimize application performance and conduct comprehensive load testing to meet performance targets",
+        "details": "Use k6.io for load testing with scenarios targeting 10,000+ orders/minute. Implement database query optimization with EXPLAIN ANALYZE. Add connection pooling optimization. Implement GraphQL query complexity analysis and limits. Add response caching strategies. Use pprof for performance profiling and optimization. Implement graceful shutdown and circuit breakers.",
+        "testStrategy": "Conduct load tests meeting performance targets (<100ms response time, 10k orders/minute), verify database query performance, test circuit breaker functionality, validate caching effectiveness, test graceful shutdown behavior",
+        "priority": "medium",
+        "dependencies": [
+          20
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 22,
+        "title": "Create Documentation and Deployment Guide",
+        "description": "Generate comprehensive API documentation, deployment guides, and operational runbooks",
+        "details": "Generate GraphQL schema documentation using graphql-doc. Create API documentation with examples using Swagger/OpenAPI for REST endpoints. Write deployment guide with environment configuration. Create operational runbooks for monitoring, troubleshooting, and maintenance. Document database schema and migration procedures. Create developer onboarding guide with local setup instructions.",
+        "testStrategy": "Verify documentation accuracy and completeness, test deployment procedures on clean environment, validate troubleshooting guides, ensure all configuration options are documented, test developer setup guide with new team member",
+        "priority": "low",
+        "dependencies": [
+          21
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Generate GraphQL Schema Documentation",
+            "description": "Create comprehensive GraphQL schema documentation using graphql-doc tool with examples and type descriptions",
+            "dependencies": [],
+            "details": "Install and configure graphql-doc to generate HTML documentation from GraphQL schema. Include field descriptions, query examples, mutation examples, and subscription examples. Document all custom scalars, enums, and input types. Add usage examples for complex queries with variables. Generate both HTML and markdown versions for different consumption needs.",
+            "status": "pending",
+            "testStrategy": "Verify generated documentation includes all schema types, validate HTML renders correctly, test markdown formatting, ensure examples are syntactically correct and executable"
+          },
+          {
+            "id": 2,
+            "title": "Create REST API Documentation with OpenAPI/Swagger",
+            "description": "Generate comprehensive REST API documentation using OpenAPI 3.0 specification with interactive examples",
+            "dependencies": [],
+            "details": "Create OpenAPI 3.0 specification files for all REST endpoints including health checks, metrics, and admin endpoints. Use swagger-ui to generate interactive documentation. Include request/response examples, error codes, authentication requirements, and rate limiting information. Document all HTTP status codes and error response formats.",
+            "status": "pending",
+            "testStrategy": "Validate OpenAPI specification syntax, test interactive examples in Swagger UI, verify all endpoints are documented, ensure response schemas match actual API responses"
+          },
+          {
+            "id": 3,
+            "title": "Write Deployment Guide and Environment Configuration",
+            "description": "Create comprehensive deployment guide covering all environments with configuration management",
+            "dependencies": [],
+            "details": "Document deployment procedures for development, staging, and production environments. Include Docker deployment, Kubernetes deployment, and bare metal installation. Document all environment variables, configuration files, and secrets management. Create environment-specific configuration templates. Include database setup, migration procedures, and service dependencies.",
+            "status": "pending",
+            "testStrategy": "Test deployment procedures on clean environments, verify configuration templates work correctly, validate environment variable documentation is complete, test migration procedures"
+          },
+          {
+            "id": 4,
+            "title": "Create Operational Runbooks for Monitoring and Troubleshooting",
+            "description": "Develop operational runbooks covering monitoring, alerting, troubleshooting, and maintenance procedures",
+            "dependencies": [],
+            "details": "Create runbooks for common operational scenarios: service startup/shutdown, database maintenance, performance troubleshooting, error investigation, log analysis, and disaster recovery. Document monitoring setup with Prometheus/Grafana, alerting rules, and escalation procedures. Include troubleshooting flowcharts and common issue resolutions.",
+            "status": "pending",
+            "testStrategy": "Validate troubleshooting procedures with actual issues, test monitoring setup instructions, verify alert configurations work correctly, ensure runbooks are actionable and complete"
+          },
+          {
+            "id": 5,
+            "title": "Create Developer Onboarding Guide and Database Documentation",
+            "description": "Develop comprehensive developer onboarding guide with local setup instructions and complete database schema documentation",
+            "dependencies": [
+              "22.1",
+              "22.2",
+              "22.3"
+            ],
+            "details": "Create step-by-step developer setup guide including prerequisites, local environment setup, IDE configuration, and first-run instructions. Document complete database schema with entity relationships, indexes, constraints, and migration procedures. Include code style guide, testing procedures, and contribution guidelines. Add troubleshooting section for common setup issues.",
+            "status": "pending",
+            "testStrategy": "Test setup guide with new developer, verify database documentation matches actual schema, validate migration procedures work correctly, ensure all setup steps are accurate and complete"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-09T16:56:34.436Z",
+      "updated": "2025-08-09T18:07:17.192Z",
+      "description": "Tasks for orders-fulfillment-go-api context"
     }
   }
 }

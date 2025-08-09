@@ -1,0 +1,43 @@
+# Task ID: 1
+# Title: Initialize Go Project Structure and Dependencies
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Set up the Go microservice project with proper directory structure, module initialization, and core dependencies for GraphQL federation
+# Details:
+Create Go module with `go mod init orders-fulfillment-api`. Set up clean architecture directories: cmd/, internal/{domain,repository,service,handler,config}/, pkg/. Install core dependencies: gqlgen v0.17.40+, gorilla/mux v1.8.0+, lib/pq v1.10.9+ for PostgreSQL, go-redis/redis/v9 v9.3.0+, testify v1.8.4+ for testing. Initialize main.go with basic HTTP server setup and health check endpoint.
+
+# Test Strategy:
+Verify project builds successfully with `go build`, test module resolution, validate directory structure follows Go conventions, ensure all dependencies resolve correctly
+
+# Subtasks:
+## 1. Initialize Go Module and Basic Project Structure [pending]
+### Dependencies: None
+### Description: Create the Go module and establish the basic directory structure for the orders-fulfillment-api microservice
+### Details:
+Run `go mod init orders-fulfillment-api` to initialize the Go module. Create the clean architecture directory structure: cmd/orders-fulfillment-api/, internal/domain/, internal/repository/, internal/service/, internal/handler/, internal/config/, pkg/. Create placeholder .gitkeep files in empty directories to ensure they are tracked by version control.
+
+## 2. Install Core Dependencies and Configure go.mod [pending]
+### Dependencies: None
+### Description: Add all required dependencies to the project with specific version constraints
+### Details:
+Install core dependencies using go get: gqlgen v0.17.40+, gorilla/mux v1.8.0+, lib/pq v1.10.9+, go-redis/redis/v9 v9.3.0+, testify v1.8.4+, golang-migrate/migrate v4.16.2+, pgxpool v5.0.4+. Run `go mod tidy` to clean up dependencies and ensure all versions are properly resolved.
+
+## 3. Create Basic Configuration Structure [pending]
+### Dependencies: None
+### Description: Implement configuration management with environment variable support
+### Details:
+Create internal/config/config.go with structs for database, Redis, server, and application configuration. Implement environment variable loading using os.Getenv with sensible defaults. Include configuration for database connection pool settings, Redis connection parameters, server port, and GraphQL endpoint paths.
+
+## 4. Implement Basic HTTP Server with Health Check [pending]
+### Dependencies: None
+### Description: Create the main application entry point with HTTP server and health check endpoint
+### Details:
+Create cmd/orders-fulfillment-api/main.go with basic HTTP server setup using gorilla/mux. Implement /health endpoint that returns JSON status. Add graceful shutdown handling with context cancellation. Create internal/handler/health.go for health check logic that will later include database and Redis connectivity checks.
+
+## 5. Validate Project Build and Integration [pending]
+### Dependencies: None
+### Description: Ensure the complete project structure builds successfully and all components integrate properly
+### Details:
+Run `go build ./cmd/orders-fulfillment-api` to verify successful compilation. Test that the application starts and serves the health endpoint. Create basic integration test to verify server startup and health check response. Add Makefile with common commands: build, test, run, clean.
+

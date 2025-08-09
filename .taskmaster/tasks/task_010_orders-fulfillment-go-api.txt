@@ -1,0 +1,43 @@
+# Task ID: 10
+# Title: Implement Inventory Allocation and Reservation System
+# Status: pending
+# Dependencies: 9
+# Priority: high
+# Description: Create intelligent inventory management with allocation algorithms and reservation capabilities
+# Details:
+Implement inventory service with methods: CheckAvailability, ReserveInventory, AllocateInventory, ReleaseReservation. Use optimistic locking with version fields to handle concurrent allocations. Implement FIFO allocation strategy with configurable reservation timeout (default 30min). Create inventory_reservations table for tracking. Add support for partial allocations and backorder handling.
+
+# Test Strategy:
+Test concurrent allocation scenarios, verify reservation timeout handling, test partial allocation logic, validate optimistic locking behavior, test backorder processing
+
+# Subtasks:
+## 1. Create inventory_reservations table and database schema [pending]
+### Dependencies: None
+### Description: Design and implement the database schema for inventory reservations with proper indexing and constraints
+### Details:
+Create inventory_reservations table with fields: id, inventory_item_id, order_id, quantity_reserved, reservation_expires_at, status, version, created_at, updated_at. Add foreign key constraints to inventory_items and orders tables. Create indexes on inventory_item_id, order_id, and reservation_expires_at for query performance. Implement database migration scripts.
+
+## 2. Implement core inventory service with availability checking [pending]
+### Dependencies: 10.1
+### Description: Create the inventory service with CheckAvailability method and optimistic locking support
+### Details:
+Create InventoryService struct in internal/service/inventory.go with CheckAvailability method. Implement optimistic locking using version fields in inventory_items table. Add concurrent access handling with proper error responses for version conflicts. Include support for checking availability across multiple inventory locations.
+
+## 3. Implement reservation system with FIFO allocation and timeout handling [pending]
+### Dependencies: 10.2
+### Description: Build ReserveInventory and ReleaseReservation methods with configurable timeout and FIFO strategy
+### Details:
+Implement ReserveInventory method with FIFO allocation strategy using created_at ordering. Add configurable reservation timeout (default 30 minutes) with automatic cleanup job. Create ReleaseReservation method for manual and automatic reservation cleanup. Implement reservation status tracking (active, expired, fulfilled, cancelled).
+
+## 4. Implement allocation system with partial allocation support [pending]
+### Dependencies: 10.3
+### Description: Create AllocateInventory method supporting partial allocations and inventory commitment
+### Details:
+Implement AllocateInventory method that converts reservations to committed allocations. Add support for partial allocations when full quantity unavailable. Update inventory_items quantities atomically during allocation. Create allocation history tracking for audit purposes. Implement allocation rollback for failed transactions.
+
+## 5. Implement backorder handling and integration with order management [pending]
+### Dependencies: 10.4
+### Description: Create backorder processing system and integrate inventory service with order management workflows
+### Details:
+Implement backorder creation when inventory insufficient for full allocation. Create backorder_items table for tracking pending orders. Add automatic backorder fulfillment when inventory replenished. Integrate with order service for status updates and customer notifications. Implement backorder priority handling and allocation preferences.
+

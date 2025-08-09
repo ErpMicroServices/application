@@ -1,0 +1,43 @@
+# Task ID: 18
+# Title: Implement Monitoring and Observability
+# Status: pending
+# Dependencies: 17
+# Priority: medium
+# Description: Set up comprehensive monitoring, metrics collection, and distributed tracing
+# Details:
+Use prometheus/client_golang v1.17.0+ for metrics. Implement custom metrics: order processing time, fulfillment success rate, API response times, error rates. Add distributed tracing with go.opentelemetry.io/otel v1.21.0+. Create health check endpoints for all dependencies. Implement structured logging with sirupsen/logrus v1.9.3+. Add performance profiling endpoints using net/http/pprof.
+
+# Test Strategy:
+Verify metrics collection accuracy, test tracing across service boundaries, validate health check responses, test log aggregation and searching, verify profiling data collection
+
+# Subtasks:
+## 1. Set up Prometheus metrics collection infrastructure [pending]
+### Dependencies: None
+### Description: Configure Prometheus client and implement basic metrics collection framework with custom metrics for order processing time, fulfillment success rate, API response times, and error rates
+### Details:
+Install prometheus/client_golang v1.17.0+. Create metrics service in internal/monitoring/metrics.go. Implement histogram for order processing time, counter for fulfillment success/failure, histogram for API response times, and counter for error rates by type. Add metrics middleware for HTTP handlers. Create /metrics endpoint for Prometheus scraping.
+
+## 2. Implement distributed tracing with OpenTelemetry [pending]
+### Dependencies: 18.1
+### Description: Set up OpenTelemetry tracing infrastructure to track requests across service boundaries and provide detailed performance insights
+### Details:
+Install go.opentelemetry.io/otel v1.21.0+ and related packages. Create tracing service in internal/monitoring/tracing.go. Configure OTLP exporter for trace data. Add tracing middleware for HTTP and GraphQL handlers. Instrument database queries, Redis operations, and external API calls with spans. Create trace context propagation across service calls.
+
+## 3. Create comprehensive health check endpoints [pending]
+### Dependencies: None
+### Description: Implement health check endpoints for all service dependencies including database, Redis, external APIs, and internal service components
+### Details:
+Create health check service in internal/monitoring/health.go. Implement checks for PostgreSQL connection, Redis connectivity, external carrier APIs, payment gateway status. Create /health endpoint for basic liveness check and /health/ready for readiness check. Add dependency-specific health endpoints. Implement health check aggregation with timeout handling.
+
+## 4. Implement structured logging with Logrus [pending]
+### Dependencies: None
+### Description: Set up structured logging framework with proper log levels, formatting, and integration with monitoring systems
+### Details:
+Install sirupsen/logrus v1.9.3+. Create logging service in internal/monitoring/logging.go. Configure structured JSON logging with consistent field names. Add request ID correlation, user context, and trace ID integration. Implement log level configuration via environment variables. Add logging middleware for HTTP requests and GraphQL operations. Create log aggregation-friendly format.
+
+## 5. Add performance profiling endpoints [pending]
+### Dependencies: 18.1, 18.2, 18.3, 18.4
+### Description: Implement performance profiling capabilities using net/http/pprof for runtime analysis and performance optimization
+### Details:
+Import net/http/pprof package and configure profiling endpoints. Create profiling service in internal/monitoring/profiling.go. Add authentication middleware for profiling endpoints to restrict access. Implement custom profiling for specific operations like order processing and database queries. Add memory and CPU profiling collection. Create profiling data export capabilities.
+

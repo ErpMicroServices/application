@@ -1,0 +1,43 @@
+# Task ID: 5
+# Title: Create State Machine for Order Lifecycle Management
+# Status: pending
+# Dependencies: 4
+# Priority: high
+# Description: Implement finite state machine for order status transitions with validation and audit logging
+# Details:
+Use looplab/fsm v1.0.1+ for state machine implementation. Define states: Created, Validated, Approved, Processing, Fulfilled, Delivered, Closed, Cancelled. Implement transition rules and validation. Create OrderStateMachine struct with methods: CanTransition, Transition, GetCurrentState. Log all state changes to order_status_history table. Add rollback capability for failed transitions.
+
+# Test Strategy:
+Unit tests for all valid transitions, test invalid transition rejection, verify audit trail creation, test concurrent state changes, validate rollback functionality
+
+# Subtasks:
+## 1. Install and Configure looplab/fsm Dependency [pending]
+### Dependencies: None
+### Description: Add looplab/fsm v1.0.1+ to project dependencies and create basic configuration
+### Details:
+Run 'go get github.com/looplab/fsm@v1.0.1' to add the finite state machine library. Create internal/fsm package directory structure. Set up basic FSM configuration constants and types. Verify the dependency integrates properly with existing project structure.
+
+## 2. Define Order States and Transition Rules [pending]
+### Dependencies: 5.1
+### Description: Create comprehensive state definitions and valid transition mappings for order lifecycle
+### Details:
+Define OrderState enum with states: Created, Validated, Approved, Processing, Fulfilled, Delivered, Closed, Cancelled. Create transition rules matrix defining valid state changes (e.g., Created->Validated, Validated->Approved, etc.). Implement business logic validation for each transition. Create constants file for state names and transition events.
+
+## 3. Implement OrderStateMachine Struct and Core Methods [pending]
+### Dependencies: 5.2
+### Description: Create OrderStateMachine struct with CanTransition, Transition, and GetCurrentState methods
+### Details:
+Create OrderStateMachine struct wrapping looplab/fsm.FSM with order context. Implement CanTransition method to validate if transition is allowed. Implement Transition method with validation and error handling. Implement GetCurrentState method returning current order state. Add constructor NewOrderStateMachine with initial state setup.
+
+## 4. Create Order Status History Audit Logging [pending]
+### Dependencies: 5.3
+### Description: Implement audit trail system to log all state changes to order_status_history table
+### Details:
+Create order_status_history table schema with columns: id, order_id, from_state, to_state, transition_event, timestamp, user_id, notes. Implement OrderStatusHistory repository interface and PostgreSQL implementation. Add audit logging to OrderStateMachine.Transition method. Include transaction support for atomic state change and audit log creation.
+
+## 5. Add Rollback Capability for Failed Transitions [pending]
+### Dependencies: 5.4
+### Description: Implement rollback mechanism to revert state changes when transitions fail
+### Details:
+Add rollback functionality to OrderStateMachine for handling failed transitions. Implement transaction-based state changes with automatic rollback on failure. Create RollbackTransition method to manually revert state changes. Add compensation logic for complex state transitions. Include rollback audit logging in order_status_history table.
+

@@ -1,0 +1,43 @@
+# Task ID: 16
+# Title: Implement Smart Contract Integration
+# Status: pending
+# Dependencies: 15
+# Priority: low
+# Description: Create blockchain integration for automated payment processing and contract execution
+# Details:
+Use ethereum/go-ethereum v1.13.5+ for blockchain interaction. Create smart contract service for payment automation. Implement contract templates for different order types. Create blockchain_transactions table for tracking. Add support for multiple blockchain networks (Ethereum, Polygon). Implement escrow functionality for secure payments. Add gas fee optimization strategies.
+
+# Test Strategy:
+Test smart contract deployment and execution, verify payment automation triggers, test multi-network support, validate escrow functionality, test gas fee optimization
+
+# Subtasks:
+## 1. Set up Ethereum blockchain client and connection infrastructure [pending]
+### Dependencies: None
+### Description: Initialize ethereum/go-ethereum v1.13.5+ client with connection pooling and network configuration for Ethereum and Polygon networks
+### Details:
+Create blockchain client service in internal/service/blockchain/. Configure ethclient with proper connection parameters, timeout settings, and retry logic. Implement network switching capability for Ethereum mainnet, testnet, and Polygon. Add connection health monitoring and automatic reconnection. Create blockchain configuration management for different network parameters.
+
+## 2. Create blockchain_transactions database table and repository layer [pending]
+### Dependencies: None
+### Description: Design and implement database schema for tracking blockchain transactions with proper indexing and repository methods
+### Details:
+Create migration for blockchain_transactions table with fields: id, transaction_hash, block_number, from_address, to_address, value, gas_used, gas_price, status, network, order_id, created_at, updated_at. Add indexes on transaction_hash, order_id, and status. Implement repository methods: Create, GetByHash, GetByOrderID, UpdateStatus, ListPending. Add transaction status enum: pending, confirmed, failed.
+
+## 3. Implement smart contract service with payment automation templates [pending]
+### Dependencies: 16.1, 16.2
+### Description: Create smart contract service with pre-defined contract templates for different order types and automated deployment capabilities
+### Details:
+Create smart contract service in internal/service/contract/. Implement contract templates for: standard orders, subscription orders, bulk orders. Add contract deployment methods with proper gas estimation. Create payment automation triggers based on order status changes. Implement contract interaction methods: deploy, execute, query status. Add support for contract upgrades and versioning.
+
+## 4. Implement escrow functionality for secure payment processing [pending]
+### Dependencies: 16.3
+### Description: Create escrow smart contracts and service layer for secure payment holding and release based on order fulfillment conditions
+### Details:
+Implement escrow smart contract with multi-signature capability. Create escrow service methods: createEscrow, releasePayment, refundPayment, disputeResolution. Add escrow status tracking: created, funded, released, refunded, disputed. Implement automatic release conditions based on delivery confirmation. Add dispute resolution workflow with timeout mechanisms.
+
+## 5. Implement gas fee optimization and multi-network support [pending]
+### Dependencies: 16.1, 16.3
+### Description: Create gas fee optimization strategies and comprehensive multi-network support with dynamic fee calculation and network selection
+### Details:
+Implement gas fee optimization using EIP-1559 fee structure. Create dynamic gas price estimation based on network congestion. Add transaction batching for multiple operations. Implement network selection logic based on cost and speed requirements. Create fee monitoring and alerting for unusual gas prices. Add support for Layer 2 solutions (Polygon, Arbitrum) with bridge functionality.
+

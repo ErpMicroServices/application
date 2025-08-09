@@ -1,0 +1,43 @@
+# Task ID: 6
+# Title: Design GraphQL Schema with Federation Support
+# Status: pending
+# Dependencies: 5
+# Priority: high
+# Description: Create comprehensive GraphQL schema with proper federation directives for order and fulfillment operations
+# Details:
+Design schema.graphql with types: Order, OrderItem, OrderAdjustment, OrderStatus, FulfillmentInfo. Add federation directives: @key(fields: "id") for Order, @external for Product and Customer types. Include mutations: createOrder, updateOrderStatus, cancelOrder. Add subscriptions: orderStatusUpdated, fulfillmentProgress. Use gqlgen generate to create resolvers. Implement proper error handling with custom error types.
+
+# Test Strategy:
+Validate schema compilation, test federation directive resolution, verify query complexity limits, test subscription functionality, validate error response formats
+
+# Subtasks:
+## 1. Define Core GraphQL Types and Enums [pending]
+### Dependencies: None
+### Description: Create the foundational GraphQL schema types including Order, OrderItem, OrderAdjustment, OrderStatus, and FulfillmentInfo with proper field definitions and scalar types
+### Details:
+Create schema.graphql file defining: Order type with fields (id, customerID, status, createdAt, updatedAt, totalAmount, items, adjustments), OrderItem type (id, orderID, productID, quantity, unitPrice, totalPrice), OrderAdjustment type (id, orderID, type, amount, description), OrderStatus enum (PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED), FulfillmentInfo type (id, orderID, trackingNumber, carrier, estimatedDelivery, actualDelivery). Use proper GraphQL scalar types including custom Decimal and DateTime scalars.
+
+## 2. Add Federation Directives and External Types [pending]
+### Dependencies: 6.1
+### Description: Implement GraphQL Federation directives for service composition and define external entity references
+### Details:
+Add federation directives: @key(fields: "id") to Order type for entity resolution, @external directive for Product and Customer types that are owned by other services, @requires and @provides directives where needed for field dependencies. Define extend type Product @key(fields: "id") @external and extend type Customer @key(fields: "id") @external. Configure federation schema composition with proper entity resolution.
+
+## 3. Define GraphQL Mutations [pending]
+### Dependencies: 6.1
+### Description: Create comprehensive mutation definitions for order lifecycle management operations
+### Details:
+Define mutations in schema.graphql: createOrder(input: CreateOrderInput!): CreateOrderPayload, updateOrderStatus(id: ID!, status: OrderStatus!, notes: String): UpdateOrderStatusPayload, cancelOrder(id: ID!, reason: String): CancelOrderPayload. Create corresponding input types: CreateOrderInput (customerID, items, adjustments), CreateOrderItemInput (productID, quantity, unitPrice). Define payload types with proper error handling fields and success indicators.
+
+## 4. Implement GraphQL Subscriptions [pending]
+### Dependencies: 6.1
+### Description: Add real-time subscription support for order status updates and fulfillment progress tracking
+### Details:
+Define subscriptions: orderStatusUpdated(orderID: ID): OrderStatusUpdate, fulfillmentProgress(orderID: ID): FulfillmentUpdate. Create subscription payload types: OrderStatusUpdate (orderID, newStatus, previousStatus, timestamp, notes), FulfillmentUpdate (orderID, trackingNumber, location, estimatedDelivery, status). Configure subscription transport mechanism and connection management for real-time updates.
+
+## 5. Configure Error Handling and Schema Generation [pending]
+### Dependencies: 6.1, 6.2, 6.3, 6.4
+### Description: Implement custom error types, configure gqlgen generation, and set up proper error handling patterns
+### Details:
+Define custom error types: OrderNotFoundError, InvalidOrderStatusError, InsufficientInventoryError with proper GraphQL error extensions. Configure gqlgen.yml with proper resolver generation settings, model mappings, and federation support. Add error handling directives and configure error formatting. Set up schema validation rules and query complexity limits. Generate initial resolver stubs using gqlgen generate command.
+

@@ -1,0 +1,43 @@
+# Task ID: 20
+# Title: Create Docker Configuration and CI/CD Pipeline
+# Status: pending
+# Dependencies: 19
+# Priority: medium
+# Description: Set up containerization with Docker and implement automated CI/CD pipeline
+# Details:
+Create multi-stage Dockerfile with Alpine Linux base (golang:1.21-alpine). Implement docker-compose.yml for local development with PostgreSQL, Redis, NATS. Create GitHub Actions workflow for CI/CD with steps: test, build, security scan, deploy. Add Kubernetes manifests with health checks, resource limits, and rolling updates. Implement database migration job as init container.
+
+# Test Strategy:
+Test Docker build and container startup, verify docker-compose environment, test CI/CD pipeline execution, validate Kubernetes deployment, test rolling updates and rollbacks
+
+# Subtasks:
+## 1. Create Multi-stage Dockerfile with Alpine Linux Base [pending]
+### Dependencies: None
+### Description: Create a multi-stage Dockerfile using golang:1.21-alpine as the base image for building and deploying the Go microservice
+### Details:
+Create Dockerfile with build stage using golang:1.21-alpine, copy source code and build binary. Create runtime stage with alpine:latest, copy binary and set proper user permissions. Configure EXPOSE port, HEALTHCHECK endpoint, and proper entrypoint. Optimize for minimal image size and security best practices.
+
+## 2. Implement docker-compose.yml for Local Development Environment [pending]
+### Dependencies: 20.1
+### Description: Create docker-compose configuration with PostgreSQL, Redis, NATS, and the application service for local development
+### Details:
+Define services for PostgreSQL 15+, Redis 7+, NATS 2.9+, and the orders-fulfillment-api. Configure environment variables, volumes for data persistence, and networking. Include initialization scripts for database setup. Add development-specific configurations like hot reload and debug ports.
+
+## 3. Create GitHub Actions CI/CD Workflow [pending]
+### Dependencies: 20.1, 20.2
+### Description: Implement automated CI/CD pipeline with testing, building, security scanning, and deployment stages
+### Details:
+Create .github/workflows/ci-cd.yml with jobs for: Go testing with coverage, Docker image building, security scanning with Trivy, and deployment triggers. Configure matrix builds for multiple Go versions. Add caching for Go modules and Docker layers. Include artifact publishing to container registry.
+
+## 4. Add Kubernetes Manifests with Health Checks and Resource Management [pending]
+### Dependencies: 20.1
+### Description: Create Kubernetes deployment, service, and configuration manifests with proper health checks, resource limits, and rolling update strategy
+### Details:
+Create k8s/ directory with deployment.yaml, service.yaml, configmap.yaml, and secret.yaml. Configure liveness and readiness probes, resource requests/limits, rolling update strategy with maxSurge and maxUnavailable. Add horizontal pod autoscaler and network policies for security.
+
+## 5. Implement Database Migration Job as Init Container [pending]
+### Dependencies: 20.4
+### Description: Create Kubernetes init container configuration for running database migrations before application startup
+### Details:
+Create migration init container using the same application image with migration command. Configure proper database connection and migration execution. Add migration job manifest for standalone migration runs. Ensure idempotent migration execution and proper error handling with rollback capabilities.
+

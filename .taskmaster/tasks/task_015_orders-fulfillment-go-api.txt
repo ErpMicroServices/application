@@ -1,0 +1,43 @@
+# Task ID: 15
+# Title: Create IoT Integration for Shipment Monitoring
+# Status: pending
+# Dependencies: 14
+# Priority: low
+# Description: Implement IoT sensor integration for real-time shipment condition monitoring
+# Details:
+Create IoT data ingestion service using MQTT protocol with eclipse/paho.mqtt.golang v1.4.3+. Define sensor data types: GPS coordinates, temperature, humidity, shock/vibration. Implement iot_sensor_data table for time-series data. Create alert system for threshold violations. Add support for multiple IoT platforms (AWS IoT, Azure IoT). Implement data aggregation and analytics for shipment insights.
+
+# Test Strategy:
+Test MQTT message processing, verify sensor data ingestion and storage, test alert threshold triggers, validate data aggregation accuracy, test IoT platform integration
+
+# Subtasks:
+## 1. Create IoT Data Models and Database Schema [pending]
+### Dependencies: None
+### Description: Define sensor data types and implement iot_sensor_data table for time-series data storage
+### Details:
+Create Go structs for GPS coordinates, temperature, humidity, shock/vibration sensor data. Implement database migration for iot_sensor_data table with columns: id, shipment_id, sensor_type, data_payload (JSONB), timestamp, created_at. Add indexes for efficient time-series queries. Include sensor metadata table for device registration and configuration.
+
+## 2. Implement MQTT Client Service [pending]
+### Dependencies: 15.1
+### Description: Create MQTT data ingestion service using eclipse/paho.mqtt.golang for real-time sensor data collection
+### Details:
+Implement MQTT client using eclipse/paho.mqtt.golang v1.4.3+. Create connection manager with auto-reconnect, message handlers for different sensor types, and topic subscription management. Implement message parsing and validation for incoming sensor data. Add connection pooling and error handling for high-throughput scenarios.
+
+## 3. Create IoT Platform Integration Layer [pending]
+### Dependencies: 15.2
+### Description: Implement support for multiple IoT platforms including AWS IoT and Azure IoT Hub
+### Details:
+Create abstraction layer for IoT platform integration with interfaces for AWS IoT Core and Azure IoT Hub. Implement platform-specific authentication (X.509 certificates, SAS tokens). Add device management capabilities including device registration, status monitoring, and configuration updates. Support platform-specific message formats and routing.
+
+## 4. Implement Alert System for Threshold Violations [pending]
+### Dependencies: 15.1, 15.2
+### Description: Create real-time alert system that monitors sensor data and triggers notifications when thresholds are exceeded
+### Details:
+Implement threshold configuration system with customizable limits per sensor type and shipment. Create alert engine that processes incoming sensor data and evaluates against thresholds. Implement notification system supporting email, SMS, and webhook alerts. Add alert escalation and acknowledgment features. Store alert history for audit and analysis.
+
+## 5. Create Data Aggregation and Analytics Service [pending]
+### Dependencies: 15.1, 15.4
+### Description: Implement data aggregation and analytics capabilities for shipment insights and reporting
+### Details:
+Create time-series data aggregation service with configurable intervals (hourly, daily, weekly). Implement analytics calculations for temperature ranges, humidity patterns, location tracking, and shock events. Add shipment condition scoring and risk assessment algorithms. Create reporting endpoints for shipment summaries, trend analysis, and performance metrics. Implement data retention policies for historical data management.
+
