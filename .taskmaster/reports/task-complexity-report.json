@@ -1,0 +1,213 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-09T14:24:10.304Z",
+		"tasksAnalyzed": 25,
+		"totalTasks": 25,
+		"analysisCount": 25,
+		"thresholdScore": 6,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Setup Core Microservices Architecture Foundation",
+			"complexityScore": 9,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Break down the core microservices architecture foundation into infrastructure setup, service discovery implementation, API gateway configuration, container orchestration, monitoring setup, security basics, networking, and deployment automation. Focus on establishing the fundamental platform that all other services will depend on.",
+			"reasoning": "This is a greenfield project with no existing infrastructure. Setting up Kubernetes, Istio, service discovery, API gateway, monitoring, and container orchestration from scratch is highly complex and foundational to all other tasks."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Implement Zero-Trust Security Architecture",
+			"complexityScore": 8,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Divide zero-trust security into certificate management setup, OAuth/OIDC implementation, quantum-resistant encryption integration, JWT token management, secrets management with Vault, workload identity with SPIFFE/SPIRE, and network security policies. Each component requires deep security expertise and careful integration.",
+			"reasoning": "Zero-trust security with quantum-resistant encryption and comprehensive identity management is extremely complex, especially starting from scratch. Requires expertise in multiple security domains and careful integration with the core infrastructure."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Setup Polyglot Persistence Layer",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down polyglot persistence into PostgreSQL setup with TimescaleDB, MongoDB cluster configuration, Neo4j graph database setup, Redis caching layer, database connection pooling and migrations, and change data capture with Debezium. Each database technology requires specific expertise and integration patterns.",
+			"reasoning": "Managing multiple database technologies (PostgreSQL, MongoDB, Neo4j, Redis) with proper clustering, migrations, and CDC is complex but more straightforward than security or infrastructure setup. No existing database schemas to migrate."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Build GraphQL Federation Gateway",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Divide GraphQL federation into Apollo Federation setup, schema registry implementation, subscription handling with WebSockets, DataLoader optimization, and query complexity analysis. Focus on creating a unified API layer that can evolve with the microservices.",
+			"reasoning": "GraphQL Federation is moderately complex but well-documented. Starting fresh allows for clean schema design. Main complexity is in federation patterns and real-time subscriptions."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Implement Event Sourcing and CQRS Pattern",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down event sourcing into Kafka cluster setup, event store design, command handler implementation, read model projections, event replay mechanisms, and schema evolution. Focus on creating immutable event streams and proper CQRS separation.",
+			"reasoning": "Event sourcing and CQRS are architecturally complex patterns requiring careful design of event schemas, projections, and replay mechanisms. High complexity due to distributed system challenges and data consistency requirements."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Develop AI-Powered Predictive Analytics Engine",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Divide AI analytics into MLflow setup, Spark ML pipeline creation, feature store implementation, model serving infrastructure, ML pipeline orchestration, and model monitoring. Focus on creating a scalable ML platform for business predictions.",
+			"reasoning": "ML infrastructure is complex but well-established patterns exist. Starting fresh allows for modern MLOps practices. Complexity comes from distributed ML processing and model lifecycle management."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Build Self-Healing Infrastructure",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down self-healing into autoscaling configuration, circuit breaker implementation, Kubernetes operators development, chaos engineering setup, and automated rollback mechanisms. Focus on creating resilient systems that recover automatically from failures.",
+			"reasoning": "Self-healing infrastructure builds on established Kubernetes patterns. Moderate complexity due to automation logic and failure detection algorithms, but many tools provide good abstractions."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Implement Party Management Service",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Divide party management into DDD aggregate design, Neo4j social graph implementation, relationship scoring algorithms, Elasticsearch search setup, and deduplication logic. Focus on creating a comprehensive party/customer management system with intelligent relationship mapping.",
+			"reasoning": "Party management is a well-understood business domain with clear requirements. Moderate complexity due to graph algorithms and search implementation, but no legacy system integration needed."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Develop Real-Time Financial Analytics Service",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down financial analytics into double-entry bookkeeping implementation, Kafka Streams real-time processing, fraud detection algorithms, blockchain integration, multi-currency support, and financial reporting. Focus on accuracy, compliance, and real-time processing capabilities.",
+			"reasoning": "Financial systems require high accuracy and compliance. Complexity comes from real-time processing, fraud detection algorithms, and blockchain integration. Critical business logic with strict requirements."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Build Intelligent Product Management Service",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Divide product management into MongoDB catalog design, TensorFlow image recognition, recommendation engine implementation, Elasticsearch product search, and IoT inventory tracking. Focus on creating an intelligent product system with AI-powered features.",
+			"reasoning": "Product management with AI features is moderately complex. Well-established patterns for catalogs and search, with additional complexity from ML models and IoT integration."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Implement Order Fulfillment and Logistics Service",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down order fulfillment into state machine design, route optimization algorithms, IoT tracking implementation, ML delivery prediction, smart contract development, and warehouse management integration. Focus on creating an intelligent logistics system.",
+			"reasoning": "Order fulfillment involves complex business logic, optimization algorithms, and integration with external systems. Smart contracts and IoT add additional complexity layers."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Develop HR and Talent Management Service",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide HR management into employee profile system, talent matching algorithms, sentiment analysis implementation, and career path recommendations. Focus on creating AI-powered HR tools for talent optimization.",
+			"reasoning": "HR management is a well-understood domain with clear business rules. Moderate complexity from ML algorithms but straightforward data models and workflows."
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "Build Project and Work Effort Management Service",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down project management into CPM scheduling implementation, resource optimization algorithms, Monte Carlo simulation, WebRTC collaboration, and AR/VR integration. Focus on creating intelligent project planning with advanced collaboration features.",
+			"reasoning": "Project management with advanced features like AR/VR and complex algorithms is moderately complex. Well-established domain with additional complexity from emerging technologies."
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Implement E-commerce and Content Delivery Service",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Divide e-commerce into personalization engine, dynamic pricing algorithms, CDN integration, AR product visualization, and payment processing. Focus on creating a modern e-commerce platform with AI-driven features.",
+			"reasoning": "E-commerce is a well-established domain with many existing patterns and libraries. Moderate complexity from personalization and AR features, but good tooling available."
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Setup Advanced Monitoring and Observability",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Break down observability into distributed tracing setup, metrics collection configuration, log aggregation implementation, and intelligent alerting with anomaly detection. Focus on comprehensive system visibility and proactive issue detection.",
+			"reasoning": "Observability tools are mature with good documentation. Moderate complexity from integration and configuration, but well-established patterns and tools available."
+		},
+		{
+			"taskId": 16,
+			"taskTitle": "Build Natural Language Interface",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide NLP interface into chatbot framework setup, NLU implementation, voice interface integration, and multilingual support. Focus on creating intuitive natural language interactions for business operations.",
+			"reasoning": "NLP interfaces have good tooling and frameworks available. Moderate complexity from language understanding and context management, but many pre-built solutions exist."
+		},
+		{
+			"taskId": 17,
+			"taskTitle": "Implement Biometric Authentication System",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down biometric authentication into WebAuthn implementation, biometric template processing, multi-factor authentication, behavioral analysis, and security hardening. Focus on creating secure and user-friendly authentication experiences.",
+			"reasoning": "Biometric authentication requires careful security implementation and cross-platform compatibility. Moderate to high complexity due to security requirements and hardware integration."
+		},
+		{
+			"taskId": 18,
+			"taskTitle": "Setup Edge Computing and Global Distribution",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down edge computing into K3s edge deployment, data synchronization mechanisms, content caching strategies, geo-routing implementation, and compliance management. Focus on creating a globally distributed system with local processing capabilities.",
+			"reasoning": "Edge computing involves complex distributed system challenges, data synchronization, and regional compliance. High complexity due to network topology and data consistency requirements."
+		},
+		{
+			"taskId": 19,
+			"taskTitle": "Build Developer Experience Platform",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide developer experience into hot-reload setup, code generation tools, visual debugging implementation, and documentation automation. Focus on creating productive development workflows and tools.",
+			"reasoning": "Developer tooling has many existing solutions and frameworks. Lower complexity as it's primarily about integration and configuration of existing tools."
+		},
+		{
+			"taskId": 20,
+			"taskTitle": "Implement Continuous Schema Evolution",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down schema evolution into migration tooling setup, backward compatibility strategies, blue-green deployment configuration, feature flag implementation, and contract testing. Focus on enabling zero-downtime evolution of data and API schemas.",
+			"reasoning": "Schema evolution requires careful planning and tooling but has established patterns. Moderate complexity from coordination between multiple services and maintaining compatibility."
+		},
+		{
+			"taskId": 21,
+			"taskTitle": "Setup GPU Acceleration for Complex Calculations",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Break down GPU acceleration into Kubernetes GPU operator setup, CUDA implementation, ML framework integration, and resource management. Focus on enabling high-performance computing capabilities for ML and financial calculations.",
+			"reasoning": "GPU acceleration has good tooling and documentation. Moderate complexity from resource management and CUDA programming, but well-established patterns exist."
+		},
+		{
+			"taskId": 22,
+			"taskTitle": "Build Automated Workflow Optimization Engine",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down workflow optimization into process mining implementation, optimization algorithm development, BPMN workflow engine setup, analytics dashboard creation, and continuous learning mechanisms. Focus on creating self-improving business processes.",
+			"reasoning": "Workflow optimization involves complex algorithms and business process understanding. High complexity due to optimization algorithms and integration with business processes."
+		},
+		{
+			"taskId": 23,
+			"taskTitle": "Implement Homomorphic Encryption for Data Processing",
+			"complexityScore": 9,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down homomorphic encryption into encryption library integration, encrypted computation services, secure multi-party protocols, privacy-preserving analytics, zero-knowledge proofs, and differential privacy. Focus on enabling computation on encrypted data while maintaining privacy.",
+			"reasoning": "Homomorphic encryption is cutting-edge cryptography with limited tooling and expertise. Very high complexity due to novel cryptographic techniques and performance challenges."
+		},
+		{
+			"taskId": 24,
+			"taskTitle": "Setup Comprehensive Testing and Quality Assurance",
+			"complexityScore": 5,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down testing into unit test framework setup, integration testing with containers, end-to-end test automation, performance testing implementation, and chaos engineering. Focus on creating comprehensive quality assurance across all system levels.",
+			"reasoning": "Testing frameworks are mature and well-documented. Moderate complexity from comprehensive coverage and chaos engineering, but established patterns and tools available."
+		},
+		{
+			"taskId": 25,
+			"taskTitle": "Build Production Deployment and Operations Pipeline",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down deployment pipeline into GitOps setup, CI/CD configuration, infrastructure as code, security scanning integration, and disaster recovery procedures. Focus on creating reliable and secure deployment automation.",
+			"reasoning": "CI/CD and deployment automation have mature tooling. Moderate complexity from integration of multiple tools and security requirements, but well-established DevOps practices."
+		}
+	]
+}
