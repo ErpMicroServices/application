@@ -1,0 +1,152 @@
+# Example Docker Compose for ERP Microservices with Auth-Go
+# This demonstrates how to run the auth-go service with the Spring Boot authorization server
+
+version: '3.8'
+
+services:
+  # PostgreSQL database for authorization server
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: authorization_db
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user -d authorization_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Spring Boot Authorization Server
+  authorization-server:
+    image: erp-microservices/authorization-server:latest
+    build:
+      context: ../authorization_server
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/authorization_db
+      SPRING_DATASOURCE_USERNAME: auth_user
+      SPRING_DATASOURCE_PASSWORD: auth_password
+      SERVER_PORT: 9090
+    ports:
+      - "9090:9090"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Auth-Go Service
+  auth-go:
+    image: erp-microservices/auth-go:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # OAuth2 Configuration
+      OAUTH2_CLIENT_ID: erp-microservices-client
+      OAUTH2_CLIENT_SECRET: your-client-secret-here
+      OAUTH2_AUTHORIZATION_SERVER_URL: http://authorization-server:9090
+      OAUTH2_TOKEN_URL: http://authorization-server:9090/oauth2/token
+      OAUTH2_AUTHORIZE_URL: http://authorization-server:9090/oauth2/authorize
+      OAUTH2_USERINFO_URL: http://authorization-server:9090/oauth2/userinfo
+      OAUTH2_INTROSPECT_URL: http://authorization-server:9090/oauth2/introspect
+      OAUTH2_JWKS_URL: http://authorization-server:9090/oauth2/jwks
+      OAUTH2_REDIRECT_URL: http://localhost:8080/auth/callback
+      OAUTH2_SCOPES: read,write,profile,openid
+      
+      # JWT Configuration
+      JWT_ISSUER: http://authorization-server:9090
+      JWT_AUDIENCE: erp-microservices
+      
+      # Service Configuration
+      SERVICE_NAME: auth-go-example
+      SERVICE_PORT: 8080
+      SERVICE_HOST: 0.0.0.0
+      
+      # Logging
+      LOG_LEVEL: info
+      LOG_FORMAT: json
+      
+      # CORS
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:8080
+      
+      # Cache Configuration
+      TOKEN_CACHE_TTL: 3600s
+      TOKEN_CACHE_CLEANUP_INTERVAL: 600s
+    ports:
+      - "8080:8080"
+    depends_on:
+      authorization-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Example GraphQL Service (People and Organizations)
+  people-service:
+    image: erp-microservices/people-graphql:latest
+    build:
+      context: ../people_and_organizations-endpoint-graphql
+      dockerfile: Dockerfile
+    environment:
+      # Database
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/people_db
+      SPRING_DATASOURCE_USERNAME: people_user
+      SPRING_DATASOURCE_PASSWORD: people_password
+      
+      # OAuth2 Integration
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://authorization-server:9090
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://authorization-server:9090/oauth2/jwks
+      
+      # Service Discovery
+      AUTH_SERVICE_URL: http://auth-go:8080
+      
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - authorization-server
+      - auth-go
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # React Frontend
+  frontend:
+    image: erp-microservices/frontend:latest
+    build:
+      context: ../people_and_organizations-ui-web
+      dockerfile: Dockerfile
+    environment:
+      REACT_APP_AUTH_SERVER_URL: http://localhost:9090
+      REACT_APP_GRAPHQL_ENDPOINT: http://localhost:8081/graphql
+      REACT_APP_AUTH_GO_ENDPOINT: http://localhost:8080
+      REACT_APP_CLIENT_ID: erp-microservices-client
+      REACT_APP_REDIRECT_URI: http://localhost:3000/auth/callback
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-go
+      - people-service
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: erp-microservices
+    driver: bridge

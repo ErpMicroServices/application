@@ -1,0 +1,415 @@
+# Authentication and Authorization Directives for ERP Microservices
+directive @auth(
+  requireEmailVerified: Boolean
+  requireServiceAccount: Boolean
+) on FIELD_DEFINITION
+
+directive @hasRole(
+  role: String
+  roles: [String!]
+  requireAll: Boolean = false
+) on FIELD_DEFINITION
+
+directive @hasAuthority(
+  authority: String
+  authorities: [String!]
+  requireAll: Boolean = false
+) on FIELD_DEFINITION
+
+directive @hasPermission(
+  roles: [String!]
+  authorities: [String!]
+  requireAll: Boolean = false
+) on FIELD_DEFINITION
+
+# Scalar types
+scalar Time
+scalar UUID
+
+# Enums
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING
+}
+
+enum PartyRole {
+  CUSTOMER
+  EMPLOYEE
+  SUPPLIER
+  PARTNER
+}
+
+# Types for ERP System
+type User {
+  id: UUID!
+  subject: String!
+  email: String!
+  emailVerified: Boolean!
+  name: String
+  givenName: String
+  familyName: String
+  preferredUsername: String
+  roles: [String!]!
+  authorities: [String!]!
+  organizationId: String
+  departmentId: String
+  employeeId: String
+  status: UserStatus!
+  createdAt: Time!
+  updatedAt: Time!
+  
+  # These fields require authentication
+  profile: UserProfile @auth
+  preferences: UserPreferences @auth
+  
+  # Only the user themselves or admins can see sensitive information
+  sensitiveInfo: UserSensitiveInfo @hasRole(roles: ["ADMIN"]) # TODO: Add ownership check
+}
+
+type UserProfile {
+  id: UUID!
+  userId: UUID!
+  picture: String
+  website: String
+  phoneNumber: String
+  phoneNumberVerified: Boolean!
+  address: Address
+  biography: String
+  socialLinks: [SocialLink!]!
+}
+
+type UserSensitiveInfo {
+  lastLoginAt: Time
+  loginCount: Int!
+  ipAddresses: [String!]!
+  sessions: [UserSession!]! @hasAuthority(authority: "VIEW_USER_SESSIONS")
+}
+
+type UserSession {
+  id: UUID!
+  ipAddress: String!
+  userAgent: String!
+  createdAt: Time!
+  lastAccessedAt: Time!
+  active: Boolean!
+}
+
+type UserPreferences {
+  id: UUID!
+  userId: UUID!
+  theme: String
+  language: String
+  timezone: String
+  notifications: NotificationSettings!
+}
+
+type NotificationSettings {
+  email: Boolean!
+  push: Boolean!
+  sms: Boolean!
+}
+
+type Address {
+  formatted: String
+  streetAddress: String
+  locality: String
+  region: String
+  postalCode: String
+  country: String
+}
+
+type SocialLink {
+  platform: String!
+  url: String!
+}
+
+# Organization and Party Management
+type Organization {
+  id: UUID!
+  name: String!
+  description: String
+  website: String
+  employees: [Employee!]! @hasRole(roles: ["HR", "MANAGER", "ADMIN"])
+  departments: [Department!]! @hasRole(roles: ["HR", "MANAGER", "ADMIN"])
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Employee {
+  id: UUID!
+  userId: UUID!
+  employeeId: String!
+  organizationId: UUID!
+  departmentId: UUID
+  position: String
+  startDate: Time!
+  endDate: Time
+  status: UserStatus!
+  
+  # Personal information accessible to HR and Managers
+  personalInfo: EmployeePersonalInfo @hasRole(roles: ["HR", "MANAGER"])
+  
+  # Salary information only for HR
+  salaryInfo: EmployeeSalaryInfo @hasRole(role: "HR")
+}
+
+type EmployeePersonalInfo {
+  address: Address
+  emergencyContact: String
+  phoneNumber: String
+}
+
+type EmployeeSalaryInfo {
+  currentSalary: Float!
+  currency: String!
+  salaryHistory: [SalaryRecord!]!
+}
+
+type SalaryRecord {
+  amount: Float!
+  currency: String!
+  effectiveDate: Time!
+  reason: String
+}
+
+type Department {
+  id: UUID!
+  name: String!
+  organizationId: UUID!
+  managerId: UUID
+  employees: [Employee!]! @hasRole(roles: ["HR", "MANAGER"])
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+# Administrative Types
+type SystemInfo {
+  version: String! @hasAuthority(authority: "SYSTEM_INFO")
+  buildDate: Time! @hasAuthority(authority: "SYSTEM_INFO")
+  environment: String! @hasAuthority(authority: "SYSTEM_INFO")
+  uptime: String! @hasAuthority(authority: "SYSTEM_INFO")
+}
+
+type AuditLog {
+  id: UUID!
+  userId: UUID
+  action: String!
+  resource: String!
+  resourceId: String
+  timestamp: Time!
+  ipAddress: String
+  userAgent: String
+  success: Boolean!
+  details: String
+}
+
+# Service-to-Service Communication Types
+type ServiceInfo {
+  name: String! @hasAuthority(authority: "SERVICE")
+  version: String! @hasAuthority(authority: "SERVICE")
+  health: ServiceHealth! @hasAuthority(authority: "SERVICE")
+}
+
+type ServiceHealth {
+  status: String!
+  checks: [HealthCheck!]!
+  timestamp: Time!
+}
+
+type HealthCheck {
+  name: String!
+  status: String!
+  message: String
+  duration: Float!
+}
+
+# Query Root
+type Query {
+  # Public queries (no authentication required)
+  health: String!
+  
+  # User queries (authentication required)
+  me: User @auth
+  myProfile: UserProfile @auth
+  myPreferences: UserPreferences @auth
+  
+  # User management (role-based access)
+  users(limit: Int = 10, offset: Int = 0): [User!]! @hasRole(roles: ["USER_MANAGER", "ADMIN"])
+  user(id: UUID!): User @hasRole(roles: ["USER_MANAGER", "ADMIN"])
+  
+  # Organization queries
+  organizations: [Organization!]! @hasRole(roles: ["HR", "MANAGER", "ADMIN"])
+  organization(id: UUID!): Organization @hasRole(roles: ["HR", "MANAGER", "ADMIN"])
+  
+  # Employee queries
+  employees: [Employee!]! @hasRole(roles: ["HR", "MANAGER"])
+  employee(id: UUID!): Employee @hasRole(roles: ["HR", "MANAGER"])
+  
+  # Department queries
+  departments: [Department!]! @hasRole(roles: ["HR", "MANAGER", "ADMIN"])
+  department(id: UUID!): Department @hasRole(roles: ["HR", "MANAGER", "ADMIN"])
+  
+  # Admin queries
+  systemInfo: SystemInfo @hasRole(role: "ADMIN")
+  auditLogs(limit: Int = 100, offset: Int = 0): [AuditLog!]! @hasRole(role: "ADMIN")
+  
+  # Service queries (for service-to-service communication)
+  serviceInfo: ServiceInfo @hasAuthority(authority: "SERVICE")
+  
+  # Combined role/authority example
+  sensitiveData: String! @hasPermission(roles: ["ADMIN"], authorities: ["READ_SENSITIVE"])
+}
+
+# Mutation Root
+type Mutation {
+  # User mutations
+  updateMyProfile(input: UpdateUserProfileInput!): UserProfile @auth
+  updateMyPreferences(input: UpdateUserPreferencesInput!): UserPreferences @auth
+  
+  # User management mutations
+  createUser(input: CreateUserInput!): User @hasRole(roles: ["USER_MANAGER", "ADMIN"])
+  updateUser(id: UUID!, input: UpdateUserInput!): User @hasRole(roles: ["USER_MANAGER", "ADMIN"])
+  deleteUser(id: UUID!): Boolean! @hasRole(role: "ADMIN")
+  
+  # Employee mutations
+  createEmployee(input: CreateEmployeeInput!): Employee @hasRole(roles: ["HR", "ADMIN"])
+  updateEmployee(id: UUID!, input: UpdateEmployeeInput!): Employee @hasRole(roles: ["HR", "MANAGER"])
+  updateEmployeeSalary(id: UUID!, input: UpdateSalaryInput!): Employee @hasRole(role: "HR")
+  
+  # Organization mutations
+  createOrganization(input: CreateOrganizationInput!): Organization @hasRole(role: "ADMIN")
+  updateOrganization(id: UUID!, input: UpdateOrganizationInput!): Organization @hasRole(roles: ["ADMIN", "MANAGER"])
+  
+  # Department mutations
+  createDepartment(input: CreateDepartmentInput!): Department @hasRole(roles: ["HR", "ADMIN"])
+  updateDepartment(id: UUID!, input: UpdateDepartmentInput!): Department @hasRole(roles: ["HR", "ADMIN", "MANAGER"])
+  
+  # Admin mutations
+  clearAuditLogs(beforeDate: Time!): Boolean! @hasRole(role: "ADMIN")
+  
+  # Service mutations (require service authority and specific roles)
+  syncServiceData(serviceName: String!): Boolean! @hasPermission(
+    roles: ["ADMIN", "SERVICE_MANAGER"]
+    authorities: ["SERVICE", "DATA_SYNC"]
+    requireAll: true
+  )
+}
+
+# Input Types
+input UpdateUserProfileInput {
+  picture: String
+  website: String
+  phoneNumber: String
+  biography: String
+  socialLinks: [SocialLinkInput!]
+  address: AddressInput
+}
+
+input UpdateUserPreferencesInput {
+  theme: String
+  language: String
+  timezone: String
+  notifications: NotificationSettingsInput
+}
+
+input NotificationSettingsInput {
+  email: Boolean
+  push: Boolean
+  sms: Boolean
+}
+
+input SocialLinkInput {
+  platform: String!
+  url: String!
+}
+
+input AddressInput {
+  formatted: String
+  streetAddress: String
+  locality: String
+  region: String
+  postalCode: String
+  country: String
+}
+
+input CreateUserInput {
+  email: String!
+  name: String!
+  givenName: String
+  familyName: String
+  preferredUsername: String
+  roles: [String!]!
+  organizationId: String
+  departmentId: String
+}
+
+input UpdateUserInput {
+  name: String
+  givenName: String
+  familyName: String
+  preferredUsername: String
+  roles: [String!]
+  status: UserStatus
+  organizationId: String
+  departmentId: String
+}
+
+input CreateEmployeeInput {
+  userId: UUID!
+  employeeId: String!
+  organizationId: UUID!
+  departmentId: UUID
+  position: String
+  startDate: Time!
+  currentSalary: Float
+  currency: String
+}
+
+input UpdateEmployeeInput {
+  position: String
+  departmentId: UUID
+  status: UserStatus
+}
+
+input UpdateSalaryInput {
+  amount: Float!
+  currency: String!
+  reason: String
+}
+
+input CreateOrganizationInput {
+  name: String!
+  description: String
+  website: String
+}
+
+input UpdateOrganizationInput {
+  name: String
+  description: String
+  website: String
+}
+
+input CreateDepartmentInput {
+  name: String!
+  organizationId: UUID!
+  managerId: UUID
+}
+
+input UpdateDepartmentInput {
+  name: String
+  managerId: UUID
+}
+
+# Subscription Root (optional, for real-time features)
+type Subscription {
+  # User notifications
+  userNotifications: String! @auth
+  
+  # Admin notifications (system events)
+  systemEvents: String! @hasRole(role: "ADMIN")
+  
+  # Service health monitoring
+  serviceHealthUpdates: ServiceHealth! @hasAuthority(authority: "SERVICE")
+}
