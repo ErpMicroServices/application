@@ -1,0 +1,122 @@
+# GraphQL Federation Gateway - Development Docker Compose
+version: '3.8'
+
+services:
+  # GraphQL Federation Gateway
+  federation-gateway:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"  # GraphQL endpoint
+      - "9090:9090"  # Metrics endpoint
+    environment:
+      - ENVIRONMENT=development
+      - SERVER_PORT=4000
+      - METRICS_PORT=9090
+      - LOG_LEVEL=debug
+      - ENABLE_PLAYGROUND=true
+      - ENABLE_INTROSPECTION=true
+      # Service URLs - adjust based on your setup
+      - PEOPLE_ORGS_SERVICE_URL=http://host.docker.internal:8081/graphql
+      - ECOMMERCE_SERVICE_URL=http://host.docker.internal:8082/graphql
+      - PRODUCTS_SERVICE_URL=http://host.docker.internal:8084/graphql
+      - ACCOUNTING_SERVICE_URL=http://host.docker.internal:8083/graphql
+      - ORDERS_SERVICE_URL=http://host.docker.internal:8085/graphql
+      - INVOICES_SERVICE_URL=http://host.docker.internal:8086/graphql
+      - SHIPMENTS_SERVICE_URL=http://host.docker.internal:8087/graphql
+      - HR_SERVICE_URL=http://host.docker.internal:8088/graphql
+      - WORK_EFFORT_SERVICE_URL=http://host.docker.internal:8089/graphql
+      - ANALYTICS_SERVICE_URL=http://host.docker.internal:8090/graphql
+      # Auth configuration
+      - JWT_SECRET=development-secret-key-change-in-production
+      - TOKEN_VALIDATION=true
+      - AUTH_SERVICE_URL=http://host.docker.internal:8080
+    volumes:
+      - .:/app
+    depends_on:
+      - prometheus
+      - jaeger
+    networks:
+      - erp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./deployments/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - erp-network
+    restart: unless-stopped
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # HTTP collector
+      - "14250:14250"  # gRPC collector
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - erp-network
+    restart: unless-stopped
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - erp-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Grafana for metrics visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deployments/grafana/dashboards:/var/lib/grafana/dashboards
+      - ./deployments/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - erp-network
+    restart: unless-stopped
+
+networks:
+  erp-network:
+    driver: bridge
+    name: erp-microservices
+
+volumes:
+  prometheus_data:
+    driver: local
+  redis_data:
+    driver: local
+  grafana_data:
+    driver: local

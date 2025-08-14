@@ -1,0 +1,305 @@
+extend type Query {
+  invoices(filter: InvoiceFilter, pagination: PaginationInput): InvoiceConnection! @auth
+  invoice(id: ID!): Invoice @auth
+  invoiceItems(invoiceId: ID!): [InvoiceItem!]! @auth
+  invoicesByStatus(status: InvoiceStatus!): [Invoice!]! @auth
+  invoicesByCustomer(customerId: ID!): [Invoice!]! @auth
+  invoicesByDateRange(startDate: Time!, endDate: Time!): [Invoice!]! @auth
+  invoiceTotals(filter: InvoiceFilter): InvoiceTotals! @auth
+}
+
+extend type Mutation {
+  createInvoice(input: CreateInvoiceInput!): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  updateInvoice(id: ID!, input: UpdateInvoiceInput!): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  addInvoiceItem(input: AddInvoiceItemInput!): InvoiceItem! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  updateInvoiceItem(id: ID!, input: UpdateInvoiceItemInput!): InvoiceItem! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  removeInvoiceItem(id: ID!): Boolean! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  
+  finalizeInvoice(id: ID!): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  sendInvoice(id: ID!): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  markInvoicePaid(id: ID!, input: PaymentInput!): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  cancelInvoice(id: ID!, reason: String): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN"])
+  
+  applyDiscount(invoiceId: ID!, input: DiscountInput!): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+  applyTax(invoiceId: ID!, input: TaxInput!): Invoice! @auth @hasRole(roles: ["BILLING_ADMIN", "BILLING_MANAGER"])
+}
+
+type Invoice {
+  id: ID!
+  invoiceNumber: String!
+  customerId: ID!
+  customer: Customer
+  orderId: ID
+  order: Order
+  invoiceDate: Time!
+  dueDate: Time!
+  status: InvoiceStatus!
+  
+  subtotal: Decimal!
+  taxAmount: Decimal!
+  discountAmount: Decimal!
+  totalAmount: Decimal!
+  paidAmount: Decimal!
+  balanceAmount: Decimal!
+  currency: String!
+  
+  items: [InvoiceItem!]!
+  taxes: [InvoiceTax!]!
+  discounts: [InvoiceDiscount!]!
+  payments: [InvoicePayment!]!
+  
+  billingAddress: Address
+  shippingAddress: Address
+  
+  terms: String
+  notes: String
+  internalNotes: String
+  
+  sentAt: Time
+  paidAt: Time
+  cancelledAt: Time
+  cancellationReason: String
+  
+  createdBy: ID!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type InvoiceItem {
+  id: ID!
+  invoiceId: ID!
+  productId: ID
+  product: Product
+  orderItemId: ID
+  
+  description: String!
+  quantity: Decimal!
+  unitPrice: Decimal!
+  totalPrice: Decimal!
+  
+  taxable: Boolean!
+  discountEligible: Boolean!
+  
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type InvoiceTax {
+  id: ID!
+  invoiceId: ID!
+  taxType: String!
+  taxRate: Decimal!
+  taxableAmount: Decimal!
+  taxAmount: Decimal!
+  description: String
+}
+
+type InvoiceDiscount {
+  id: ID!
+  invoiceId: ID!
+  discountType: DiscountType!
+  discountValue: Decimal!
+  discountAmount: Decimal!
+  description: String
+  couponCode: String
+}
+
+type InvoicePayment {
+  id: ID!
+  invoiceId: ID!
+  paymentMethod: PaymentMethod!
+  paymentReference: String
+  amount: Decimal!
+  paymentDate: Time!
+  notes: String
+}
+
+type InvoiceTotals {
+  totalInvoices: Int!
+  totalAmount: Decimal!
+  paidAmount: Decimal!
+  unpaidAmount: Decimal!
+  overdueAmount: Decimal!
+  currency: String!
+}
+
+type InvoiceConnection {
+  edges: [InvoiceEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type InvoiceEdge {
+  node: Invoice!
+  cursor: String!
+}
+
+enum InvoiceStatus {
+  DRAFT
+  PENDING
+  SENT
+  PAID
+  PARTIAL_PAID
+  OVERDUE
+  CANCELLED
+  REFUNDED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+  BUY_X_GET_Y
+}
+
+enum PaymentMethod {
+  CASH
+  CHECK
+  CREDIT_CARD
+  DEBIT_CARD
+  BANK_TRANSFER
+  PAYPAL
+  CRYPTOCURRENCY
+  OTHER
+}
+
+input InvoiceFilter {
+  status: InvoiceStatus
+  customerId: ID
+  startDate: Time
+  endDate: Time
+  minAmount: Decimal
+  maxAmount: Decimal
+  searchTerm: String
+}
+
+input CreateInvoiceInput {
+  customerId: ID!
+  orderId: ID
+  invoiceDate: Time
+  dueDate: Time!
+  currency: String!
+  billingAddress: AddressInput
+  shippingAddress: AddressInput
+  terms: String
+  notes: String
+  internalNotes: String
+  items: [CreateInvoiceItemInput!]!
+}
+
+input UpdateInvoiceInput {
+  dueDate: Time
+  billingAddress: AddressInput
+  shippingAddress: AddressInput
+  terms: String
+  notes: String
+  internalNotes: String
+}
+
+input CreateInvoiceItemInput {
+  productId: ID
+  orderItemId: ID
+  description: String!
+  quantity: Decimal!
+  unitPrice: Decimal!
+  taxable: Boolean
+  discountEligible: Boolean
+}
+
+input UpdateInvoiceItemInput {
+  description: String
+  quantity: Decimal
+  unitPrice: Decimal
+  taxable: Boolean
+  discountEligible: Boolean
+}
+
+input AddInvoiceItemInput {
+  invoiceId: ID!
+  productId: ID
+  orderItemId: ID
+  description: String!
+  quantity: Decimal!
+  unitPrice: Decimal!
+  taxable: Boolean
+  discountEligible: Boolean
+}
+
+input PaymentInput {
+  paymentMethod: PaymentMethod!
+  paymentReference: String
+  amount: Decimal!
+  paymentDate: Time!
+  notes: String
+}
+
+input DiscountInput {
+  discountType: DiscountType!
+  discountValue: Decimal!
+  description: String
+  couponCode: String
+}
+
+input TaxInput {
+  taxType: String!
+  taxRate: Decimal!
+  description: String
+}
+
+input AddressInput {
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+}
+
+input PaginationInput {
+  first: Int
+  after: String
+  last: Int
+  before: String
+}
+
+type Address {
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# External types (would be defined in other services)
+type Customer {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type Order {
+  id: ID!
+  orderNumber: String!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  sku: String!
+}
+
+# Import common scalars and directives
+scalar Time
+scalar Decimal
+
+directive @auth on FIELD_DEFINITION
+directive @hasRole(roles: [String!]!) on FIELD_DEFINITION  
+directive @readOnly on FIELD_DEFINITION
+directive @complexity(multipliers: [String!], maximum: Int) on FIELD_DEFINITION

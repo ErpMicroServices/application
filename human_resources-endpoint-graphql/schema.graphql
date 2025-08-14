@@ -1,0 +1,149 @@
+extend type Query {
+  employees: [Employee!]! @auth
+  employee(id: ID!): Employee @auth
+  positions: [Position!]! @auth
+  position(id: ID!): Position @auth
+  departments: [Department!]! @auth
+  department(id: ID!): Department @auth
+}
+
+extend type Mutation {
+  createEmployee(input: CreateEmployeeInput!): Employee! @auth @hasRole(roles: ["HR_ADMIN", "HR_MANAGER"])
+  updateEmployee(id: ID!, input: UpdateEmployeeInput!): Employee! @auth @hasRole(roles: ["HR_ADMIN", "HR_MANAGER"])
+  deactivateEmployee(id: ID!): Employee! @auth @hasRole(roles: ["HR_ADMIN"])
+  
+  createPosition(input: CreatePositionInput!): Position! @auth @hasRole(roles: ["HR_ADMIN", "HR_MANAGER"])
+  updatePosition(id: ID!, input: UpdatePositionInput!): Position! @auth @hasRole(roles: ["HR_ADMIN", "HR_MANAGER"])
+  
+  createDepartment(input: CreateDepartmentInput!): Department! @auth @hasRole(roles: ["HR_ADMIN"])
+  updateDepartment(id: ID!, input: UpdateDepartmentInput!): Department! @auth @hasRole(roles: ["HR_ADMIN"])
+}
+
+type Employee {
+  id: ID!
+  employeeId: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  hireDate: Time!
+  status: EmployeeStatus!
+  position: Position
+  department: Department
+  manager: Employee
+  directReports: [Employee!]!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Position {
+  id: ID!
+  title: String!
+  description: String
+  department: Department
+  salaryRange: SalaryRange
+  requirements: [String!]
+  responsibilities: [String!]
+  isActive: Boolean!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Department {
+  id: ID!
+  name: String!
+  description: String
+  manager: Employee
+  parentDepartment: Department
+  subDepartments: [Department!]!
+  employees: [Employee!]!
+  positions: [Position!]!
+  isActive: Boolean!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type SalaryRange {
+  minSalary: Decimal!
+  maxSalary: Decimal!
+  currency: String!
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+  TERMINATED
+  ON_LEAVE
+}
+
+input CreateEmployeeInput {
+  employeeId: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  hireDate: Time!
+  positionId: ID
+  departmentId: ID
+  managerId: ID
+}
+
+input UpdateEmployeeInput {
+  firstName: String
+  lastName: String
+  email: String
+  phoneNumber: String
+  positionId: ID
+  departmentId: ID
+  managerId: ID
+  status: EmployeeStatus
+}
+
+input CreatePositionInput {
+  title: String!
+  description: String
+  departmentId: ID
+  salaryRange: SalaryRangeInput
+  requirements: [String!]
+  responsibilities: [String!]
+}
+
+input UpdatePositionInput {
+  title: String
+  description: String
+  departmentId: ID
+  salaryRange: SalaryRangeInput
+  requirements: [String!]
+  responsibilities: [String!]
+  isActive: Boolean
+}
+
+input CreateDepartmentInput {
+  name: String!
+  description: String
+  managerId: ID
+  parentDepartmentId: ID
+}
+
+input UpdateDepartmentInput {
+  name: String
+  description: String
+  managerId: ID
+  parentDepartmentId: ID
+  isActive: Boolean
+}
+
+input SalaryRangeInput {
+  minSalary: Decimal!
+  maxSalary: Decimal!
+  currency: String!
+}
+
+# Import common scalars and directives
+scalar Time
+scalar Decimal
+
+directive @auth on FIELD_DEFINITION
+directive @hasRole(roles: [String!]!) on FIELD_DEFINITION  
+directive @readOnly on FIELD_DEFINITION
+directive @complexity(multipliers: [String!], maximum: Int) on FIELD_DEFINITION

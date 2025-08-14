@@ -1,0 +1,148 @@
+# GraphQL schema configuration for gqlgen
+schema:
+  - graph/schema/*.graphql
+
+# Output configuration
+exec:
+  filename: graph/generated/generated.go
+  package: generated
+
+model:
+  filename: graph/model/models_gen.go
+  package: model
+
+resolver:
+  filename: graph/resolvers.go
+  type: Resolver
+  package: graph
+  
+# Go type mappings for scalars and custom types
+models:
+  # Custom scalars
+  UUID:
+    model:
+      - github.com/google/uuid.UUID
+  DateTime:
+    model:
+      - time.Time
+  Date:
+    model:
+      - time.Time
+  Decimal:
+    model:
+      - github.com/shopspring/decimal.Decimal
+  JSON:
+    model:
+      - encoding/json.RawMessage
+
+  # Custom models that map to our domain models
+  Product:
+    model: 
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.Product
+  ProductType:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ProductType
+  ProductCategory:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ProductCategory
+  ProductImage:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ProductImage
+  UnitOfMeasure:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.UnitOfMeasure
+  ProductFeature:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ProductFeature
+  InventoryInfo:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.InventoryInfo
+  ProductPricing:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ProductPricing
+
+  # AI models
+  AIProductData:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.AIProductData
+  RecommendationScore:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.RecommendationScore
+  CategoryPrediction:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.CategoryPrediction
+  ImageAnalysisResult:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ImageAnalysisResult
+  DetectedObject:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.DetectedObject
+  BoundingBox:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.BoundingBox
+  ColorInfo:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ColorInfo
+  TechnicalSpecsFromImage:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.TechnicalSpecsFromImage
+  Dimensions:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.Dimensions
+  RecognizedText:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.RecognizedText
+  BrandInfo:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.BrandInfo
+  PricingSuggestion:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.PricingSuggestion
+  PriceRange:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.PriceRange
+  PricingFactor:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.PricingFactor
+  DemandForecast:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.DemandForecast
+  ConfidenceInterval:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.ConfidenceInterval
+  SeasonalFactor:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.SeasonalFactor
+  DemandFactor:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.DemandFactor
+  CompetitorAnalysis:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.CompetitorAnalysis
+  CompetitorProduct:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.CompetitorProduct
+  RecommendedAction:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.RecommendedAction
+  InventoryAI:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.InventoryAI
+  AIPricingData:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.AIPricingData
+  PriceAdjustment:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.PriceAdjustment
+  CategoryRecommendation:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.CategoryRecommendation
+  CategoryMarketInsight:
+    model:
+      - github.com/erpmicroservices/products-endpoint-graphql/pkg/models.CategoryMarketInsight
+
+# Skip generating resolver methods for fields we'll implement manually
+skip_validation: false
+skip_mod_tidy: false
+autobind:
+  - github.com/erpmicroservices/products-endpoint-graphql/pkg/models

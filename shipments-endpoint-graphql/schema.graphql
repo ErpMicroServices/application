@@ -1,0 +1,88 @@
+extend type Query {
+  shipments(filter: ShipmentFilter, pagination: PaginationInput): ShipmentConnection\! @auth
+  shipment(id: ID\!): Shipment @auth
+  shipmentsByStatus(status: ShipmentStatus\!): [Shipment\!]\! @auth
+  trackingInfo(trackingNumber: String\!): TrackingInfo @auth
+}
+
+extend type Mutation {
+  createShipment(input: CreateShipmentInput\!): Shipment\! @auth @hasRole(roles: ["SHIPPING_ADMIN"])
+  updateShipment(id: ID\!, input: UpdateShipmentInput\!): Shipment\! @auth @hasRole(roles: ["SHIPPING_ADMIN"])
+  markShipmentShipped(id: ID\!, input: ShippedInput\!): Shipment\! @auth @hasRole(roles: ["SHIPPING_ADMIN"])
+  markShipmentDelivered(id: ID\!): Shipment\! @auth @hasRole(roles: ["SHIPPING_ADMIN"])
+}
+
+type Shipment {
+  id: ID\!
+  shipmentNumber: String\!
+  orderId: ID\!
+  trackingNumber: String
+  status: ShipmentStatus\!
+  estimatedDeliveryDate: Time
+  actualDeliveryDate: Time
+  createdAt: Time\!
+  updatedAt: Time\!
+}
+
+enum ShipmentStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+input ShipmentFilter {
+  status: ShipmentStatus
+  startDate: Time
+  endDate: Time
+}
+
+input CreateShipmentInput {
+  orderId: ID\!
+  estimatedDeliveryDate: Time
+}
+
+input UpdateShipmentInput {
+  estimatedDeliveryDate: Time
+}
+
+input ShippedInput {
+  trackingNumber: String\!
+  shippedAt: Time\!
+}
+
+type TrackingInfo {
+  trackingNumber: String\!
+  status: ShipmentStatus\!
+  currentLocation: String
+}
+
+type ShipmentConnection {
+  edges: [ShipmentEdge\!]\!
+  pageInfo: PageInfo\!
+  totalCount: Int\!
+}
+
+type ShipmentEdge {
+  node: Shipment\!
+  cursor: String\!
+}
+
+input PaginationInput {
+  first: Int
+  after: String
+}
+
+type PageInfo {
+  hasNextPage: Boolean\!
+  hasPreviousPage: Boolean\!
+}
+
+scalar Time
+scalar Decimal
+
+directive @auth on FIELD_DEFINITION
+directive @hasRole(roles: [String\!]\!) on FIELD_DEFINITION
+directive @readOnly on FIELD_DEFINITION
+directive @complexity(multipliers: [String\!], maximum: Int) on FIELD_DEFINITION
+EOF < /dev/null

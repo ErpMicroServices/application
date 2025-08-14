@@ -1,0 +1,189 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-09T17:00:16.276Z",
+		"tasksAnalyzed": 22,
+		"totalTasks": 22,
+		"analysisCount": 22,
+		"thresholdScore": 6,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Initialize Go Project Structure and Dependencies",
+			"complexityScore": 3,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Break down the Go project initialization into: 1) Create directory structure and go.mod, 2) Install and configure core dependencies (GraphQL, database, Redis), 3) Set up basic main.go with HTTP server, 4) Create initial configuration management and health check endpoint",
+			"reasoning": "Low complexity since it's standard Go project setup. No existing code to refactor, just following established patterns. Directory structure is well-defined and dependencies are standard."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Configure Database Connection and Migration System",
+			"complexityScore": 5,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Split database setup into: 1) Configure PostgreSQL connection with pgxpool, 2) Set up golang-migrate migration system, 3) Create initial database schema migrations for order tables, 4) Implement database configuration with environment variables, 5) Add database health checks and connection monitoring",
+			"reasoning": "Medium complexity due to connection pooling configuration, migration system setup, and multiple related tables. Requires careful consideration of database schema design and connection management."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Design and Implement Core Domain Models",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Organize domain model creation into: 1) Define core Order and OrderItem structs with validation tags, 2) Create OrderAdjustment and OrderRole models, 3) Implement OrderStatusHistory with proper time handling, 4) Add custom JSON marshaling for decimal fields and validation logic",
+			"reasoning": "Medium-low complexity. Standard Go struct definition with validation tags. Custom JSON marshaling for decimals adds some complexity but follows established patterns."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Implement Repository Pattern for Data Access",
+			"complexityScore": 6,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break repository implementation into: 1) Define repository interfaces for all entities, 2) Implement PostgreSQL OrderRepository with CRUD operations, 3) Create OrderItemRepository with bulk operations, 4) Implement OrderAdjustmentRepository, 5) Add pagination and filtering capabilities, 6) Implement transaction handling and soft delete support",
+			"reasoning": "Medium-high complexity due to multiple repositories, bulk operations, pagination, and transaction handling. Requires careful SQL query optimization and error handling."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Create State Machine for Order Lifecycle Management",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Structure state machine development into: 1) Design state machine with all order states and transitions, 2) Implement FSM using looplab/fsm with validation rules, 3) Create audit logging for state changes, 4) Add rollback capability for failed transitions, 5) Implement concurrent state change handling and testing",
+			"reasoning": "High complexity due to business logic complexity, state transition validation, audit requirements, and concurrency handling. State machines require careful design to avoid invalid states."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Design GraphQL Schema with Federation Support",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Organize GraphQL schema creation into: 1) Design core GraphQL types and federation directives, 2) Define queries and mutations for order operations, 3) Add subscription support for real-time updates, 4) Implement custom error types and handling, 5) Generate resolvers using gqlgen and validate federation compatibility",
+			"reasoning": "Medium-high complexity due to GraphQL federation requirements, subscription implementation, and proper error handling. Federation directives require careful planning for microservice architecture."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Implement GraphQL Resolvers and Middleware",
+			"complexityScore": 8,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Break resolver implementation into: 1) Create basic query and mutation resolvers, 2) Implement authentication middleware with JWT validation, 3) Add rate limiting and request logging middleware, 4) Implement dataloader pattern for N+1 prevention, 5) Add query complexity analysis, 6) Create subscription resolvers, 7) Add metrics collection and tracing integration",
+			"reasoning": "High complexity due to multiple middleware layers, dataloader implementation, query complexity analysis, and subscription handling. Requires deep GraphQL knowledge and performance optimization."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Implement Redis Caching Layer",
+			"complexityScore": 5,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Structure Redis implementation into: 1) Configure Redis client and connection management, 2) Implement cache service with TTL management, 3) Add cache-aside pattern for order data, 4) Implement Redis Streams for real-time tracking, 5) Add cache invalidation strategies and health checks",
+			"reasoning": "Medium complexity. Standard Redis integration with some advanced features like Streams. Cache invalidation strategies require careful consideration but follow established patterns."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Create Message Queue System for Event-Driven Architecture",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Organize message queue system into: 1) Configure NATS.io with JetStream, 2) Define event types and message schemas, 3) Implement publisher service for event emission, 4) Create subscriber services with error handling, 5) Add dead letter queue and circuit breaker patterns, 6) Implement message deduplication and ordering",
+			"reasoning": "High complexity due to event-driven architecture requirements, message persistence, error handling, and reliability patterns. Circuit breakers and dead letter queues add operational complexity."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Implement Inventory Allocation and Reservation System",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break inventory system into: 1) Design inventory allocation algorithms and data structures, 2) Implement optimistic locking for concurrent allocations, 3) Create reservation system with timeout handling, 4) Add FIFO allocation strategy, 5) Implement partial allocation and backorder logic, 6) Add inventory tracking and reporting",
+			"reasoning": "High complexity due to concurrency challenges, optimistic locking, complex business logic for allocations, and timeout management. Requires careful handling of race conditions."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Build Fulfillment Pipeline with Workflow Engine",
+			"complexityScore": 9,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Structure workflow engine into: 1) Set up Temporal.io SDK and workflow definitions, 2) Implement inventory picking activities, 3) Create order packing workflows, 4) Add shipping label generation activities, 5) Implement carrier dispatch workflows, 6) Add error handling and retry policies, 7) Create batch processing and priority queue management",
+			"reasoning": "Very high complexity due to workflow engine integration, multiple activities, error handling, retry policies, and batch processing. Temporal.io requires significant learning curve and careful workflow design."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Integrate Shipping Carrier APIs",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Organize carrier integration into: 1) Design carrier interface abstractions, 2) Implement FedEx API integration, 3) Add UPS and USPS API clients, 4) Create rate shopping service, 5) Implement address validation and label generation, 6) Add international shipping and customs documentation",
+			"reasoning": "High complexity due to multiple external API integrations, rate shopping logic, address validation, and international shipping requirements. Each carrier has different API patterns."
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "Implement Real-Time Tracking System",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break tracking system into: 1) Create webhook endpoints for carrier updates, 2) Implement WebSocket connections for real-time updates, 3) Build tracking data aggregation service, 4) Add geofencing capabilities, 5) Create notification system, 6) Implement tracking data normalization across carriers",
+			"reasoning": "High complexity due to real-time WebSocket handling, webhook processing, geofencing algorithms, and data normalization across different carrier formats. Requires robust error handling."
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Build AI-Powered Route Optimization Engine",
+			"complexityScore": 9,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Structure route optimization into: 1) Integrate Google Maps API for route calculation, 2) Implement genetic algorithm for multi-stop optimization, 3) Add constraint handling (time windows, capacity), 4) Create route caching system, 5) Implement historical data analysis, 6) Add performance optimization for large datasets, 7) Create route visualization and reporting",
+			"reasoning": "Very high complexity due to AI/ML algorithms, genetic algorithm implementation, constraint optimization, and performance requirements. Requires advanced algorithmic knowledge."
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Create IoT Integration for Shipment Monitoring",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Organize IoT integration into: 1) Set up MQTT client and message processing, 2) Implement sensor data ingestion and validation, 3) Create time-series data storage, 4) Add alert system for threshold violations, 5) Implement data aggregation and analytics dashboard",
+			"reasoning": "Medium-high complexity due to MQTT protocol handling, time-series data management, and real-time alerting. IoT data volume and reliability considerations add complexity."
+		},
+		{
+			"taskId": 16,
+			"taskTitle": "Implement Smart Contract Integration",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break blockchain integration into: 1) Set up Ethereum client and wallet management, 2) Create smart contract templates and deployment, 3) Implement payment automation logic, 4) Add multi-network support (Ethereum, Polygon), 5) Create escrow functionality, 6) Implement gas fee optimization strategies",
+			"reasoning": "High complexity due to blockchain integration complexity, smart contract development, multi-network support, and gas optimization. Requires blockchain expertise and security considerations."
+		},
+		{
+			"taskId": 17,
+			"taskTitle": "Build Comprehensive BDD Test Suite",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Structure BDD testing into: 1) Set up Cucumber/godog framework and test environment, 2) Create feature files for core order processing scenarios, 3) Implement step definitions and test data factories, 4) Add API integration testing, 5) Create test database management and fixtures, 6) Implement parallel test execution and reporting",
+			"reasoning": "High complexity due to comprehensive test coverage requirements, BDD framework setup, test data management, and parallel execution. Requires testing expertise across multiple domains."
+		},
+		{
+			"taskId": 18,
+			"taskTitle": "Implement Monitoring and Observability",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Organize monitoring into: 1) Set up Prometheus metrics collection, 2) Implement distributed tracing with OpenTelemetry, 3) Create custom business metrics and dashboards, 4) Add structured logging and log aggregation, 5) Implement health checks and performance profiling endpoints",
+			"reasoning": "Medium-high complexity due to multiple observability tools integration, custom metrics definition, and distributed tracing setup. Requires understanding of monitoring best practices."
+		},
+		{
+			"taskId": 19,
+			"taskTitle": "Configure Security and Authentication",
+			"complexityScore": 8,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Break security implementation into: 1) Implement JWT authentication and token validation, 2) Set up OAuth2 integration with authorization server, 3) Create RBAC system with role-based permissions, 4) Add rate limiting and input validation, 5) Implement data encryption at rest, 6) Add CORS and API key management, 7) Create security audit logging",
+			"reasoning": "High complexity due to multiple security layers, OAuth2 integration, RBAC implementation, and encryption requirements. Security requires careful implementation to avoid vulnerabilities."
+		},
+		{
+			"taskId": 20,
+			"taskTitle": "Create Docker Configuration and CI/CD Pipeline",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Structure containerization into: 1) Create multi-stage Dockerfile with optimization, 2) Set up docker-compose for local development, 3) Create GitHub Actions CI/CD workflow, 4) Add Kubernetes manifests with health checks, 5) Implement database migration jobs and deployment automation",
+			"reasoning": "Medium-high complexity due to multi-stage Docker builds, Kubernetes configuration, CI/CD pipeline setup, and database migration handling. Requires DevOps knowledge."
+		},
+		{
+			"taskId": 21,
+			"taskTitle": "Implement Performance Optimization and Load Testing",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Organize performance work into: 1) Set up k6 load testing framework and scenarios, 2) Implement database query optimization and indexing, 3) Add connection pooling and caching optimizations, 4) Create GraphQL query complexity limits, 5) Implement circuit breakers and graceful shutdown, 6) Add performance profiling and monitoring",
+			"reasoning": "High complexity due to performance testing requirements, database optimization, and system reliability patterns. Requires performance engineering expertise and load testing experience."
+		},
+		{
+			"taskId": 22,
+			"taskTitle": "Create Documentation and Deployment Guide",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Structure documentation into: 1) Generate GraphQL schema and API documentation, 2) Create deployment and configuration guides, 3) Write operational runbooks and troubleshooting guides, 4) Create developer onboarding and setup documentation",
+			"reasoning": "Medium-low complexity. Primarily documentation work but requires comprehensive coverage of complex system. Documentation generation tools help reduce manual effort."
+		}
+	]
+}

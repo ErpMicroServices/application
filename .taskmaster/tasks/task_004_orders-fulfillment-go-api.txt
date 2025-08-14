@@ -1,0 +1,43 @@
+# Task ID: 4
+# Title: Implement Repository Pattern for Data Access
+# Status: pending
+# Dependencies: 3
+# Priority: high
+# Description: Create repository interfaces and PostgreSQL implementations for all domain entities with optimized queries
+# Details:
+Create interfaces: OrderRepository, OrderItemRepository, OrderAdjustmentRepository. Implement PostgreSQL versions using squirrel v1.5.4+ for query building. Include methods: Create, GetByID, GetByCustomerID, Update, Delete, List with pagination. Implement bulk operations for order items. Use prepared statements for performance. Add soft delete support with deleted_at column.
+
+# Test Strategy:
+Integration tests with test database, verify CRUD operations, test pagination and filtering, validate transaction handling, test concurrent access scenarios
+
+# Subtasks:
+## 1. Create Repository Interfaces [pending]
+### Dependencies: None
+### Description: Define repository interfaces for OrderRepository, OrderItemRepository, and OrderAdjustmentRepository with all required methods
+### Details:
+Create interfaces in internal/repository/ with methods: Create, GetByID, GetByCustomerID, Update, Delete, List with pagination parameters. Include bulk operations interface for order items. Add soft delete support methods. Define common repository patterns and error types.
+
+## 2. Implement PostgreSQL Order Repository [pending]
+### Dependencies: 4.1
+### Description: Create PostgreSQL implementation of OrderRepository using squirrel query builder
+### Details:
+Implement OrderRepository in internal/repository/postgres/ using squirrel v1.5.4+ for query building. Include prepared statements for performance optimization. Implement soft delete with deleted_at column. Add transaction support and proper error handling with context cancellation.
+
+## 3. Implement PostgreSQL OrderItem Repository with Bulk Operations [pending]
+### Dependencies: 4.1
+### Description: Create PostgreSQL implementation of OrderItemRepository with optimized bulk operations
+### Details:
+Implement OrderItemRepository with bulk insert, update, and delete operations using batch queries. Optimize for handling large order item collections. Include methods for retrieving items by order ID with proper indexing. Implement soft delete support.
+
+## 4. Implement PostgreSQL OrderAdjustment Repository [pending]
+### Dependencies: 4.1
+### Description: Create PostgreSQL implementation of OrderAdjustmentRepository for handling order modifications
+### Details:
+Implement OrderAdjustmentRepository for tracking order changes, discounts, and modifications. Include audit trail functionality and proper versioning. Implement queries for adjustment history and rollback capabilities. Add soft delete support.
+
+## 5. Add Pagination, Filtering, and Performance Optimization [pending]
+### Dependencies: 4.2, 4.3, 4.4
+### Description: Implement advanced querying features including pagination, filtering, and query optimization across all repositories
+### Details:
+Add pagination support with cursor-based and offset-based options. Implement filtering by multiple criteria (date ranges, status, customer). Add query optimization with proper indexing strategies. Implement connection pooling and query performance monitoring. Add database health checks.
+

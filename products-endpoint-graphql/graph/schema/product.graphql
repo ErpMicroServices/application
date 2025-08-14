@@ -1,0 +1,576 @@
+# Products GraphQL Schema with AI Integration
+
+scalar UUID
+scalar DateTime  
+scalar Date
+scalar Decimal
+scalar JSON
+
+directive @auth on FIELD_DEFINITION | OBJECT
+directive @hasRole(roles: [String!]!) on FIELD_DEFINITION | OBJECT
+directive @readOnly on FIELD_DEFINITION
+directive @complexity(multiplier: Int!, maximum: Int!) on FIELD_DEFINITION
+
+# Core Product Types
+
+type Product @auth {
+  id: UUID!
+  sku: String!
+  name: String!
+  description: String!
+  introductionDate: Date!
+  salesDiscontinuationDate: Date
+  supportDiscontinuationDate: Date
+  comment: String
+  manufacturedById: UUID
+  productTypeId: UUID!
+  unitOfMeasureId: UUID
+  
+  # AI-Enhanced Fields
+  aiMetadata: AIProductData! @complexity(multiplier: 3, maximum: 100)
+  
+  # Relationships
+  productType: ProductType
+  unitOfMeasure: UnitOfMeasure
+  categories: [ProductCategory!]! @complexity(multiplier: 2, maximum: 50)
+  images: [ProductImage!]! @complexity(multiplier: 2, maximum: 20)
+  features: [ProductFeature!]! @complexity(multiplier: 2, maximum: 100)
+  inventory: InventoryInfo @hasRole(roles: ["INVENTORY_READ", "ADMIN"])
+  pricing: [ProductPricing!]! @hasRole(roles: ["PRICING_READ", "ADMIN"]) @complexity(multiplier: 2, maximum: 20)
+  recommendations: [Product!]! @complexity(multiplier: 5, maximum: 10)
+  
+  # Audit Fields
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: UUID!
+  updatedBy: UUID!
+}
+
+type ProductType {
+  id: UUID!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProductCategory {
+  id: UUID!
+  description: String!
+  parentCategoryId: UUID
+  path: String!
+  level: Int!
+  aiRecommendations: [CategoryRecommendation!]! @complexity(multiplier: 3, maximum: 20)
+  marketInsights: CategoryMarketInsight @complexity(multiplier: 4, maximum: 1)
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProductImage {
+  id: UUID!
+  productId: UUID!
+  url: String!
+  alt: String!
+  isPrimary: Boolean!
+  displayOrder: Int!
+  imageAnalysis: ImageAnalysisResult @complexity(multiplier: 5, maximum: 1)
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UnitOfMeasure {
+  id: UUID!
+  description: String!
+  abbreviation: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProductFeature {
+  id: UUID!
+  productId: UUID!
+  featureCategoryId: UUID!
+  description: String!
+  value: String
+  numericValue: Float
+  unitOfMeasureId: UUID
+  fromDate: DateTime!
+  thruDate: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type InventoryInfo @hasRole(roles: ["INVENTORY_READ", "ADMIN"]) {
+  productId: UUID!
+  quantityOnHand: Int!
+  quantityAvailable: Int!
+  quantityReserved: Int!
+  reorderLevel: Int!
+  reorderQuantity: Int!
+  lastInventoryDate: DateTime
+  aiOptimization: InventoryAI @complexity(multiplier: 3, maximum: 1)
+  updatedAt: DateTime!
+}
+
+type ProductPricing @hasRole(roles: ["PRICING_READ", "ADMIN"]) {
+  id: UUID!
+  productId: UUID!
+  price: Decimal!
+  currency: String!
+  priceTypeId: UUID!
+  fromDate: DateTime!
+  thruDate: DateTime
+  geographicScope: String
+  partyScope: UUID
+  aiPricing: AIPricingData @complexity(multiplier: 3, maximum: 1)
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# AI-Enhanced Types
+
+type AIProductData {
+  autoCategory: String!
+  confidence: Float!
+  tags: [String!]!
+  recommendations: [RecommendationScore!]! @complexity(multiplier: 2, maximum: 10)
+  categoryPredictions: [CategoryPrediction!]! @complexity(multiplier: 2, maximum: 5)
+  imageAnalysis: ImageAnalysisResult @complexity(multiplier: 3, maximum: 1)
+  pricingSuggestions: [PricingSuggestion!]! @complexity(multiplier: 3, maximum: 5)
+  demandForecast: DemandForecast @complexity(multiplier: 4, maximum: 1)
+  competitorAnalysis: CompetitorAnalysis @complexity(multiplier: 5, maximum: 1)
+}
+
+type RecommendationScore {
+  productId: UUID!
+  score: Float!
+  reasonCode: String!
+  explanation: String!
+  confidenceLevel: Float!
+  generatedAt: DateTime!
+}
+
+type CategoryPrediction {
+  categoryId: UUID!
+  categoryName: String!
+  confidence: Float!
+  reasoning: [String!]!
+  modelVersion: String!
+  predictedAt: DateTime!
+}
+
+type ImageAnalysisResult {
+  imageId: UUID!
+  detectedObjects: [DetectedObject!]!
+  dominantColors: [ColorInfo!]!
+  estimatedCategories: [CategoryPrediction!]!
+  qualityScore: Float!
+  technicalSpecs: TechnicalSpecsFromImage
+  textRecognition: [RecognizedText!]!
+  brandDetection: BrandInfo
+  styleTags: [String!]!
+  analyzedAt: DateTime!
+  modelVersion: String!
+}
+
+type DetectedObject {
+  label: String!
+  confidence: Float!
+  boundingBox: BoundingBox
+  attributes: JSON!
+}
+
+type BoundingBox {
+  x: Float!
+  y: Float!
+  width: Float!
+  height: Float!
+}
+
+type ColorInfo {
+  hexCode: String!
+  percentage: Float!
+  colorName: String!
+  prominence: Float!
+}
+
+type TechnicalSpecsFromImage {
+  estimatedDimensions: Dimensions
+  materialGuess: [String!]!
+  conditionAssessment: String!
+  features: [String!]!
+  defects: [String!]!
+  extractedSpecs: JSON!
+}
+
+type Dimensions {
+  length: Decimal!
+  width: Decimal!
+  height: Decimal!
+  unit: String!
+}
+
+type RecognizedText {
+  text: String!
+  confidence: Float!
+  language: String!
+  location: BoundingBox
+  textType: String!
+}
+
+type BrandInfo {
+  brandName: String!
+  confidence: Float!
+  logoFound: Boolean!
+  textBased: Boolean!
+  location: BoundingBox
+}
+
+type PricingSuggestion @hasRole(roles: ["PRICING_READ", "ADMIN"]) {
+  suggestionId: UUID!
+  productId: UUID!
+  suggestedPrice: Decimal!
+  currency: String!
+  priceRange: PriceRange
+  reasonCode: String!
+  factors: [PricingFactor!]!
+  marketPosition: String!
+  confidenceScore: Float!
+  validUntil: DateTime!
+  generatedAt: DateTime!
+  modelVersion: String!
+}
+
+type PriceRange {
+  minPrice: Decimal!
+  maxPrice: Decimal!
+  optimalPrice: Decimal!
+}
+
+type PricingFactor {
+  factor: String!
+  impact: String!
+  weight: Float!
+  description: String!
+}
+
+type DemandForecast @hasRole(roles: ["DEMAND_FORECAST", "ADMIN"]) {
+  productId: UUID!
+  forecastPeriod: String!
+  predictedDemand: Int!
+  confidenceInterval: ConfidenceInterval
+  seasonalFactors: [SeasonalFactor!]!
+  trendDirection: String!
+  influencingFactors: [DemandFactor!]!
+  accuracyScore: Float!
+  lastUpdated: DateTime!
+  modelVersion: String!
+}
+
+type ConfidenceInterval {
+  lowerBound: Int!
+  upperBound: Int!
+  level: Float!
+}
+
+type SeasonalFactor {
+  period: String!
+  multiplier: Float!
+  historical: Boolean!
+  description: String!
+}
+
+type DemandFactor {
+  factor: String!
+  impact: String!
+  strength: Float!
+  description: String!
+}
+
+type CompetitorAnalysis @hasRole(roles: ["COMPETITIVE_ANALYSIS", "ADMIN"]) {
+  productId: UUID!
+  competitorProducts: [CompetitorProduct!]!
+  marketPosition: String!
+  competitiveAdvantages: [String!]!
+  competitiveWeaknesses: [String!]!
+  recommendedActions: [RecommendedAction!]!
+  marketShare: Decimal
+  pricePositioning: String!
+  analyzedAt: DateTime!
+  dataSources: [String!]!
+}
+
+type CompetitorProduct {
+  productName: String!
+  brand: String!
+  price: Decimal
+  currency: String!
+  features: [String!]!
+  rating: Float
+  reviewCount: Int
+  availability: String!
+  url: String
+  similarityScore: Float!
+}
+
+type RecommendedAction {
+  action: String!
+  priority: String!
+  timeline: String!
+  description: String!
+  impact: String!
+}
+
+type InventoryAI @hasRole(roles: ["INVENTORY_AI", "ADMIN"]) {
+  productId: UUID!
+  optimalStockLevel: Int!
+  recommendedReorderPoint: Int!
+  recommendedOrderQuantity: Int!
+  turnoverPrediction: Float!
+  seasonalAdjustments: [Int!]!
+  stockoutRisk: Float!
+  overstockRisk: Float!
+  optimizationReasons: [String!]!
+  lastOptimized: DateTime!
+  modelVersion: String!
+}
+
+type AIPricingData @hasRole(roles: ["AI_PRICING", "ADMIN"]) {
+  priceOptimizationScore: Float!
+  elasticityEstimate: Float!
+  competitiveDifferential: Decimal!
+  suggestedAdjustments: [PriceAdjustment!]!
+  marketSentiment: String!
+  revenueImpactForecast: Decimal!
+  lastAnalyzed: DateTime!
+}
+
+type PriceAdjustment {
+  adjustmentType: String!
+  amount: Decimal!
+  percentage: Float!
+  reason: String!
+  timeline: String!
+  impactScore: Float!
+}
+
+type CategoryRecommendation {
+  categoryId: UUID!
+  recommendationType: String!
+  score: Float!
+  reason: String!
+  validUntil: DateTime!
+}
+
+type CategoryMarketInsight {
+  categoryId: UUID!
+  growth: Float!
+  seasonality: [Float!]!
+  competitiveIndex: Float!
+  profitMarginAvg: Float!
+  trendDirection: String!
+  emergingKeywords: [String!]!
+  insightDate: DateTime!
+}
+
+# Pagination Types
+type ProductConnection {
+  edges: [ProductEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ProductEdge {
+  node: Product!
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# Input Types
+input ProductFilter {
+  categoryIds: [UUID!]
+  priceRange: PriceRangeInput
+  inStock: Boolean
+  tags: [String!]
+  searchQuery: String
+  brandName: String
+  availability: String
+  createdAfter: DateTime
+  aiConfidenceMin: Float
+}
+
+input PriceRangeInput {
+  minPrice: Decimal
+  maxPrice: Decimal
+  currency: String
+}
+
+input ProductSort {
+  field: ProductSortField!
+  direction: SortDirection!
+}
+
+enum ProductSortField {
+  NAME
+  PRICE
+  CREATED_AT
+  UPDATED_AT
+  POPULARITY
+  AI_SCORE
+  CATEGORY
+  STOCK_LEVEL
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+input CreateProductInput {
+  sku: String!
+  name: String!
+  description: String!
+  productTypeId: UUID!
+  unitOfMeasureId: UUID
+  categoryIds: [UUID!]!
+  images: [CreateProductImageInput!]
+  features: [CreateProductFeatureInput!]
+  pricing: [CreateProductPricingInput!]
+  enableAI: Boolean = true
+}
+
+input CreateProductImageInput {
+  url: String!
+  alt: String!
+  isPrimary: Boolean!
+  displayOrder: Int!
+  analyzeWithAI: Boolean = true
+}
+
+input CreateProductFeatureInput {
+  featureCategoryId: UUID!
+  description: String!
+  value: String
+  numericValue: Float
+  unitOfMeasureId: UUID
+}
+
+input CreateProductPricingInput {
+  price: Decimal!
+  currency: String!
+  priceTypeId: UUID!
+  fromDate: DateTime!
+  thruDate: DateTime
+  geographicScope: String
+  partyScope: UUID
+}
+
+input UpdateProductInput {
+  id: UUID!
+  name: String
+  description: String
+  comment: String
+  categoryIds: [UUID!]
+  refreshAI: Boolean = false
+}
+
+input AIAnalysisInput {
+  productIds: [UUID!]
+  analysisTypes: [AIAnalysisType!]!
+  forceRefresh: Boolean = false
+}
+
+enum AIAnalysisType {
+  CATEGORY_PREDICTION
+  IMAGE_ANALYSIS
+  PRICING_OPTIMIZATION
+  DEMAND_FORECAST
+  COMPETITOR_ANALYSIS
+  INVENTORY_OPTIMIZATION
+  RECOMMENDATION_ENGINE
+}
+
+# Query Root
+type Query {
+  # Product Queries
+  product(id: UUID!): Product
+  products(
+    filter: ProductFilter
+    sort: ProductSort
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): ProductConnection! @complexity(multiplier: 1, maximum: 100)
+  
+  searchProducts(
+    query: String!
+    limit: Int = 20
+    includeAI: Boolean = true
+  ): [Product!]! @complexity(multiplier: 2, maximum: 50)
+  
+  # AI-Enhanced Queries
+  recommendedProducts(
+    productId: UUID!
+    limit: Int = 10
+    algorithm: String = "collaborative_filtering"
+  ): [Product!]! @complexity(multiplier: 5, maximum: 20)
+  
+  categoryInsights(
+    categoryId: UUID!
+    timeframe: String = "month"
+  ): CategoryMarketInsight @hasRole(roles: ["MARKET_INSIGHTS", "ADMIN"]) @complexity(multiplier: 4, maximum: 1)
+  
+  pricingOptimization(
+    productId: UUID!
+  ): PricingSuggestion @hasRole(roles: ["PRICING_OPTIMIZATION", "ADMIN"]) @complexity(multiplier: 5, maximum: 1)
+  
+  demandForecast(
+    productId: UUID!
+    period: String = "month"
+  ): DemandForecast @hasRole(roles: ["DEMAND_FORECAST", "ADMIN"]) @complexity(multiplier: 6, maximum: 1)
+  
+  competitorAnalysis(
+    productId: UUID!
+    refresh: Boolean = false
+  ): CompetitorAnalysis @hasRole(roles: ["COMPETITIVE_ANALYSIS", "ADMIN"]) @complexity(multiplier: 8, maximum: 1)
+  
+  # Category Queries  
+  productCategories: [ProductCategory!]!
+  productCategory(id: UUID!): ProductCategory
+  
+  # Supporting Data
+  productTypes: [ProductType!]!
+  unitsOfMeasure: [UnitOfMeasure!]!
+}
+
+# Mutation Root
+type Mutation {
+  # Product Mutations
+  createProduct(input: CreateProductInput!): Product! @hasRole(roles: ["PRODUCT_CREATE", "ADMIN"])
+  updateProduct(input: UpdateProductInput!): Product! @hasRole(roles: ["PRODUCT_UPDATE", "ADMIN"])
+  deleteProduct(id: UUID!): Boolean! @hasRole(roles: ["PRODUCT_DELETE", "ADMIN"])
+  
+  # AI Mutations
+  analyzeProductWithAI(input: AIAnalysisInput!): [Product!]! @hasRole(roles: ["AI_ANALYSIS", "ADMIN"])
+  optimizeInventory(productId: UUID!): InventoryAI! @hasRole(roles: ["INVENTORY_OPTIMIZE", "ADMIN"])
+  refreshRecommendations(productId: UUID!): [RecommendationScore!]! @hasRole(roles: ["AI_REFRESH", "ADMIN"])
+  
+  # Image Analysis
+  analyzeProductImages(productIds: [UUID!]!): [ImageAnalysisResult!]! @hasRole(roles: ["IMAGE_ANALYSIS", "ADMIN"])
+  
+  # Pricing
+  generatePricingSuggestions(productId: UUID!): [PricingSuggestion!]! @hasRole(roles: ["PRICING_GENERATE", "ADMIN"])
+}
+
+# Subscription Root  
+type Subscription {
+  productUpdated(id: UUID!): Product! @auth
+  aiAnalysisCompleted(productId: UUID!): AIProductData! @hasRole(roles: ["AI_ANALYSIS", "ADMIN"])
+  inventoryAlert(threshold: Float = 0.1): InventoryInfo! @hasRole(roles: ["INVENTORY_ALERTS", "ADMIN"])
+}

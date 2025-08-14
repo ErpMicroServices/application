@@ -1,0 +1,201 @@
+extend type Query {
+  workEfforts(filter: WorkEffortFilter, pagination: PaginationInput): WorkEffortConnection\! @auth
+  workEffort(id: ID\!): WorkEffort @auth
+  workEffortsByStatus(status: WorkEffortStatus\!): [WorkEffort\!]\! @auth
+  workEffortsByProject(projectId: ID\!): [WorkEffort\!]\! @auth
+  workEffortsByAssignee(assigneeId: ID\!): [WorkEffort\!]\! @auth
+  timeEntries(workEffortId: ID\!): [TimeEntry\!]\! @auth
+}
+
+extend type Mutation {
+  createWorkEffort(input: CreateWorkEffortInput\!): WorkEffort\! @auth @hasRole(roles: ["PROJECT_ADMIN", "PROJECT_MANAGER"])
+  updateWorkEffort(id: ID\!, input: UpdateWorkEffortInput\!): WorkEffort\! @auth @hasRole(roles: ["PROJECT_ADMIN", "PROJECT_MANAGER"])
+  assignWorkEffort(id: ID\!, assigneeId: ID\!): WorkEffort\! @auth @hasRole(roles: ["PROJECT_ADMIN", "PROJECT_MANAGER"])
+  
+  startWorkEffort(id: ID\!): WorkEffort\! @auth
+  completeWorkEffort(id: ID\!): WorkEffort\! @auth
+  cancelWorkEffort(id: ID\!, reason: String): WorkEffort\! @auth @hasRole(roles: ["PROJECT_ADMIN", "PROJECT_MANAGER"])
+  
+  createTimeEntry(input: CreateTimeEntryInput\!): TimeEntry\! @auth
+  updateTimeEntry(id: ID\!, input: UpdateTimeEntryInput\!): TimeEntry\! @auth
+  deleteTimeEntry(id: ID\!): Boolean\! @auth
+}
+
+type WorkEffort {
+  id: ID\!
+  name: String\!
+  description: String
+  type: WorkEffortType\!
+  status: WorkEffortStatus\!
+  priority: WorkEffortPriority\!
+  
+  projectId: ID
+  project: Project
+  parentWorkEffortId: ID
+  parentWorkEffort: WorkEffort
+  childWorkEfforts: [WorkEffort\!]\!
+  
+  assigneeId: ID
+  assignee: Employee
+  reporterId: ID
+  reporter: Employee
+  
+  estimatedHours: Decimal
+  actualHours: Decimal
+  remainingHours: Decimal
+  
+  startDate: Time
+  endDate: Time
+  dueDate: Time
+  
+  completionPercentage: Int
+  
+  timeEntries: [TimeEntry\!]\!
+  
+  createdBy: ID\!
+  createdAt: Time\!
+  updatedAt: Time\!
+}
+
+type TimeEntry {
+  id: ID\!
+  workEffortId: ID\!
+  workEffort: WorkEffort\!
+  employeeId: ID\!
+  employee: Employee\!
+  
+  date: Time\!
+  hours: Decimal\!
+  description: String
+  billable: Boolean\!
+  
+  createdAt: Time\!
+  updatedAt: Time\!
+}
+
+enum WorkEffortType {
+  PROJECT
+  TASK
+  SUBTASK
+  MILESTONE
+  BUG
+  FEATURE
+  IMPROVEMENT
+}
+
+enum WorkEffortStatus {
+  PLANNED
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+  CLOSED
+}
+
+enum WorkEffortPriority {
+  LOW
+  NORMAL
+  HIGH
+  CRITICAL
+}
+
+type WorkEffortConnection {
+  edges: [WorkEffortEdge\!]\!
+  pageInfo: PageInfo\!
+  totalCount: Int\!
+}
+
+type WorkEffortEdge {
+  node: WorkEffort\!
+  cursor: String\!
+}
+
+input WorkEffortFilter {
+  type: WorkEffortType
+  status: WorkEffortStatus
+  priority: WorkEffortPriority
+  projectId: ID
+  assigneeId: ID
+  startDate: Time
+  endDate: Time
+  searchTerm: String
+}
+
+input CreateWorkEffortInput {
+  name: String\!
+  description: String
+  type: WorkEffortType\!
+  priority: WorkEffortPriority
+  projectId: ID
+  parentWorkEffortId: ID
+  assigneeId: ID
+  estimatedHours: Decimal
+  startDate: Time
+  endDate: Time
+  dueDate: Time
+}
+
+input UpdateWorkEffortInput {
+  name: String
+  description: String
+  priority: WorkEffortPriority
+  assigneeId: ID
+  estimatedHours: Decimal
+  remainingHours: Decimal
+  startDate: Time
+  endDate: Time
+  dueDate: Time
+  completionPercentage: Int
+}
+
+input CreateTimeEntryInput {
+  workEffortId: ID\!
+  date: Time\!
+  hours: Decimal\!
+  description: String
+  billable: Boolean
+}
+
+input UpdateTimeEntryInput {
+  date: Time
+  hours: Decimal
+  description: String
+  billable: Boolean
+}
+
+input PaginationInput {
+  first: Int
+  after: String
+  last: Int
+  before: String
+}
+
+type PageInfo {
+  hasNextPage: Boolean\!
+  hasPreviousPage: Boolean\!
+  startCursor: String
+  endCursor: String
+}
+
+# External types
+type Project {
+  id: ID\!
+  name: String\!
+  code: String\!
+}
+
+type Employee {
+  id: ID\!
+  firstName: String\!
+  lastName: String\!
+  email: String\!
+}
+
+scalar Time
+scalar Decimal
+
+directive @auth on FIELD_DEFINITION
+directive @hasRole(roles: [String\!]\!) on FIELD_DEFINITION
+directive @readOnly on FIELD_DEFINITION
+directive @complexity(multipliers: [String\!], maximum: Int) on FIELD_DEFINITION
+EOF < /dev/null

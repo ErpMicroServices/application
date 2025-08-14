@@ -1,0 +1,43 @@
+# Task ID: 8
+# Title: Implement Redis Caching Layer
+# Status: pending
+# Dependencies: 7
+# Priority: medium
+# Description: Set up Redis for caching frequently accessed data and real-time tracking information
+# Details:
+Configure Redis client with go-redis/redis/v9. Implement caching for: order details (TTL 15min), customer order history (TTL 1hour), product inventory (TTL 5min). Create cache service with methods: Get, Set, Delete, Invalidate. Use Redis Streams for real-time tracking updates. Implement cache-aside pattern with fallback to database. Add Redis health check.
+
+# Test Strategy:
+Test cache hit/miss scenarios, verify TTL expiration, test Redis failover behavior, validate cache invalidation strategies, performance test cache vs database response times
+
+# Subtasks:
+## 1. Set up Redis client configuration and connection management [pending]
+### Dependencies: None
+### Description: Configure Redis client using go-redis/redis/v9 with connection pooling, timeout settings, and environment-based configuration
+### Details:
+Create Redis configuration struct in internal/config/redis.go. Initialize Redis client with proper connection pool settings, read/write timeouts, and retry logic. Add environment variables for Redis host, port, password, and database selection. Implement graceful connection handling with context cancellation.
+
+## 2. Implement core cache service with CRUD operations [pending]
+### Dependencies: 8.1
+### Description: Create cache service interface and implementation with Get, Set, Delete, and Invalidate methods supporting different data types
+### Details:
+Create cache service interface in internal/service/cache.go with methods for basic operations. Implement JSON serialization/deserialization for complex objects. Add support for TTL configuration per cache key type. Implement batch operations for efficiency. Add error handling and logging for cache operations.
+
+## 3. Implement cache-aside pattern with database fallback [pending]
+### Dependencies: 8.2
+### Description: Create cache-aside implementation for order details, customer order history, and product inventory with automatic database fallback
+### Details:
+Implement cache-aside pattern in service layer methods. Add caching for order details (15min TTL), customer order history (1hour TTL), and product inventory (5min TTL). Create cache key generation strategies. Implement automatic cache warming and invalidation on data updates. Add metrics for cache hit/miss ratios.
+
+## 4. Implement Redis Streams for real-time tracking updates [pending]
+### Dependencies: 8.2
+### Description: Set up Redis Streams for publishing and consuming real-time tracking events and status updates
+### Details:
+Create Redis Streams producer for tracking events in internal/service/tracking_stream.go. Implement consumer groups for processing tracking updates. Add stream message serialization with proper event schemas. Create stream cleanup policies for old messages. Implement error handling and retry logic for stream operations.
+
+## 5. Add Redis health check and monitoring [pending]
+### Dependencies: 8.1, 8.2
+### Description: Implement Redis health check endpoint and monitoring metrics for cache performance and availability
+### Details:
+Create Redis health check in internal/health/redis.go that tests connection and basic operations. Add Prometheus metrics for cache hit/miss ratios, operation latencies, and connection pool status. Implement Redis info command monitoring for memory usage and performance stats. Add alerting thresholds for cache performance degradation.
+

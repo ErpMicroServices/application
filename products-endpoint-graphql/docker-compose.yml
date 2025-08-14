@@ -1,0 +1,191 @@
+version: '3.8'
+
+services:
+  products-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: products-graphql-api
+    ports:
+      - "8080:8080"
+    environment:
+      # Server Configuration
+      PRODUCTS_API_SERVER_HOST: "0.0.0.0"
+      PRODUCTS_API_SERVER_PORT: 8080
+      PRODUCTS_API_SERVER_ENVIRONMENT: "development"
+      
+      # Database Configuration
+      PRODUCTS_API_DATABASE_HOST: postgres
+      PRODUCTS_API_DATABASE_PORT: 5432
+      PRODUCTS_API_DATABASE_NAME: products_db
+      PRODUCTS_API_DATABASE_USERNAME: products_user
+      PRODUCTS_API_DATABASE_PASSWORD: products_password
+      PRODUCTS_API_DATABASE_SSL_MODE: disable
+      
+      # GraphQL Configuration
+      PRODUCTS_API_GRAPHQL_PLAYGROUND: true
+      PRODUCTS_API_GRAPHQL_INTROSPECTION: true
+      PRODUCTS_API_GRAPHQL_COMPLEXITY_LIMIT: 1000
+      PRODUCTS_API_GRAPHQL_ENABLE_DATALOADER: true
+      
+      # Authentication Configuration
+      PRODUCTS_API_AUTH_ENABLED: true
+      PRODUCTS_API_AUTH_JWT_SECRET: "your-jwt-secret-key-here"
+      PRODUCTS_API_AUTH_OAUTH2_ISSUER: "http://authorization-server:9000"
+      PRODUCTS_API_AUTH_OAUTH2_CLIENT_ID: "products-api-client"
+      PRODUCTS_API_AUTH_OAUTH2_CLIENT_SECRET: "products-api-secret"
+      
+      # AI Configuration
+      PRODUCTS_API_AI_ENABLED: true
+      PRODUCTS_API_AI_CATEGORIZATION_ENABLED: true
+      PRODUCTS_API_AI_RECOMMENDATION_ENABLED: true
+      PRODUCTS_API_AI_IMAGE_ANALYSIS_ENABLED: true
+      PRODUCTS_API_AI_PRICING_OPTIMIZATION_ENABLED: true
+      PRODUCTS_API_AI_DEMAND_FORECAST_ENABLED: true
+      PRODUCTS_API_AI_MODEL_PROVIDER: "openai"
+      PRODUCTS_API_AI_MODEL_NAME: "gpt-4-vision-preview"
+      PRODUCTS_API_AI_MODEL_API_KEY: "${OPENAI_API_KEY:-your-openai-api-key-here}"
+      PRODUCTS_API_AI_BATCH_SIZE: 10
+      PRODUCTS_API_AI_CATEGORY_CONFIDENCE_THRESHOLD: 0.8
+      PRODUCTS_API_AI_CACHE_ENABLED: true
+      
+      # Redis Configuration (for caching)
+      PRODUCTS_API_REDIS_ENABLED: true
+      PRODUCTS_API_REDIS_HOST: redis
+      PRODUCTS_API_REDIS_PORT: 6379
+      PRODUCTS_API_REDIS_DATABASE: 0
+      
+      # Logging Configuration
+      PRODUCTS_API_LOGGING_LEVEL: "info"
+      PRODUCTS_API_LOGGING_FORMAT: "json"
+      PRODUCTS_API_LOGGING_ENABLE_CONSOLE: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+    restart: unless-stopped
+    networks:
+      - products-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: products-postgres
+    environment:
+      POSTGRES_DB: products_db
+      POSTGRES_USER: products_user
+      POSTGRES_PASSWORD: products_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    networks:
+      - products-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U products_user -d products_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: products-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    restart: unless-stopped
+    networks:
+      - products-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Optional: Elasticsearch for advanced product search
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: products-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+    networks:
+      - products-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: products-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - products-network
+
+  # Optional: Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: products-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    restart: unless-stopped
+    networks:
+      - products-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  products-network:
+    driver: bridge
+    name: products-network

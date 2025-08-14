@@ -1,0 +1,43 @@
+# Task ID: 7
+# Title: Implement GraphQL Resolvers and Middleware
+# Status: pending
+# Dependencies: 6
+# Priority: medium
+# Description: Create GraphQL resolvers for all queries, mutations, and subscriptions with proper authentication and validation middleware
+# Details:
+Implement resolvers in internal/handler/graphql/. Use 99designs/gqlgen-contrib/gqlapollotracing for tracing. Add middleware: authentication (JWT validation), rate limiting (golang.org/x/time/rate), request logging, metrics collection. Implement dataloader pattern using graph-gophers/dataloader v7.0.0+ for N+1 query prevention. Add query complexity analysis to prevent expensive queries.
+
+# Test Strategy:
+Integration tests for all resolvers, test authentication middleware, validate rate limiting, test dataloader efficiency, verify query complexity limits work correctly
+
+# Subtasks:
+## 1. Set up GraphQL server structure and basic resolvers [pending]
+### Dependencies: None
+### Description: Create the GraphQL server foundation with gqlgen, define schema files, and implement basic resolver structure in internal/handler/graphql/
+### Details:
+Initialize gqlgen configuration, create schema.graphql with basic types for orders, customers, and products. Generate resolver stubs and implement basic query resolvers. Set up GraphQL playground for development. Configure server routing and basic error handling.
+
+## 2. Implement authentication and authorization middleware [pending]
+### Dependencies: 7.1
+### Description: Create JWT validation middleware and role-based access control for GraphQL operations
+### Details:
+Implement JWT token validation middleware using standard Go JWT libraries. Create authorization layer that checks user roles and permissions for different GraphQL operations. Add context injection for authenticated user information. Handle authentication errors gracefully with proper GraphQL error responses.
+
+## 3. Add rate limiting and request logging middleware [pending]
+### Dependencies: 7.2
+### Description: Implement rate limiting using golang.org/x/time/rate and comprehensive request logging with metrics collection
+### Details:
+Create rate limiting middleware with configurable limits per user/IP. Implement structured request logging capturing query complexity, execution time, and user context. Add metrics collection for request counts, response times, and error rates. Configure different rate limits for authenticated vs anonymous users.
+
+## 4. Implement dataloader pattern for N+1 query prevention [pending]
+### Dependencies: 7.1
+### Description: Set up graph-gophers/dataloader v7.0.0+ to optimize database queries and prevent N+1 problems
+### Details:
+Create dataloader instances for common entities (customers, products, orders). Implement batch loading functions that efficiently fetch related data. Integrate dataloaders into resolver context and ensure proper request scoping. Add caching layer within dataloaders for request-level optimization.
+
+## 5. Add query complexity analysis and Apollo tracing [pending]
+### Dependencies: 7.3
+### Description: Implement query complexity limits and integrate 99designs/gqlgen-contrib/gqlapollotracing for performance monitoring
+### Details:
+Configure query complexity analysis with field-level complexity scoring. Set maximum complexity limits to prevent expensive queries. Integrate Apollo tracing for detailed query performance metrics. Add complexity-based rate limiting and monitoring. Create admin endpoints for complexity configuration.
+

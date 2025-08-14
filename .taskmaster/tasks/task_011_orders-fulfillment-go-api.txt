@@ -1,0 +1,43 @@
+# Task ID: 11
+# Title: Build Fulfillment Pipeline with Workflow Engine
+# Status: pending
+# Dependencies: 10
+# Priority: high
+# Description: Create automated fulfillment workflow with picking, packing, and shipping stages
+# Details:
+Implement workflow engine using temporal.io/sdk-go v1.25.1+ for durable workflows. Create fulfillment activities: InventoryPicking, OrderPacking, ShippingLabelGeneration, CarrierDispatch. Define workflow: FulfillmentWorkflow with error handling and retry policies. Implement fulfillment_tasks table for tracking. Add support for batch processing and priority queues.
+
+# Test Strategy:
+Test complete fulfillment workflow execution, verify error handling and retries, test batch processing efficiency, validate priority queue ordering, test workflow recovery after failures
+
+# Subtasks:
+## 1. Set up Temporal.io Workflow Engine Infrastructure [pending]
+### Dependencies: None
+### Description: Initialize Temporal.io SDK and configure workflow engine with connection settings, worker configuration, and basic workflow registration
+### Details:
+Install temporal.io/sdk-go v1.25.1+, create temporal client configuration, set up worker with task queue configuration, implement basic workflow and activity registration, configure connection to Temporal server with retry policies and timeouts
+
+## 2. Implement Fulfillment Activities [pending]
+### Dependencies: 11.1
+### Description: Create individual workflow activities for inventory picking, order packing, shipping label generation, and carrier dispatch
+### Details:
+Implement InventoryPicking activity with inventory service integration, create OrderPacking activity with packaging logic, build ShippingLabelGeneration activity with carrier API integration, implement CarrierDispatch activity for shipment creation, add proper error handling and logging for each activity
+
+## 3. Create FulfillmentWorkflow with Error Handling [pending]
+### Dependencies: 11.2
+### Description: Design and implement the main fulfillment workflow orchestrating all activities with comprehensive error handling and retry policies
+### Details:
+Define FulfillmentWorkflow with sequential activity execution, implement retry policies for each activity type, add compensation logic for failed workflows, create workflow state management, implement timeout handling and workflow cancellation support
+
+## 4. Implement Fulfillment Tasks Database Schema [pending]
+### Dependencies: 11.3
+### Description: Create database schema and data access layer for tracking fulfillment workflow execution and task states
+### Details:
+Design fulfillment_tasks table with fields for workflow_id, task_type, status, created_at, updated_at, metadata, create database migration scripts, implement GORM models and repository pattern, add indexes for performance optimization
+
+## 5. Add Batch Processing and Priority Queue Support [pending]
+### Dependencies: 11.4
+### Description: Implement batch processing capabilities and priority queue management for efficient fulfillment workflow execution
+### Details:
+Create batch workflow for processing multiple orders simultaneously, implement priority queue using Temporal task queue priorities, add batch size configuration and processing limits, create priority-based workflow routing, implement metrics and monitoring for batch processing performance
+
